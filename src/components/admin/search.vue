@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import Member from '../../store/admin.js'
+	import Admin from '../../store/admin.js'
 	export default {
 		name: 'searchMember',
 		data () {
@@ -17,7 +17,7 @@
 		},
 		methods: {
 			searchMember: function(param) {
-				return Member.getMembers(param).then( res => {
+				return Admin.getMembers(param).then( res => {
 					//打印出获取的数据
 					console.log(res.data)
 					//获取到数据后传递给父组件
