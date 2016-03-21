@@ -1,0 +1,7 @@
+{
+	"booksId": 1,
+	"booksTitle": "AngularJs",
+	"booksPrice": 20,
+	"booksNumber": 10,
+	"booksSummary": "对这本书的介绍"
+}

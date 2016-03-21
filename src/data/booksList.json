@@ -1,0 +1,16 @@
+[{
+	"booksId": 1,
+	"booksTitle": "AngularJs",
+	"booksPrice": 20,
+	"booksNumber": 10
+},{
+	"booksId": 2,
+	"booksTitle": "NodeJs",
+	"booksPrice": 24,
+	"booksNumber": 4
+},{
+	"booksId": 3,
+	"booksTitle": "mongoDb",
+	"booksPrice": 22,
+	"booksNumber": 4
+}]
