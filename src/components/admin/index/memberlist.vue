@@ -2,7 +2,7 @@
 	<div class="member" v-for="member in memberList" v-show="memberList.length > 0">
 		<h3>{{member.userName}}</h3>
 		<p>{{member.userRank}}</p>
-		<input type="radio" name="memberInfo" v-model="memberInfo" value="{{member.userName}}">
+		<input type="radio" name="memberInfo" v-model="memberInfo" value="{{member.userName}}" v-on:click="chooseMember(member)">
 	</div>
 	<div class="clear"></div>
 	<p>选择了{{memberInfo}}</p>
@@ -20,8 +20,8 @@
 			}
 		},
 		methods: {
-			choose: function(obj) {
-				console.log(obj)
+			chooseMember: function(obj) {
+				this.$dispatch('chooseMember', obj)
 			}
 		}
 	}

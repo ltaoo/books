@@ -2,7 +2,7 @@
 	<div class="book" v-for="book in bookList">
 		<h3>{{book.booksTitle}}</h3>
 		<p>{{book.booksNumber}}</p>
-		<input type="button" value="借阅" class="form-control" v-on:click="borrow(book)">
+		<input type="button" value="借阅" class="form-control" @click="borrow(book)">
 	</div>
 	<div class="clear"></div>
 </template>
