@@ -20,3 +20,18 @@ adminStore.getMembers = function(param){
 		}
 	})
 }
+
+adminStore.getBooks = function(param){
+	return new Promise(function(resolve, reject){
+		//先判断查询条件是否存在
+		if(param) {
+			Vue.http.get('./src/data/booksList.json').then(res => {
+				resolve(res)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
