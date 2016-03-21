@@ -13,30 +13,35 @@
 			<book v-bind:book-list="bookList"></book>
 		</div>
 	</div>
-  	<!-- use the modal component, pass in the prop -->
-  	<modal :show.sync="showModal">
-	    <h3 slot="header">custom header</h3>
+  	<modal v-bind:show.sync="showModal">
 	    <div slot="body">
 	    	<p>{{choosemember.userName}}</p>
 	    	<p>{{choosebook.booksTitle}}</p>
 	    </div>
+	    <div slot="footer">
+	    	<button class="btn btn-default" @click="showModal=false">确认</button>
+	    </div>
 	</modal>
+	<alert :show.sync="showAlert" dismissable></alert>
+	<button class="btn btn-default" @click="showAlert=true">alert</button>
 </template>
 
 <script>
 	import search from './index/memberSearch.vue'
 	import member from './index/memberList.vue'
-	//如果要求组件可复用，因为不同的search提交的url不同，所以需要可以配置url
 	//书籍查询
 	import booksearch from './index/bookSearch.vue'
 	import book from './index/bookList.vue'
 	//引入模态框组件
 	import modal from '../public/modal.vue'
+	//引入alert组件
+	import alert from '../public/alert.vue'
 	export default {
 		name: 'index',
 		data(){
 			return {
 				showModal: false,
+				showAlert: false,
 				memberList:[],
 				choosemember: {},
 				bookList: [],
@@ -48,7 +53,8 @@
 			member,
 			booksearch,
 			book,
-			modal
+			modal,
+			alert
 		},
 		events: {
 			getMember: function(members){

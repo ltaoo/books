@@ -14,8 +14,8 @@
 		      	</div>
 	      		<div class="modal-footer">
 	        		<slot name="footer">
-	          			default footer
-	          			<button class="modal-default-button" @click="show = false">OK</button>
+		        		default body
+	          			<button class="modal-default-button" v-on:click="show = false">OK</button>
 	        		</slot>
 	      		</div>
 	    	</div>
@@ -31,7 +31,7 @@
 				type: Boolean,
 				//参数必须
 				require: true,
-				//这个prop为双向绑定
+				//这个prop为双向绑定，所以这里对show变量的改变会影响到父组件
 				twoWay: true
 			}
 		}
