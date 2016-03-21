@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import Admin from '../../store/admin.js'
+	import Admin from '../../../store/admin.js'
 	export default {
 		name: 'searchMember',
 		data () {

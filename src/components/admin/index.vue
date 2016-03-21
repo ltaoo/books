@@ -11,8 +11,8 @@
 </template>
 
 <script>
-	import search from './search.vue'
-	import member from './memberlist.vue'
+	import search from './index/memberSearch.vue'
+	import member from './index/memberlist.vue'
 	//如果要求组件可复用，因为不同的search提交的url不同，所以需要可以配置url
 	export default {
 		name: 'index',
