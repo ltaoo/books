@@ -95,3 +95,44 @@ adminStore.searchReturnByNumber = function (param) {
 		}
 	})
 }
+
+//查询书籍列表
+adminStore.searchReturnByNumber = function (param) {
+	return new Promise(function(resolve, reject){
+		//判断条件是否存在或者是否合法
+		if(param) {
+			Vue.http.get('./src/data/booksList.json').then(res => {
+				resolve(res)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
+//获取书籍全部记录
+adminStore.getBookList = function () {
+	return new Promise(function(resolve, reject){
+		Vue.http.get('./src/data/booksList.json').then(res => {
+			resolve(res)
+		}).catch(err => {
+			reject(err)
+		})
+	})
+}
+//通过豆瓣API查询书籍
+adminStore.searchByDouban = function(param) {
+	return new Promise(function(resolve, reject) {
+		if(param) {
+			//还是需要通过服务器代理转发
+			Vue.http.jsonp('https://api.douban.com/v2/book/search?q=angular').then(res => {
+				resolve(res)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
