@@ -20,7 +20,21 @@ adminStore.getMembers = function(param){
 		}
 	})
 }
-
+//根据用户Id获取信息
+adminStore.getMemberById = function(param){
+	return new Promise(function(resolve, reject){
+		//先判断查询条件是否存在
+		if(param) {
+			Vue.http.get('./src/data/'　+ param + 'm.json').then(res => {
+				resolve(res)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
 adminStore.getBooks = function(param){
 	return new Promise(function(resolve, reject){
 		//先判断查询条件是否存在
@@ -115,6 +129,16 @@ adminStore.searchReturnByNumber = function (param) {
 adminStore.getBookList = function () {
 	return new Promise(function(resolve, reject){
 		Vue.http.get('./src/data/booksList.json').then(res => {
+			resolve(res)
+		}).catch(err => {
+			reject(err)
+		})
+	})
+}
+//获取会员全部记录
+adminStore.getMemberList = function () {
+	return new Promise(function(resolve, reject){
+		Vue.http.get('./src/data/member.json').then(res => {
 			resolve(res)
 		}).catch(err => {
 			reject(err)

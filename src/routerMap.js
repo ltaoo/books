@@ -10,6 +10,7 @@ import admin from './components/admin/index.vue'
 import returnbooks from './components/admin/returnbooks.vue'
 import booklist from './components/admin/booklist.vue'
 import userlist from './components/admin/userlist.vue'
+import memberDetail from './components/admin/memberDetail.vue'
 import recordlist from './components/admin/recordlist.vue'
 import orderlist from './components/admin/orderlist.vue'
 import adminlogin from './components/admin/adminlogin.vue'
@@ -71,6 +72,11 @@ export default function(router) {
 			name: 'userlist',
 			component: userlist,
 			adminAuth: true
+		},
+		//后台用户信息修改页
+		'/member/:memberId': {
+			name: 'memberdetail',
+			component: memberDetail
 		},
 		//后台记录列表页
 		'/recordList': {
