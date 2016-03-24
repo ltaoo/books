@@ -6,11 +6,23 @@ const adminStore = new EventEmitter()
 
 export default adminStore
 
-adminStore.getMembers = function(param){
+//根据用户Id获取信息
+adminStore.getMemberById = param =>{
 	return new Promise(function(resolve, reject){
 		//先判断查询条件是否存在
+		/*
 		if(param) {
-			Vue.http.get('./src/data/member.json').then(res => {
+			Vue.http.get('./src/data/'　+ param + 'm.json').then(res => {
+				resolve(res)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+		*/
+		if(param){
+			Vue.http.get('../src/service/getMembers.service.php?action=searchById&memberId=' + param).then(res => {
 				resolve(res)
 			}).catch(err => {
 				reject(err)
@@ -20,13 +32,28 @@ adminStore.getMembers = function(param){
 		}
 	})
 }
-//根据用户Id获取信息
-adminStore.getMemberById = function(param){
+//根据会员学号查询
+adminStore.searchMemberByNum = param =>{
 	return new Promise(function(resolve, reject){
-		//先判断查询条件是否存在
 		if(param) {
-			Vue.http.get('./src/data/'　+ param + 'm.json').then(res => {
-				resolve(res)
+			Vue.http.get('./service/getMembers.service.php?action=searchByNum&memberNum=' + param).then(res => {
+				console.log(res)
+				resolve(res.data)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
+//根据会员姓名查询
+adminStore.searchMemberByName = param =>{
+	return new Promise(function(resolve, reject){
+		if(param) {
+			Vue.http.get('./service/getMembers.service.php?action=searchByName&memberName=' + param).then(res => {
+				console.log(res)
+				resolve(res.data)
 			}).catch(err => {
 				reject(err)
 			})
@@ -138,7 +165,7 @@ adminStore.getBookList = function () {
 //获取会员全部记录
 adminStore.getMemberList = function () {
 	return new Promise(function(resolve, reject){
-		Vue.http.get('./src/data/member.json').then(res => {
+		Vue.http.get('../src/service/getMembers.service.php?action=memberList').then(res => {
 			resolve(res)
 		}).catch(err => {
 			reject(err)

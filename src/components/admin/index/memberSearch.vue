@@ -12,16 +12,24 @@
 		name: 'searchMember',
 		data () {
 			return {
-				memberQuery: ''
+				memberQuery: '',
+				members: []
 			}
 		},
 		methods: {
 			searchMember: function(param) {
-				return Admin.getMembers(param).then( res => {
+				//先根据学号查，没查到就根据姓名查询。
+				return Admin.searchMemberByNum(param).then( res => {
 					//打印出获取的数据
 					console.log(res.data)
-					//获取到数据后传递给父组件
-					this.$dispatch('getMember', res.data)
+					//如果没有获取到数据
+					if(res.state == 0){
+						alert('没有查询到');
+					}else{
+						//获取到数据后传递给父组件
+						this.$dispatch('getMember', members)
+					}
+					
 				})
 			}
 		}
