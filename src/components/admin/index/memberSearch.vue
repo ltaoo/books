@@ -2,7 +2,6 @@
 	<div class="form-inline">
 		<input type="text" class="form-control" placeholder="请输入会员姓名或学号" v-model="memberQuery">
 		<input type="button" class="form-control" value="查询" v-on:click="searchMember(memberQuery)">
-		{{memberQuery}}
 	</div>
 </template>
 
@@ -21,14 +20,26 @@
 				//先根据学号查，没查到就根据姓名查询。
 				return Admin.searchMemberByNum(param).then( res => {
 					//打印出获取的数据
-					console.log(res.data)
+					//console.log(res.data)
 					//如果没有获取到数据
 					if(res.state == 0){
-						alert('没有查询到');
+						//alert('没有查询到');
+						//通过学号查询没有查询到，通过姓名查询试试看。
+						Admin.searchMemberByName(param).then(resp => {
+							if(resp.state == 0) {
+								alert('没有查询到')
+							}else{
+								console.log(resp)
+								//获取到数据后传递给父组件
+								this.$dispatch('getMember', resp.data)
+							}
+						})
 					}else{
+						console.log(res)
 						//获取到数据后传递给父组件
-						this.$dispatch('getMember', members)
+						this.$dispatch('getMember', res.data)
 					}
+					
 					
 				})
 			}

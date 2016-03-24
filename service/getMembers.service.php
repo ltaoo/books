@@ -104,9 +104,9 @@
 			$members[] = $a;
 		}
 		if(count($members) == 0){
-			$result['state'] = 'empty';
+			$result['state'] = 0;
 		}else{
-			$result['state'] = 'success';
+			$result['state'] = 200;
 		}
 		$result['data'] = $members;
 		$results->free();

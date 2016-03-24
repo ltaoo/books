@@ -37,7 +37,7 @@ adminStore.searchMemberByNum = param =>{
 	return new Promise(function(resolve, reject){
 		if(param) {
 			Vue.http.get('./service/getMembers.service.php?action=searchByNum&memberNum=' + param).then(res => {
-				console.log(res)
+				//console.log(res)
 				resolve(res.data)
 			}).catch(err => {
 				reject(err)

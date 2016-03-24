@@ -58,6 +58,7 @@
 		},
 		events: {
 			getMember: function(members){
+				//这里是点击查询事件
 				this.memberList = members
 			},
 			chooseMember: function(member) {
