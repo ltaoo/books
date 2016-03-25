@@ -52,7 +52,7 @@ adminStore.searchMemberByName = param =>{
 	return new Promise(function(resolve, reject){
 		if(param) {
 			Vue.http.get('./service/getMembers.service.php?action=searchByName&memberName=' + param).then(res => {
-				console.log(res)
+				//console.log(res)
 				resolve(res.data)
 			}).catch(err => {
 				reject(err)
@@ -62,12 +62,28 @@ adminStore.searchMemberByName = param =>{
 		}
 	})
 }
-adminStore.getBooks = function(param){
+//通过书籍ISBN码查询书籍
+adminStore.searchBookByIsbn = function(param){
 	return new Promise(function(resolve, reject){
 		//先判断查询条件是否存在
 		if(param) {
-			Vue.http.get('./src/data/booksList.json').then(res => {
-				resolve(res)
+			Vue.http.get('./service/getBooks.service.php?action=searchByIsbn&bookIsbn=' + param).then(res => {
+				resolve(res.data)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
+//通过书籍名查询书籍
+adminStore.searchBookByName = function(param){
+	return new Promise(function(resolve, reject){
+		//先判断查询条件是否存在
+		if(param) {
+			Vue.http.get('./service/getBooks.service.php?action=searchByName&bookName=' + param).then(res => {
+				resolve(res.data)
 			}).catch(err => {
 				reject(err)
 			})

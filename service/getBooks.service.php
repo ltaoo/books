@@ -1,7 +1,7 @@
 <?php 
 	//content-type:text/html;charset=utf8
 	header('content-type:text/html;charset=utf8');
-	include_once('public/connectDb.php');
+	include_once('public/mysqliConnect.php');
 	$action = $_REQUEST['action'];
 	//获取书籍列表
 	if($action == 'bookList'){
@@ -27,70 +27,72 @@
 	}elseif($action == 'searchByIsbn'){
 		//根据isbn码搜索商品
 		$result = array();
+		$books = array();
 		$bookIsbn = $_REQUEST['bookIsbn'];
 		$sql = "select * from books where bookIsbn =" . $bookIsbn;
+		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
-		if (!mysql_query($sql,$con)){
+		if (!$results){
 			//如果查询有问题,输入字母就会到这，就提示err；
-			$result['state'] = 'err';
+			$result['state'] = 500;
 			//die('Error: ' . mysql_error());
-			die(json_encode($result));
-		}
-		$res = mysql_query($sql);
-		$books = array();
-		while ($row = mysql_fetch_row($res)) {
-			//var_dump($row);
-			$a = array(
-				'bookId' => $row[0],
-				'bookName' => $row[1],
-				'bookIsbn' => $row[2],
-				'bookTimes' => $row[3],
-				'isBorrow' => $row[4],
-				'bookImg' => $row[5]
-			);
-			$books[] = $a;
+		}else{
+			while ($row = $results->fetch_assoc()) {
+				//var_dump($row);
+				$a = array(
+					'bookId' => $row['bookId'],
+					'bookName' => $row['bookTitle'],
+					'bookIsbn' => $row['bookIsbn'],
+					'borrowTimes' => $row['borrowTimes'],
+					'isBorrow' => $row['isBorrow'],
+					'bookImg' => $row['bookImg']
+				);
+				$books[] = $a;
+			}
 		}
 		if(count($books) == 0){
-			$result['state'] = 'empty';
+			$result['state'] = 404;
 		}else{
-			$result['state'] = 'success';
+			$result['state'] = 200;
 		}
 		$result['data'] = $books;
-		mysql_close($con);
+		//$results->free();
+		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'searchByName'){
-		//根据isbn码搜索商品
+		//根据书籍名模糊查询
 		$result = array();
+		$books = array();
 		$bookName = $_REQUEST['bookName'];
 		$sql = "select * from books where bookTitle like '%" . $bookName . "%'";
+		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
-		if (!mysql_query($sql,$con)){
+		if (!$results){
 			//如果查询有问题,输入字母就会到这，就提示err；
-			$result['state'] = 'err';
+			$result['state'] = 500;
 			//die('Error: ' . mysql_error());
-			die(json_encode($result));
-		}
-		$res = mysql_query($sql);
-		$books = array();
-		while ($row = mysql_fetch_row($res)) {
-			//var_dump($row);
-			$a = array(
-				'bookId' => $row[0],
-				'bookName' => $row[1],
-				'bookIsbn' => $row[2],
-				'bookTimes' => $row[3],
-				'isBorrow' => $row[4],
-				'bookImg' => $row[5]
-			);
-			$books[] = $a;
+		}else{
+			while ($row = $results->fetch_assoc()) {
+				//var_dump($row);
+				$a = array(
+					'bookId' => $row['bookId'],
+					'bookTitle' => $row['bookTitle'],
+					'bookIsbn' => $row['bookIsbn'],
+					'borrowTimes' => $row['borrowTimes'],
+					'isBorrow' => $row['isBorrow'],
+					'bookImg' => $row['bookImg']
+				);
+				$books[] = $a;
+			}
 		}
 		if(count($books) == 0){
-			$result['state'] = 'empty';
+			$result['state'] = 404;
 		}else{
-			$result['state'] = 'success';
+			$result['state'] = 200;
 		}
 		$result['data'] = $books;
-		mysql_close($con);
+		$results->free();
+		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'getDetail'){
 		//根据id获取书籍信息

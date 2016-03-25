@@ -15,8 +15,8 @@
 	</div>
   	<modal v-bind:show.sync="showModal">
 	    <div slot="body">
-	    	<p>{{choosemember.userName}}</p>
-	    	<p>{{choosebook.booksTitle}}</p>
+	    	<p>{{choosemember.memberName}}</p>
+	    	<p>{{choosebook.bookTitle}}</p>
 	    </div>
 	    <div slot="footer">
 	    	<button class="btn btn-default" @click="showModal=false">确认</button>
@@ -43,8 +43,8 @@
 				showModal: false,
 				showAlert: false,
 				memberList:[],
-				choosemember: {},
 				bookList: [],
+				choosemember: null,
 				choosebook: {}
 			}
 		},
@@ -57,23 +57,29 @@
 			alert
 		},
 		events: {
-			getMember: function(members){
+			searchMember: function(members){
 				//这里是点击查询事件
 				this.memberList = members
+				//查询完后将chooseMember清空
+				this.choosemember = null
+			},
+			searchBook: function(books) {
+				this.bookList = books
 			},
 			chooseMember: function(member) {
 				this.choosemember = member
 			},
-			getBooks: function(books) {
-				this.bookList = books
-			},
 			chooseBook: function(book) {
-				console.log(book.booksTitle)
 				this.choosebook = book
-				//获取到选择的书籍后，还要弹出模态框让管理员确认是否信息无误。
-				//这样是否将booklist组件与index父组件耦合了，应该由子组件booklist触发模态框？
-				//或者说，模态框根据事件触发，一旦触发了选择书籍事件，就触发模态框？
-				this.showModal = true
+				//这里只是处理list组件点击了借阅事件，接下来的判断还是由index来处理
+				if(this.choosemember){
+					//如果选择了会员，将模态框展示出来
+					this.showModal = true
+				}else{
+					//不然就提示没有选择会员
+					console.log('没有选择会员')
+					//这里触发alert组件
+				}
 			}
 		},
 		methods: {

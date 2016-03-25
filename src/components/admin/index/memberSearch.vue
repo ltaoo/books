@@ -17,10 +17,9 @@
 		},
 		methods: {
 			searchMember: function(param) {
-				//先根据学号查，没查到就根据姓名查询。
 				return Admin.searchMemberByNum(param).then( res => {
 					//打印出获取的数据
-					//console.log(res.data)
+					//console.log(res)
 					//如果没有获取到数据
 					if(res.state == 0){
 						//alert('没有查询到');
@@ -31,13 +30,13 @@
 							}else{
 								console.log(resp)
 								//获取到数据后传递给父组件
-								this.$dispatch('getMember', resp.data)
+								this.$dispatch('searchMember', resp.data)
 							}
 						})
 					}else{
 						console.log(res)
 						//获取到数据后传递给父组件
-						this.$dispatch('getMember', res.data)
+						this.$dispatch('searchMember', res.data)
 					}
 					
 					
