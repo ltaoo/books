@@ -37,6 +37,6 @@
 		padding:10px;
 		margin:10px;
 		float:left;
-		width:20%;
+		width:33%;
 	}
 </style>

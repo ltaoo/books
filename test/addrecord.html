@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test of addRecord</title>
+</head>
+<body>
+	<button>提交</button>
+	<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+	<script>
+		$(function(){
+			var post = {
+				bookId: 1,
+				memberId: 2
+			}
+			$('button').click(function(){
+				console.log(post)
+				$.post('../service/addRecords.service.php', post).success(function(res){
+					console.log(res)
+				})
+			})
+		})
+	</script>
+</body>
+</html>

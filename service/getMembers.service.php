@@ -62,7 +62,7 @@
 		}
 		
 		if(count($members) == 0){
-			$result['state'] = 0;
+			$result['state'] = 404;
 		}else{
 			$result['state'] = 200;
 		}
@@ -104,7 +104,7 @@
 			$members[] = $a;
 		}
 		if(count($members) == 0){
-			$result['state'] = 0;
+			$result['state'] = 404;
 		}else{
 			$result['state'] = 200;
 		}

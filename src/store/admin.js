@@ -203,3 +203,19 @@ adminStore.searchByDouban = function(param) {
 		}
 	})
 }
+//借阅成功，将借阅记录写入数据库。
+adminStore.addBorrowRecord = postData => {
+	console.log(postData)
+	return new Promise(function(resolve, reject){
+		if(postData){
+			Vue.http.options.emulateJSON = true;
+			Vue.http.post('./service/addRecords.service.php', postData).then(res => {
+				resolve(res)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('postData is empty')
+		}
+	})
+}

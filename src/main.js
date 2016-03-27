@@ -3,6 +3,8 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 
 import routerMap from'./routerMap.js'
+//引入过滤器
+import {rank, sumDaysByRank} from './filters/admin.js'
 
 import App from './components/App.vue'
 //用户验证
@@ -10,6 +12,7 @@ import userAuthentication from './store/authentication.js'
 
 Vue.use(Router)
 Vue.use(Resource)
+Vue.filter('rank', rank)
 
 var router = new Router()
 
