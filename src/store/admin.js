@@ -92,13 +92,14 @@ adminStore.searchBookByName = function(param){
 		}
 	})
 }
+
 //通过书籍isbn码查询已借书籍
-adminStore.searchReturnByIsbn = function (param) {
+adminStore.searchRecordByIsbn = function (param) {
 	return new Promise(function(resolve, reject){
 		//判断条件是否存在或者是否合法
 		if(param) {
-			Vue.http.get('./src/data/booksList.json').then(res => {
-				resolve(res)
+			Vue.http.get('./service/getRecords.service.php?action=serachByIsbn&bookIsbn=' + param).then(res => {
+				resolve(res.data)
 			}).catch(err => {
 				reject(err)
 			})
@@ -108,12 +109,12 @@ adminStore.searchReturnByIsbn = function (param) {
 	})
 }
 //通过书籍名称查询已借书籍
-adminStore.searchReturnByTitle = function (param) {
+adminStore.searchRecordByTitle = function (param) {
 	return new Promise(function(resolve, reject){
 		//判断条件是否存在或者是否合法
 		if(param) {
-			Vue.http.get('./src/data/booksList.json').then(res => {
-				resolve(res)
+			Vue.http.get('./service/getRecords.service.php?action=searchByTitle&bookTitle=' + param).then(res => {
+				resolve(res.data)
 			}).catch(err => {
 				reject(err)
 			})
@@ -123,12 +124,12 @@ adminStore.searchReturnByTitle = function (param) {
 	})
 }
 //通过会员名查询已借书籍
-adminStore.searchReturnByName = function (param) {
+adminStore.searchRecordByName = function (param) {
 	return new Promise(function(resolve, reject){
 		//判断条件是否存在或者是否合法
 		if(param) {
-			Vue.http.get('./src/data/booksList.json').then(res => {
-				resolve(res)
+			Vue.http.get('./service/getRecords.service.php?action=searchByName&memberName=' + param).then(res => {
+				resolve(res.data)
 			}).catch(err => {
 				reject(err)
 			})
@@ -138,12 +139,12 @@ adminStore.searchReturnByName = function (param) {
 	})
 }
 //通过会员学号查询已借书籍
-adminStore.searchReturnByNumber = function (param) {
+adminStore.searchRecordByNum = function (param) {
 	return new Promise(function(resolve, reject){
 		//判断条件是否存在或者是否合法
 		if(param) {
-			Vue.http.get('./src/data/booksList.json').then(res => {
-				resolve(res)
+			Vue.http.get('./service/getRecords.service.php?action=searchByNumber&memberNum=' + param).then(res => {
+				resolve(res.data)
 			}).catch(err => {
 				reject(err)
 			})
@@ -153,21 +154,6 @@ adminStore.searchReturnByNumber = function (param) {
 	})
 }
 
-//查询书籍列表
-adminStore.searchReturnByNumber = function (param) {
-	return new Promise(function(resolve, reject){
-		//判断条件是否存在或者是否合法
-		if(param) {
-			Vue.http.get('./src/data/booksList.json').then(res => {
-				resolve(res)
-			}).catch(err => {
-				reject(err)
-			})
-		}else{
-			reject('param is empty')
-		}
-	})
-}
 //获取书籍全部记录
 adminStore.getBookList = function () {
 	return new Promise(function(resolve, reject){
@@ -205,7 +191,7 @@ adminStore.searchByDouban = function(param) {
 }
 //借阅成功，将借阅记录写入数据库。
 adminStore.addBorrowRecord = postData => {
-	console.log(postData)
+	//console.log(postData)
 	return new Promise(function(resolve, reject){
 		if(postData){
 			Vue.http.options.emulateJSON = true;
@@ -216,6 +202,22 @@ adminStore.addBorrowRecord = postData => {
 			})
 		}else{
 			reject('postData is empty')
+		}
+	})
+}
+
+//还书，更新records的returnTime字段
+adminStore.returnBook = param => {
+	return new Promise(function(resolve, reject){
+		//判断条件是否存在或者是否合法
+		if(param) {
+			Vue.http.get('./service/getRecords.service.php?action=update&recordId=' + param).then(res => {
+				resolve(res.data)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
 		}
 	})
 }
