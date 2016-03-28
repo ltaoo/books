@@ -5,6 +5,7 @@
 		      	<div class="modal-header">
 		        	<slot name="header">
 		          		default header
+		          		<button class="btn btn-default" @click="show=false">×</button>
 		        	</slot>
 		      	</div>
 		      	<div class="modal-body">

@@ -5,7 +5,9 @@
 	$action = $_REQUEST['action'];
 	//获取书籍列表
 	if($action == 'bookList'){
-		$sql = "select * from books order by borrowTimes desc";
+		$sql = "select bookId, bookName, bookIsbn, borrowTimes, isBorrow, bookImg, 
+		(select borrowTime from records r where r.bookId = b.bookId) as borrowTime
+		from books b order by borrowTimes desc";
 		if (!mysql_query($sql,$con)){
 			die('Error: ' . mysql_error());
 		}
@@ -29,7 +31,9 @@
 		$result = array();
 		$books = array();
 		$bookIsbn = $_REQUEST['bookIsbn'];
-		$sql = "select * from books where bookIsbn =" . $bookIsbn;
+		$sql = "select bookId, bookTitle, bookIsbn, borrowTimes, bookImg, 
+		(select borrowTime from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as borrowTime
+		from books where books.bookIsbn =" . $bookIsbn;
 		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
 		if (!$results){
@@ -44,8 +48,8 @@
 					'bookName' => $row['bookTitle'],
 					'bookIsbn' => $row['bookIsbn'],
 					'borrowTimes' => $row['borrowTimes'],
-					'isBorrow' => $row['isBorrow'],
-					'bookImg' => $row['bookImg']
+					'bookImg' => $row['bookImg'],
+					'borrowTime' => $row['borrowTime']
 				);
 				$books[] = $a;
 			}
@@ -63,8 +67,14 @@
 		//根据书籍名模糊查询
 		$result = array();
 		$books = array();
-		$bookName = $_REQUEST['bookName'];
-		$sql = "select * from books where bookTitle like '%" . $bookName . "%'";
+		$bookName = trim($_REQUEST['bookName']);
+		if(!$bookName){
+			$result['state'] = 504;
+			die(json_encode($result));
+		}
+		$sql = "select bookId, bookTitle, bookIsbn, borrowTimes, bookImg, 
+		(select borrowTime from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as borrowTime
+		from books where bookTitle like '%" . $bookName . "%'";
 		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
 		if (!$results){
@@ -79,8 +89,8 @@
 					'bookTitle' => $row['bookTitle'],
 					'bookIsbn' => $row['bookIsbn'],
 					'borrowTimes' => $row['borrowTimes'],
-					'isBorrow' => $row['isBorrow'],
-					'bookImg' => $row['bookImg']
+					'bookImg' => $row['bookImg'],
+					'borrowTime' => $row['borrowTime']
 				);
 				$books[] = $a;
 			}
@@ -91,7 +101,6 @@
 			$result['state'] = 200;
 		}
 		$result['data'] = $books;
-		$results->free();
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'getDetail'){
@@ -120,34 +129,6 @@
 		$result['data'] = $book;
 		mysql_close($con);
 		die(json_encode($result));
-	}elseif($action == 'borrow'){
-		//更新书籍为被借阅状态与总的借阅次数
-		$bookId = $_REQUEST['bookId'];
-		//给书籍的被借阅次数加1
-		//首先获取到书籍当前的borrowTimes的值，加一后写入。
-		$sql = "SELECT borrowTimes
-			FROM `books`
-			WHERE `bookId` =". $bookId;
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
-		$res = mysql_query($sql);
-		$row = mysql_fetch_row($res);
-		$borrowTimes = $row[0];
-		$borrowTimes = $borrowTimes + 1;
-		//echo $bookId;
-		$sql = "UPDATE `books` 
-			SET `borrowTimes` = '$borrowTimes',`isBorrow` = '1' 
-			WHERE `books`.`bookId` =" . $bookId;
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
-		$res = mysql_query($sql);
-		mysql_close($con);
-		die(json_encode(200));
-
-
-
 	}elseif($action == 'return'){
 		//更新书籍为未借阅状态
 		$bookId = $_REQUEST['bookId'];

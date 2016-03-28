@@ -38,7 +38,10 @@
 		$result = array();
 		$memberNum = $_REQUEST['memberNum'];
 		//模糊查询学号
-		$sql = "select * from members where memberNum like '%" . $memberNum . "%'";
+		$sql = "select memberId, memberName, memberNum,memberTel, memberAddress, memberRank, memberCreateTime, 
+		(select count(*) from records where records.memberId = members.memberId and returnTime = 0000-00-00) as borrowNum,
+		(select count(*) from records where records.memberId = members.memberId and returnTime != 0000-00-00) as borrowTimes
+		 from members where memberNum like '%" . $memberNum . "%'";
 		$results = $mysqli->query($sql);
 		$members = array();
 		if($results === false){
@@ -46,6 +49,7 @@
 			$result['state'] = 500;
 		}else{
 			while($row = $results->fetch_assoc()) {
+				var_dump($row);
 			    $temp = array(
 			    	'memberId' => $row['memberId'],
 					'memberName' => $row['memberName'],
@@ -54,8 +58,8 @@
 					'memberAddress' => $row['memberAddress'],
 					'memberRank' => $row['memberRank'],
 					'memberCreateTime' => $row['memberCreateTime'],
-					'memberBorrowNum' => $row['memberBorrowNum'],
-					'memberBorrowTimes' => $row['memberBorrowTimes']
+					'borrowTimes' => $row['borrowTimes'],
+					'borrowNum' => $row['borrowNum']
 			    );
 			    $members[] = $temp;
 			}
@@ -67,7 +71,6 @@
 			$result['state'] = 200;
 		}
 		$result['data'] = $members;
-		$results->free();
 		// close connection 
 		$mysqli->close();
 		die(json_encode($result));
@@ -75,7 +78,9 @@
 		//根据姓名查询
 		$result = array();
 		$memberName = $_REQUEST['memberName'];
-		$sql = "select * from members where memberName like '%" . $memberName . "%'";
+		$sql = "select memberId, memberName, memberNum,memberTel, memberAddress, memberRank, memberCreateTime, 
+		(select count(*) from records where records.memberId = members.memberId and returnTime = 0000-00-00) as borrowNum,
+		(select count(*) from records where records.memberId = members.memberId and returnTime != 0000-00-00) as borrowTimes from members where memberName like '%" . $memberName . "%'";
 		$results = $mysqli->query($sql);
 		//如果查询失败，就直接退出
 		if (!$results){
@@ -98,8 +103,8 @@
 				'memberAddress' => $row['memberAddress'],
 				'memberRank' => $row['memberRank'],
 				'memberCreateTime' => $row['memberCreateTime'],
-				'memberBorrowNum' => $row['memberBorrowNum'],
-				'memberBorrowTimes' => $row['memberBorrowTimes']
+				'borrowNum' => $row['borrowNum'],
+				'borrowTimes' => $row['borrowTimes']
 			);
 			$members[] = $a;
 		}
