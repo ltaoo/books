@@ -4,27 +4,23 @@
 	include_once('public/mysqliConnect.php');
 	$action = $_REQUEST['action'];
 	//获取书籍列表
-	if($action == 'bookList'){
-		$sql = "select bookId, bookName, bookIsbn, borrowTimes, isBorrow, bookImg, 
-		(select borrowTime from records r where r.bookId = b.bookId) as borrowTime
-		from books b order by borrowTimes desc";
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
-		$res = mysql_query($sql);
+	if($action == 'getBookList'){
+		$sql = "select bookId, bookTitle, bookIsbn, bookImg, 
+		(select count(*) from records where records.bookId = books.bookId) as borrowTimes 
+		from books order by borrowTimes desc";
+		$results = $mysqli->query($sql);
 		$books = array();
-		while ($row = mysql_fetch_row($res)) {
+		while ($row = $results->fetch_assoc()) {
 			$book = array(
-				'bookId' => $row[0],
-				'bookName' => $row[1],
-				'bookIsbn' => $row[2],
-				'bookTimes' => $row[3],
-				'isBorrow' => $row[4],
-				'bookImg' => $row[5]
+				'bookId' => $row['bookId'],
+				'bookTitle' => $row['bookTitle'],
+				'bookIsbn' => $row['bookIsbn'],
+				'borrowTimes' => $row['borrowTimes'],
+				'bookImg' => $row['bookImg']
 			);
 			$books[] = $book;
 		}
-		mysql_close($con);
+		$mysqli->close();
 		die(json_encode($books));
 	}elseif($action == 'searchByIsbn'){
 		//根据isbn码搜索商品

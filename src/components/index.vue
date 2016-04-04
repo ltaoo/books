@@ -2,7 +2,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-9">
-				<book v-for="book in booksList" v-bind:book="book"></book>
+				<div class="row">
+					<book v-for="book in booksList" v-bind:book="book"></book>
+				</div>
 			</div>
 			<div class="col-xs-3" v-show="cartList.length == 0">
 				<h3>购物车内没有商品</h3>
@@ -46,15 +48,11 @@
 <script>
 	import store from '../store/index.js'
 	//加载组件
-	import accordion from 'vue-strap/src/accordion.vue'
-	import panel from 'vue-strap/src/panel.vue'
-	import book from './book.vue'
+	import book from './index/book.vue'
 
 	export default {
 		name: 'Index',
 		components: {
-			accordion,
-			panel,
 			book
 		},
 		data() {
@@ -68,7 +66,7 @@
 			data ({to}) {
 				return store.fetchItems().then(res => {
 					console.log(res)
-					this.booksList = res.data
+					this.booksList = res
 				})
 			}
 		},

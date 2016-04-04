@@ -19,18 +19,28 @@
 			<button class="form-control" @click="returnBook()">确定</button>
 		</div>
 	</modal>
+	<alert :show.sync="showNoInput" dismissable placement="top" type="danger" width="400px" :duration="3000">
+		<span class="icon-info-circled alert-icon-float-left"></span>
+		<strong>请输入查询条件</strong>
+	</alert>
+	<alert :show.sync="showNoResult" dismissable placement="top" type="danger" width="400px" :duration="3000">
+		<span class="icon-info-circled alert-icon-float-left"></span>
+		<strong>该书没有被借</strong>
+	</alert>
 </template>
 
 <script>
 	import book from './return/bookList.vue'
 	import modal from '../public/modal.vue'
+	import {alert} from 'vue-strap'
 	//数据处理
 	import Admin from '../../store/admin.js'
 	export default {
 		name: 'returnbooks',
 		components: {
 			book,
-			modal
+			modal,
+			alert
 		},
 		data(){
 			return {
@@ -67,6 +77,7 @@
 												}else{
 													console.log('没有查询到')
 													//这里没有查询到是只没有在借阅记录中查询到，需要告知管理员是该书没有被借还是没有该书或者会员？
+													
 												}
 											}) 
 										}
@@ -75,7 +86,10 @@
 							})
 						}
 					})
-				}
+				}else{
+          //没有输入查询条件
+          console.log('请输入查询条件')
+        }
 			},
 			returnBook: function(){
 				//这里处理数据，更新records。
@@ -87,6 +101,7 @@
 					console.log(res)
 					if(res.state == 200){
 						console.log('更新成功')
+            //更新成功后页面初始化
 					}else{
 						console.log('更新失败')
 					}

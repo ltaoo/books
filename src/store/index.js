@@ -24,8 +24,8 @@ bookStore.fetchItem = function(id){
 
 bookStore.fetchItems = function(){
 	return new Promise(function(resolve, reject){
-		Vue.http.get('src/data/booksList.json').then(function(res){
-			resolve(res)
+		Vue.http.get('./service/getBooks.service.php?action=getBookList').then(function(res){
+			resolve(res.data)
 		}).catch(function(err){
 			reject(err)
 		})
