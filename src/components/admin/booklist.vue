@@ -27,6 +27,13 @@
 				<input type="text" class="form-control" placeholder="输入书名或isbn查询" v-model="doubanQuery">
 				<button class="btn btn-default" @click="searchByDouban(doubanQuery)">查询</button>
 			</div>
+			<div class="result" v-for="result in resultList">
+				<img v-bind:src="result.image" alt="">
+				<h4>{{result.title}}</h4>
+				<p>{{result.isbn13}}</p>
+				<p>{{result.price}}</p>
+				<button @click="addBook(result)">添加</button>
+			</div>
 		</div>
 	</modal>
 </template>
@@ -43,7 +50,9 @@
 				del: false,
 				query: '',
 				doubanQuery: '',
-				bookList: []
+				bookList: [],
+				//通过豆瓣api返回的数据
+				resultList: []
 			}
 		},
 		components: {
@@ -54,7 +63,11 @@
 				//通过豆瓣api查询
 				return Admin.searchByDouban(param).then(res => {
 					console.log(res)
+					this.resultList = res.books;
 				})
+			},
+			addBook: function(book){
+				//这里通过接口保存到数据库中
 			}
 		},
 		route: {
@@ -66,3 +79,10 @@
 		}
 	}
 </script>
+
+<style>
+	.result img{
+		width:100px;
+		float:left;
+	}
+</style>

@@ -54,37 +54,29 @@
 			search: function(param) {
 				//判断是否存在
 				if(param) {
-					//提交给根据isbn码查询接口
-					return Admin.searchRecordByIsbn(param).then(res => {
-						
-						if(res.state == 200){
-							//如果按照isbn码查询到了，就可以直接赋值
-							this.recordList = res.data
-						}else{
-							Admin.searchRecordByTitle(param).then(resTitle => {
-								if(resTitle.state == 200){
-									this.recordList = resTitle.data
-								}else{
-									Admin.searchRecordByNum(param).then(resNum => {
-										if(resNum.state == 200){
-											this.recordList = resNum.data
-										}else{
-											console.log('根据学号没有查询到，根据姓名来查询')
-											Admin.searchRecordByName(param).then(resName => {
-												console.log(resName)
-												if(resName.state == 200){
-													this.recordList = resName.data
-												}else{
-													console.log('没有查询到')
-													//这里没有查询到是只没有在借阅记录中查询到，需要告知管理员是该书没有被借还是没有该书或者会员？
-													
-												}
-											}) 
-										}
-									})
-								}
-							})
-						}
+					Admin.searchRecordByIsbn(param).then(res => {
+						//这里是处理查询到的情况，就直接赋值
+						this.recordList = res.data;
+						console.log('根据isbn')
+					}).catch(function() {
+						//这里是处理没有查询到的情况         这里就直接传给Name查询了？
+						return Admin.searchRecordByTitle(param);
+					}).then(titleRes => {
+						//这里处理的应该是根据标题查询的结果
+						this.recordList = titleRes.data
+						console.log('根据title')
+					}).catch(function(){
+						return Admin.searchRecordByName(param)
+					}).then(nameRes => {
+						this.recordList = nameRes.data
+						console.log('根据name')
+					}).catch(function(){
+						return Admin.searchRecordByNum(param)
+					}).then(numRes => {
+						this.recordList = numRes.data
+						console.log('根据num')
+					}).catch(function(err){
+						console.log(err)
 					})
 				}else{
           //没有输入查询条件

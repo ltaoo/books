@@ -9,18 +9,6 @@ export default adminStore
 //根据用户Id获取信息
 adminStore.getMemberById = param =>{
 	return new Promise(function(resolve, reject){
-		//先判断查询条件是否存在
-		/*
-		if(param) {
-			Vue.http.get('./src/data/'　+ param + 'm.json').then(res => {
-				resolve(res)
-			}).catch(err => {
-				reject(err)
-			})
-		}else{
-			reject('param is empty')
-		}
-		*/
 		if(param){
 			Vue.http.get('../src/service/getMembers.service.php?action=searchById&memberId=' + param).then(res => {
 				resolve(res)
@@ -99,7 +87,12 @@ adminStore.searchRecordByIsbn = function (param) {
 		//判断条件是否存在或者是否合法
 		if(param) {
 			Vue.http.get('./service/getRecords.service.php?action=serachByIsbn&bookIsbn=' + param).then(res => {
-				resolve(res.data)
+				//在这里还做一个判断，是否查询有结果
+				if(res.data.state == 200){
+					resolve(res.data)
+				}else{
+					reject('result is empty')
+				}
 			}).catch(err => {
 				reject(err)
 			})
@@ -114,7 +107,11 @@ adminStore.searchRecordByTitle = function (param) {
 		//判断条件是否存在或者是否合法
 		if(param) {
 			Vue.http.get('./service/getRecords.service.php?action=searchByTitle&bookTitle=' + param).then(res => {
-				resolve(res.data)
+				if(res.data.state == 200){
+					resolve(res.data)
+				}else{
+					reject('result is empty')
+				}
 			}).catch(err => {
 				reject(err)
 			})
@@ -129,7 +126,11 @@ adminStore.searchRecordByName = function (param) {
 		//判断条件是否存在或者是否合法
 		if(param) {
 			Vue.http.get('./service/getRecords.service.php?action=searchByName&memberName=' + param).then(res => {
-				resolve(res.data)
+				if(res.data.state == 200){
+					resolve(res.data)
+				}else{
+					reject('result is empty')
+				}
 			}).catch(err => {
 				reject(err)
 			})
@@ -144,7 +145,11 @@ adminStore.searchRecordByNum = function (param) {
 		//判断条件是否存在或者是否合法
 		if(param) {
 			Vue.http.get('./service/getRecords.service.php?action=searchByNumber&memberNum=' + param).then(res => {
-				resolve(res.data)
+				if(res.data.state == 200){
+					resolve(res.data)
+				}else{
+					reject('result is empty')
+				}
 			}).catch(err => {
 				reject(err)
 			})
@@ -175,17 +180,33 @@ adminStore.getMemberList = function () {
 	})
 }
 //通过豆瓣API查询书籍
+//定义一个全局函数
 adminStore.searchByDouban = function(param) {
 	return new Promise(function(resolve, reject) {
 		if(param) {
 			//还是需要通过服务器代理转发
-			Vue.http.jsonp('https://api.douban.com/v2/book/search?q=angular').then(res => {
+			Vue.http.jsonp('https://api.douban.com/v2/book/search?q='+param+'&count=3&callback=resolveDb')
+			window.resolveDb = function(data){
+				resolve(data)
+			}
+		}else{
+			reject('param is empty')
+		}
+	})
+}
+//添加新书籍到数据库中
+adminStore.addBook = postData => {
+	//console.log(postData)
+	return new Promise(function(resolve, reject){
+		if(postData){
+			Vue.http.options.emulateJSON = true;
+			Vue.http.post('./service/addBooks.service.php', postData).then(res => {
 				resolve(res)
 			}).catch(err => {
 				reject(err)
 			})
 		}else{
-			reject('param is empty')
+			reject('postData is empty')
 		}
 	})
 }
