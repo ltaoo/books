@@ -5,37 +5,64 @@
 	include_once('public/mysqliConnect.php');
 	$action = $_REQUEST['action'];
 	if($action == 'recordsList'){
-		$sql = "select * from records";
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
+		$sql = "select * from records, books, members 
+		where records.bookId = books.bookId and records.memberId = members.memberId";
+		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
-		$res = mysql_query($sql);
+		if(!$results){
+			die(json_encode($result['state']=500));
+		}
 		$records = array();
-		//mysql_fetch_row失败返回false
-		//$row = mysql_fetch_row($res);
-		//取出每个字段
-		while ($row = mysql_fetch_row($res)) {
-			//获取到id后，分别去各自表查询详细信息
-			//查询书籍详细信息
+		while($row = $results->fetch_assoc()){
+			//var_dump($row);
 			$record = array(
-				'recordId' => $row[0],
-				'memberId' => $row[1],
-				'memberNum' => $row[2],
-				'memberName' => $row[3],
-				'memberRank' => $row[4],
-				'memberCreateTime' => $row[5],
-				'bookId' => $row[6],
-				'bookIsbn' => $row[7],
-				'bookName' => $row[8],
-				'bookImg' => $row[9],
-				'borrowTime' => $row[10],
-				'returnTime' => $row[11]
+				'recordId' => $row['recordId'],
+				'memberId' => $row['memberId'],
+				'memberNum' => $row['memberNum'],
+				'memberName' => $row['memberName'],
+				'memberRank' => $row['memberRank'],
+				'memberCreateTime' => $row['memberCreateTime'],
+				'bookId' => $row['bookId'],
+				'bookIsbn' => $row['bookIsbn'],
+				'bookTitle' => $row['bookTitle'],
+				'bookImg' => $row['bookImg'],
+				'borrowTime' => $row['borrowTime'],
+				'returnTime' => $row['returnTime']
 			);
 			$records[] = $record;
 		}
-		mysql_close($con);
-		die(json_encode($records));
+		if(count($records) == 0){
+			$result['state'] = 404;
+		}else{
+			$result['state'] = 200;
+			$result['data'] = $records;
+		}
+		$mysqli->close();
+		die(json_encode($result));
+	}elseif($action == 'searchByBookId'){
+		//根据书籍isbn码查询记录
+		$bookId = $_REQUEST['bookId'];
+		$sql = "select * from records
+		where bookId = '$bookId' and returnTime = '0000-00-00'";
+		$results = $mysqli->query($sql);
+		//如果查询执行不正确则返回false
+		if(!$results){
+			die(json_encode($result['state']=500));
+		}
+		$record = array();
+		while($row = $results->fetch_assoc()){
+			//var_dump($row);
+			$record = array(
+				'recordId' => $row['recordId'],
+				'memberId' => $row['memberId'],
+				'bookId' => $row['bookId']
+			);
+			$record = $record;
+		}
+		$result['state'] = 200;
+		$result['data'] = $record;
+		$mysqli->close();
+		die(json_encode($result));
 	}elseif($action == 'serachByIsbn'){
 		//根据书籍isbn码查询记录
 		$bookIsbn = $_REQUEST['bookIsbn'];

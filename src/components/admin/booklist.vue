@@ -24,7 +24,7 @@
 				<td>{{book.borrowTimes}}</td>
 				<td>{{book.bookImg}}</td>
 				<td>
-					<button class="btn btn-default" @click="showModal=true">删除</button> 
+					<a @click="deleteBook(book.bookId, $index)">删除</a> 
 				</td>
 			</tr>
 		</table>
@@ -103,6 +103,31 @@
 							//并关闭modal。
 							this.showModal = false;
 							this.resultList = [];
+						})
+					}
+				})
+			},
+			deleteBook: function(bookId, index){
+				//删除前应该先判断该书是否正在借阅中。
+				Admin.searchrecordByBookId(bookId).then(res=>{
+					//如果查询到有
+					console.log(res);
+					if(res.data.bookId){
+						alert('该书已被借阅，请先归回再删除');
+					}else{
+						Admin.deleteBook(bookId).then(res=> {
+							
+							//这里判断是否成功，如果成功就页面上也同步删除该记录，或者刷新页面。
+							//console.log(data);
+							console.log(res);
+							if(res.state == 'success'){
+								//如果删除成功
+								this.bookList.splice(index, 1);
+							}else{
+								//console.log(data);
+								//console.log('删除失败');
+								alert('删除失败,请重试');
+							}
 						})
 					}
 				})

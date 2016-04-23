@@ -158,15 +158,17 @@
 	}elseif($action == 'delete'){
 		//删除记录
 		$bookId = $_REQUEST['bookId'];
-		$result = array();
 		$sql = 'DELETE FROM `books` WHERE `bookId` =' . $bookId;
-		if (!mysql_query($sql,$con)){
-			//die('Error: ' . mysql_error());
-			die(json_encode($result['state'] = 'err'));
+		$results = $mysqli->query($sql);
+		if($results){
+		    //print 'Success! record updated / deleted'; 
+		    $result['state'] = 'success';
+		}else{
+		    //print 'Error : ('. $mysqli->errno .') '. $mysqli->error;
+		    $result['state'] = 'err';
 		}
-		$res = mysql_query($sql);
-		mysql_close($con);
-		$result['state'] = 'success';
+		// close connection 
+		$mysqli->close();
 		die(json_encode($result));
 	}
 ?>

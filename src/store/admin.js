@@ -81,6 +81,26 @@ adminStore.searchBookByName = function(param){
 	})
 }
 
+//通过书籍id查询借阅记录
+adminStore.searchrecordByBookId = function (param) {
+	return new Promise(function(resolve, reject){
+		//判断条件是否存在或者是否合法
+		if(param) {
+			Vue.http.get('./service/getRecords.service.php?action=searchByBookId&bookId=' + param).then(res => {
+				//在这里还做一个判断，是否查询有结果
+				if(res.data.state == 200){
+					resolve(res.data)
+				}else{
+					reject('result is empty')
+				}
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
 //通过书籍isbn码查询已借书籍
 adminStore.searchRecordByIsbn = function (param) {
 	return new Promise(function(resolve, reject){
@@ -275,7 +295,17 @@ adminStore.addMember = postData => {
 		}
 	})
 }
-
+adminStore.deleteBook = bookId => {
+	return new Promise((resolve, reject) => {
+		if(bookId){
+			Vue.http.get('./service/getBooks.service.php?action=delete&bookId=' + bookId).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
 adminStore.deleteMember = memberId => {
 	return new Promise((resolve, reject) => {
 		if(memberId){
@@ -285,5 +315,15 @@ adminStore.deleteMember = memberId => {
 				reject(err);
 			})
 		}
+	})
+}
+
+adminStore.getRecordList = () => {
+	return new Promise((resolve, reject) => {
+		Vue.http.get('./service/getRecords.service.php?action=recordsList').then(res=>{
+			resolve(res.data);
+		}).catch(err =>{
+			reject(err);
+		})
 	})
 }

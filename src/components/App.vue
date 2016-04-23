@@ -9,10 +9,7 @@
     <li><a v-link="{ path: '/foo' }"></a></li>
   </ul>
 	<router-view
-	  class="view"
-	  keep-alive
-	  transition
-	  transition-mode="out-in">
+	  class="view">
 	</router-view>
 </template>
 

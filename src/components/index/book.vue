@@ -1,5 +1,5 @@
 <template>
-	<div class="col-xs-6 sale">
+	<div class="col-xs-12 sale">
 		<img v-bind:src="book.bookImg" alt="">
 		<div class="info">
 			<h4><a v-link = "{ path: '/goods/' + book.bookId}">{{book.bookTitle}}</a></h4>
@@ -38,7 +38,7 @@
 </script>
 
 <style>
-	.col-xs-6{
+	.col-xs-12{
 		border:1px solid #eee;
 		border-radius: 5px;
 	}
