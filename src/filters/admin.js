@@ -1,4 +1,5 @@
-import {getTimeCha, getTimeAdd} from './time.js'
+import {getTimeCha, getTimeAdd} from './time.js';
+//将会员等级转为中文。
 export function rank(value) {
 	//处理
 	if(value == 0){
@@ -39,5 +40,14 @@ export function sumCanBorrow(value){
 		return true
 	}else{
 		return false
+	}
+}
+
+//根据会员等级显示按钮状态
+export function sumRank(value, rank) {
+	if(value == rank){
+		return true;
+	}else{
+		return false;
 	}
 }

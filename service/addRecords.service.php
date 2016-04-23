@@ -8,7 +8,7 @@
 	$memberId = $_POST['memberId'];
 	$borrowTime = date('Y-m-d');
 	$sql = "INSERT INTO `records`
-		( `memberId`, `bookId`, `borrowTime`) 
+		(`memberId`, `bookId`, `borrowTime`) 
 		VALUES 
 		('$memberId', '$bookId', '$borrowTime')";
 	$insert_row = $mysqli->query($sql);

@@ -10,8 +10,8 @@ export default adminStore
 adminStore.getMemberById = param =>{
 	return new Promise(function(resolve, reject){
 		if(param){
-			Vue.http.get('../src/service/getMembers.service.php?action=searchById&memberId=' + param).then(res => {
-				resolve(res)
+			Vue.http.get('./service/getMembers.service.php?action=searchById&memberId=' + param).then(res => {
+				resolve(res.data)
 			}).catch(err => {
 				reject(err)
 			})
@@ -172,7 +172,7 @@ adminStore.getBookList = function () {
 //获取会员全部记录
 adminStore.getMemberList = function () {
 	return new Promise(function(resolve, reject){
-		Vue.http.get('../src/service/getMembers.service.php?action=memberList').then(res => {
+		Vue.http.get('./service/getMembers.service.php?action=getMemberList').then(res => {
 			resolve(res)
 		}).catch(err => {
 			reject(err)
@@ -185,10 +185,10 @@ adminStore.searchByDouban = function(param) {
 	return new Promise(function(resolve, reject) {
 		if(param) {
 			//还是需要通过服务器代理转发
-			Vue.http.jsonp('https://api.douban.com/v2/book/search?q='+param+'&count=3&callback=resolveDb')
+			Vue.http.jsonp('https://api.douban.com/v2/book/search?q='+param+'&count=10&callback=resolveDb');
 			window.resolveDb = function(data){
 				resolve(data)
-			}
+			};
 		}else{
 			reject('param is empty')
 		}
@@ -200,13 +200,13 @@ adminStore.addBook = postData => {
 	return new Promise(function(resolve, reject){
 		if(postData){
 			Vue.http.options.emulateJSON = true;
-			Vue.http.post('./service/addBooks.service.php', postData).then(res => {
+			Vue.http.post('./service/addBook.service.php', postData).then(res => {
 				resolve(res)
 			}).catch(err => {
 				reject(err)
 			})
 		}else{
-			reject('postData is empty')
+			reject('postData is empty');
 		}
 	})
 }

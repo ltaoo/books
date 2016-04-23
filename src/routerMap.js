@@ -9,7 +9,7 @@ import order from './components/order/index.vue'
 import admin from './components/admin/index.vue'
 import returnbooks from './components/admin/returnbooks.vue'
 import booklist from './components/admin/booklist.vue'
-import userlist from './components/admin/userlist.vue'
+import memberlist from './components/admin/memberlist.vue'
 import memberDetail from './components/admin/memberDetail.vue'
 import recordlist from './components/admin/recordlist.vue'
 import orderlist from './components/admin/orderlist.vue'
@@ -68,9 +68,9 @@ export default function(router) {
 			adminAuth: true
 		},
 		//后台用户列表页
-		'/userList': {
-			name: 'userlist',
-			component: userlist,
+		'/memberList': {
+			name: 'memberlist',
+			component: memberlist,
 			adminAuth: true
 		},
 		//后台用户信息修改页

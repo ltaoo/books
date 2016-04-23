@@ -3,52 +3,32 @@
 	include_once('public/mysqliConnect.php');
 	//var_dump($_POST);
 	//书籍详细信息
+	//书籍标题
 	$bookTitle = $_POST['title'];
-	//会员详细信息
-	$memberId = $_POST['memberId'];
+	$bookIsbn = $_POST['isbn13'];
+	$bookPrice = $_POST['price'];
+	$bookSummary = $_POST['summary'];
+	$bookImg = $_POST['images']['medium'];
 	$createTime = date('Y-m-d');
-	$sql = "INSERT INTO `records`
-		( `memberId`, `bookId`, `borrowTime`) 
+	$sql = "INSERT INTO `books`
+		(`bookTitle`, `bookIsbn`, `bookPrice`, `bookSummary`, `bookImg`) 
 		VALUES 
-		('$memberId', '$bookId', '$borrowTime')";
+		('$bookTitle', '$bookIsbn', '$bookPrice', '$bookSummary', '$bookImg')";
 	$insert_row = $mysqli->query($sql);
 	//var_dump($insert_row);
 	//如果添加成功，$results为true
 	if($insert_row){
 	    //print 'Success! ID of last inserted record is : ' .$mysqli->insert_id .'<br />'; 
-	    $recordId = $mysqli->insert_id;
+	    $bookId = $mysqli->insert_id;
 	    //这个地方只要返回成功后的id就可以，查询就交给查询接口。
 	    $result = array();
-	    $result['recordId'] = $recordId;
+	    $result['bookId'] = $bookId;
 	    //echo $bookId;
 	}else{
 	    //die('Error : ('. $mysqli->errno .') '. $mysqli->error);
 	    $result['state'] = 500;
-	    $result['mes'] = 'add record is fail';
+	    $result['mes'] =  $mysqli->error;
 	}
 	$mysqli->close();
-	die(json_encode($result));
-
-
-
-
-
-	include_once('public/connectDb.php');
-	$bookTitle = $_POST['title'];
-	$bookIsbn = $_POST['isbn13'];
-	$bookImg = $_POST['image'];
-	$result = array();
-	$sql = "INSERT INTO `books`( `bookTitle`, `bookIsbn`, `bookImg`) VALUES ('$bookTitle','$bookIsbn', '$bookImg')";
-
-	if (!mysql_query($sql,$con)){
-	  	//die('Error: ' . mysql_error());
-		die(json_encode($result['state'] = 'err'));
-	}
-	//header("Location:index.php");
-	$bookId = mysql_insert_id();
-	//这个地方只要返回成功后的id就可以，查询就交给查询接口。
-	$result['state'] = 'success';
-	$result['id'] = $bookId;
-	mysql_close($con);
 	die(json_encode($result));
 ?>

@@ -16,10 +16,10 @@ export function getTimeAdd(date, num){
 	//date为借阅时间
 	//parse的参数为1993/08/19格式
 	var month = date.substring(5,date.lastIndexOf ('-'));
-    var day = date.substring(date.length,date.lastIndexOf ('-')+1);
-    var year = date.substring(0,date.indexOf ('-'));
-    //分别拿到年月日
-    //获取到num至
+  var day = date.substring(date.length,date.lastIndexOf ('-')+1);
+  var year = date.substring(0,date.indexOf ('-'));
+  //分别拿到年月日
+  //获取到num至
 	var yinghuan = new Date(Date.parse(month + '/' + day + '/' + year) + (86400000 * num));  
 	var year1 = yinghuan.getFullYear();
 	var month1 = yinghuan.getMonth() + 1;

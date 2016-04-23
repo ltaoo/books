@@ -65,8 +65,8 @@
 		route: {
 			data ({to}) {
 				return store.fetchItems().then(res => {
-					console.log(res)
-					this.booksList = res
+					console.log(res);
+					this.booksList = res;
 				})
 			}
 		},

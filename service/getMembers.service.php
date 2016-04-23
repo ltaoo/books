@@ -4,34 +4,30 @@
 	//连接数据库
 	include_once('public/mysqliConnect.php');
 	$action = $_REQUEST['action'];
-	//获取会员列表
-	if($action == 'memberList'){
-		$sql = "select * from members";
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
-		//如果查询执行不正确则返回false
-		$res = mysql_query($sql);
+		//获取会员列表
+	if($action == 'getMemberList'){
+		$sql = "select memberId, memberName, memberNum, memberTel, memberAddress, memberRank, memberCreateTime,  
+		(select count(*) from records where records.memberId = members.memberId and records.returnTime != 0000-00-00) as borrowTimes,
+		(select count(*) from records where records.memberId = members.memberId and records.returnTime = 0000-00-00) as borrowNum 
+		from members";
+		$results = $mysqli->query($sql);
 		$members = array();
-		//mysql_fetch_row失败返回false
-		//$row = mysql_fetch_row($res);
-		//取出每个字段
-		while ($row = mysql_fetch_row($res)) {
-			//var_dump($row);
+		while ($row = $results->fetch_assoc()) {
 			$member = array(
-				'memberId' => $row[0],
-				'memberName' => $row[1],
-				'memberNum' => $row[2],
-				'memberTel' => $row[3],
-				'memberAddress' => $row[4],
-				'memberRank' => $row[5],
-				'memberCreateTime' => $row[6],
-				'memberBorrowNum' => $row[7],
-				'memberBorrowTimes' => $row[8]
+				'memberId' => $row['memberId'],
+				'memberName' => $row['memberName'],
+				'memberNum' => $row['memberNum'],
+				'memberTel' => $row['memberTel'],
+				'memberTel' => $row['memberTel'],
+				'memberAddress' => $row['memberAddress'],
+				'memberRank' => $row['memberRank'],
+				'borrowTimes' => $row['borrowTimes'],
+				'borrowNum' => $row['borrowNum'],
+				'memberCreateTime' => $row['memberCreateTime']
 			);
 			$members[] = $member;
 		}
-		mysql_close($con);
+		$mysqli->close();
 		die(json_encode($members));
 	}elseif($action == 'searchByNum'){
 		//根据学号查询
@@ -119,38 +115,42 @@
 		die(json_encode($result));
 	}elseif($action == 'searchById'){
 		//根据id查询
-		$memberId = $_REQUEST['memberId'];
 		$result = array();
-		$sql = "select * from members where memberId =" . $memberId;
-		if (!mysql_query($sql,$con)){
+		$memberId = $_REQUEST['memberId'];
+		$sql = "select memberId, memberName, memberNum,memberTel, memberAddress, memberRank, memberCreateTime, 
+		(select count(*) from records where records.memberId = members.memberId and returnTime = 0000-00-00) as borrowNum,
+		(select count(*) from records where records.memberId = members.memberId and returnTime != 0000-00-00) as borrowTimes from members where memberId = '$memberId'";
+		$results = $mysqli->query($sql);
+		//如果查询失败，就直接退出
+		if (!$results){
+			//如果查询有问题，就提示err；
+			$result['state'] = 500;
 			//die('Error: ' . mysql_error());
-			$result['state'] = 'err';
 			die(json_encode($result));
 		}
-		//如果查询执行不正确则返回false
-		$res = mysql_query($sql);
 		$member = array();
 		//mysql_fetch_row失败返回false
 		//$row = mysql_fetch_row($res);
 		//取出每个字段
-		while ($row = mysql_fetch_row($res)) {
+		while ($row = $results->fetch_assoc()) {
 			//var_dump($row);
 			$a = array(
-				'memberId' => $row[0],
-				'memberName' => $row[1],
-				'memberNum' => $row[2],
-				'memberTel' => $row[3],
-				'memberAddress' => $row[4],
-				'memberRank' => $row[5],
-				'memberCreateTime' => $row[6],
-				'memberBorrowNum' => $row[7],
-				'memberBorrowTimes' => $row[8]
+				'memberId' => $row['memberId'],
+				'memberName' => $row['memberName'],
+				'memberNum' => $row['memberNum'],
+				'memberTel' => $row['memberTel'],
+				'memberAddress' => $row['memberAddress'],
+				'memberRank' => $row['memberRank'],
+				'memberCreateTime' => $row['memberCreateTime'],
+				'borrowNum' => $row['borrowNum'],
+				'borrowTimes' => $row['borrowTimes']
 			);
 			$member = $a;
 		}
-		$result['state'] = 'success';
+		$result['state'] = 200;
 		$result['data'] = $member;
-		mysql_close($con);
+		$results->free();
+		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'borrow'){
 		$memberId = $_REQUEST['memberId'];
@@ -168,7 +168,7 @@
 		$MemberBorrowNum = $memberBorrowNum + 1;
 		$memberBorrowTimes = $memberBorrowTimes + 1;
 		//echo $newMemberBorrowNum;
-		//echo $bookId;
+		//echo $memberId;
 		$sql = "UPDATE `members` 
 			SET `memberBorrowNum` = " . $MemberBorrowNum . ",`memberBorrowTimes` = " . $memberBorrowTimes . "
 			WHERE `memberId` = " . $memberId;
@@ -195,7 +195,7 @@
 		$memberBorrowNum = $row[0];
 		$newMemberBorrowNum = $memberBorrowNum - 1;
 		//echo $newMemberBorrowNum;
-		//echo $bookId;
+		//echo $memberId;
 		$sql = "UPDATE `members` SET `memberBorrowNum` = " . $newMemberBorrowNum . " WHERE `members`.`memberId` =" . $memberId;
 		if (!mysql_query($sql,$con)){
 			die('Error: ' . mysql_error());

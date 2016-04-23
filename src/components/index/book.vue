@@ -2,8 +2,10 @@
 	<div class="col-xs-6 sale">
 		<img v-bind:src="book.bookImg" alt="">
 		<div class="info">
-			<h4><a v-link = "{ path: '/goods/' + book.booksId}">{{book.bookTitle}}</a></h4>
+			<h4><a v-link = "{ path: '/goods/' + book.bookId}">{{book.bookTitle}}</a></h4>
+			<p>ISBN：<span>{{book.bookIsbn}}</span></p>
 			<p>被借阅次数：<span>{{book.borrowTimes}}</span></p>
+			<p>价格：<span>{{book.bookPrice}}</span></p>
 			<button class="btn btn-default">立即购买</button>
 			<button class="btn btn-default" v-on:click="addCart(book)">加入购物车</button>
 		</div>
@@ -13,6 +15,7 @@
 <script>
 	export default {
 		name: 'book',
+		//接收传过来的数据。
 		props: {
 			book: Object
 		},
@@ -22,13 +25,13 @@
 			addCart: function(obj){
 				//只负责添加到购物车，其他逻辑交给购物车去处理
 				//购买数量加1
-				let cart = {}
-				cart.cartNumber = 1
-				cart.booksTitle = obj.booksTitle
-				cart.booksPrice = obj.booksPrice
-				cart.booksId = obj.booksId
-				cart.booksNumber = obj.booksNumber
-				this.$dispatch('addCart', cart)
+				var cart = {
+					cartNumber: 1,
+					booksId: obj.booksId,
+					booksTitle: obj.booksTitle,
+					booksPrice: obj.booksPrice
+				};
+				this.$dispatch('addCart', cart);
 			}
 		}
 	}
