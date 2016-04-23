@@ -29,21 +29,43 @@
 				<td>{{member.borrowTimes}}</td>
 				<td>{{member.memberRank | rank}}</td>
 				<td>{{member.memberCreateTime}}</td>
-				<td><a v-link = "{ path: '/member/' + member.memberId}">编辑</a>||<a href="">删除</a></td>
+				<td><a v-link = "{ path: '/member/' + member.memberId}">编辑</a>||<a @click="deleteMember(member.memberId, $index)">删除</a></td>
 			</tr>
 		</table>
 	</div>
+	<modal :show.sync="showModal">
+		<div slot="modal-header" class="modal-header">
+	    <h4 class="modal-title">添加新书籍</h4>
+	  </div>
+		<div slot="modal-body">
+			<div class="form-group">
+				<input type="text" class="form-control" v-model="member.memberName" placeholder="用户名">
+				<input type="text" class="form-control" v-model="member.memberNum" placeholder="学号">
+				<input type="text" class="form-control" v-model="member.memberTel" placeholder="联系方式">
+				<input type="text" class="form-control" v-model="member.memberAddress" placeholder="地址">
+				<input type="radio" name="rank" value='0' v-model="member.memberRank">周卡
+				<input type="radio" name="rank" value='1' v-model="member.memberRank">月卡
+				<input type="radio" name="rank" value='2' v-model="member.memberRank">期卡
+			</div>
+		</div>
+		<div slot="modal-footer">
+			<input type="reset" class="btn btn-default" value="重置">
+			<input type="submit" class="btn btn-default" value="确定" @click="addMember(member)">
+		</div>
+	</modal>
 </template>
 
 <script>
-	import modal from '../public/modal.vue'
+	import { modal } from 'vue-strap';
 	//数据
-	import Admin from '../../store/admin.js'
+	import Admin from '../../store/admin.js';
 	export default {
 		name: 'memberList',
 		data(){
 			return {
-				memberList: []
+				memberList: [],
+				showModal: false,
+				member: {}
 			}
 		},
 		components: {
@@ -56,6 +78,47 @@
 					this.memberList = res.data;
 				})
 			}
+		},
+		methods: {
+			addMember: function(member) {
+				console.log('add');
+				Admin.addMember(member).then(res => {
+					console.log(res);
+					if(res.data.memberId){
+						//如果返回了bookId，就是添加成功
+						//查询这本书
+						Admin.getMemberById(res.data.memberId).then(res => {
+							//查询成功后，将这本书插入到列表中。
+							//this.bookList.$set(res);
+							//并关闭modal。
+							console.log('search success');
+							this.showModal = false;
+							this.memberList.push(res.data);
+							this.member = null;
+						})
+					}
+				})
+			},
+			deleteMember: function(memberId, index) {
+				Admin.deleteMember(memberId).then(res=> {
+					//这里判断是否成功，如果成功就页面上也同步删除该记录，或者刷新页面。
+					//console.log(data);
+					console.log(res);
+					if(res.state == 'success'){
+						//如果删除成功
+						this.memberList.splice(index, 1);
+					}else{
+						//console.log(data);
+						//console.log('删除失败');
+						alert('删除失败,请重试');
+					}
+				})
+			}
 		}
 	}
 </script>
+<style>
+	.form-control{
+		margin-bottom: 10px;
+	}
+</style>

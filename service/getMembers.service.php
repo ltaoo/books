@@ -152,57 +152,6 @@
 		$results->free();
 		$mysqli->close();
 		die(json_encode($result));
-	}elseif($action == 'borrow'){
-		$memberId = $_REQUEST['memberId'];
-		//首先获取到该用户当前的memberBorrowNum的值，加一后写入。
-		$sql = "SELECT memberBorrowNum,memberBorrowTimes
-			FROM `members`
-			WHERE `memberId` =". $memberId;
-		if (!mysql_query($sql,$con)){
-			//die('Error: ' . mysql_error());
-		}
-		$res = mysql_query($sql);
-		$row = mysql_fetch_row($res);
-		$memberBorrowNum = $row[0];
-		$memberBorrowTimes = $row[1];
-		$MemberBorrowNum = $memberBorrowNum + 1;
-		$memberBorrowTimes = $memberBorrowTimes + 1;
-		//echo $newMemberBorrowNum;
-		//echo $memberId;
-		$sql = "UPDATE `members` 
-			SET `memberBorrowNum` = " . $MemberBorrowNum . ",`memberBorrowTimes` = " . $memberBorrowTimes . "
-			WHERE `memberId` = " . $memberId;
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
-		$res = mysql_query($sql);
-		mysql_close($con);
-		die(json_encode(200));
-
-
-
-	}elseif($action == 'return'){
-		$memberId = $_REQUEST['memberId'];
-		//首先获取到该用户当前的memberBorrowNum的值，加一后写入。
-		$sql = "SELECT memberBorrowNum
-			FROM `members`
-			WHERE `memberId` =". $memberId;
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
-		$res = mysql_query($sql);
-		$row = mysql_fetch_row($res);
-		$memberBorrowNum = $row[0];
-		$newMemberBorrowNum = $memberBorrowNum - 1;
-		//echo $newMemberBorrowNum;
-		//echo $memberId;
-		$sql = "UPDATE `members` SET `memberBorrowNum` = " . $newMemberBorrowNum . " WHERE `members`.`memberId` =" . $memberId;
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
-		}
-		$res = mysql_query($sql);
-		mysql_close($con);
-		die(json_encode(200));
 	}elseif($action == 'update'){
 		$result = array();
 		//修改会员信息
@@ -216,23 +165,35 @@
 		$sql = "UPDATE `members` 
 			SET `memberName`= '$memberName',`memberNum`='$memberNum',`memberTel`='$memberTel',`memberAddress`='$memberAddress',`memberRank`='$memberRank',`memberCreateTime`='$memberCreateTime' 
 			WHERE `memberId`=" . $memberId;
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
+		$results = $mysqli->query($sql);
+
+		//MySqli Delete Query
+		//$results = $mysqli->query("DELETE FROM products WHERE ID=24");
+
+		if($results){
+		    //print 'Success! record updated / deleted'; 
+		    $result['state'] = 'success';
+		}else{
+		    //print 'Error : ('. $mysqli->errno .') '. $mysqli->error;
+		    $result['state'] = 'err';
 		}
-		$res = mysql_query($sql);
-		mysql_close($con);
-		$result['state'] = 'success';
+		// close connection 
+		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'delete'){
 		//删除记录
 		$memberId = $_REQUEST['memberId'];
 		$sql = 'DELETE FROM `members` WHERE `memberId` =' . $memberId;
-		if (!mysql_query($sql,$con)){
-			die('Error: ' . mysql_error());
+		$results = $mysqli->query($sql);
+		if($results){
+		    //print 'Success! record updated / deleted'; 
+		    $result['state'] = 'success';
+		}else{
+		    //print 'Error : ('. $mysqli->errno .') '. $mysqli->error;
+		    $result['state'] = 'err';
 		}
-		$res = mysql_query($sql);
-		mysql_close($con);
-		$result['state'] = 200;
+		// close connection 
+		$mysqli->close();
 		die(json_encode($result));
 	}
 ?>

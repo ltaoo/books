@@ -242,3 +242,48 @@ adminStore.returnBook = param => {
 		}
 	})
 }
+
+//还书，更新records的returnTime字段
+adminStore.updateMember = param => {
+	return new Promise(function(resolve, reject){
+		//判断条件是否存在或者是否合法
+		if(param) {
+			Vue.http.options.emulateJSON = true;
+			Vue.http.post('./service/getMembers.service.php?action=update', param).then(res => {
+				resolve(res.data)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
+//添加新会员
+adminStore.addMember = postData => {
+	//console.log(postData)
+	return new Promise(function(resolve, reject){
+		if(postData){
+			Vue.http.options.emulateJSON = true;
+			Vue.http.post('./service/addMember.service.php', postData).then(res => {
+				resolve(res)
+			}).catch(err => {
+				reject(err)
+			})
+		}else{
+			reject('postData is empty');
+		}
+	})
+}
+
+adminStore.deleteMember = memberId => {
+	return new Promise((resolve, reject) => {
+		if(memberId){
+			Vue.http.get('./service/getMembers.service.php?action=delete&memberId=' + memberId).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
