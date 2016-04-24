@@ -6,6 +6,29 @@
 	//获取书籍列表
 	if($action == 'getBookList'){
 		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, 
+		(select count(*) from records where records.bookId = books.bookId) as borrowTimes,
+		(select count(*) from records where records.bookId = books.bookId and returnTime = 0000-00-00) as returnTime
+		from books order by borrowTimes desc";
+		//$sql = "select * from books ";
+		$results = $mysqli->query($sql);
+		$books = array();
+		while ($row = $results->fetch_assoc()) {
+			$book = array(
+				'bookId' => $row['bookId'],
+				'bookTitle' => $row['bookTitle'],
+				'bookIsbn' => $row['bookIsbn'],
+				'bookPrice' => $row['bookPrice'],
+				'borrowTimes' => $row['borrowTimes'],
+				'returnTime' => $row['returnTime'],
+				'bookSummary' => $row['bookSummary'],
+				'bookImg' => $row['bookImg']
+			);
+			$books[] = $book;
+		}
+		$mysqli->close();
+		die(json_encode($books));
+	}elseif($action == 'index'){
+		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, 
 		(select count(*) from records where records.bookId = books.bookId) as borrowTimes 
 		from books order by borrowTimes desc";
 		$results = $mysqli->query($sql);

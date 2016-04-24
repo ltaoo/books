@@ -3,6 +3,10 @@ import goodsdetail from './components/goodsDetail.vue'
 import login from './components/login.vue'
 
 import user from './components/user/index.vue'
+import info from './components/user/userInfo.vue';
+import records from './components/user/userRecords.vue';
+import address from './components/user/userAddress.vue';
+
 import cart from './components/cart/index.vue'
 import order from './components/order/index.vue'
 //后台页面
@@ -32,7 +36,21 @@ export default function(router) {
 		'/user' :{
 			name: 'user',
 			component: user,
-			auth: true
+			auth: true,
+			subRoutes: {
+	      '/info': {
+	        // 当匹配到/foo/bar时，会在Foo's <router-view>内渲染
+	        // 一个Bar组件
+	        component: info
+	      },
+	      '/records': {
+	        // Baz也是一样，不同之处是匹配的路由会是/foo/baz
+	        component: records
+	      },
+	      '/address': {
+	      	component: address
+	      }
+	    }
 		},
 		//购物车页面
 		'/cart': {

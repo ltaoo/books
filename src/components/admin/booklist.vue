@@ -92,6 +92,11 @@
 			},
 			addBook: function(book){
 				//这里通过接口保存到数据库中
+				//先将数字提取出来。
+				book.price = parseInt(book.price.match(/[1-9]\d*\.*\d*/g)[0]);
+				//console.log(book.price);
+
+				book.price = parseInt(book.price);
 				Admin.addBook(book).then(res => {
 					console.log(res);
 					if(res.data.bookId){

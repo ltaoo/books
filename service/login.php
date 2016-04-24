@@ -2,7 +2,7 @@
 	//content-type:text/html;charset=utf8
 	header('content-type:text/html;charset=utf8');
 	//连接数据库
-	include_once('public/connectDb.php');
+	include_once('public/mysqliConnect.php');
 	//获取用户信息
 	$username = $_POST['username'];
 	$password = $_POST['password'];

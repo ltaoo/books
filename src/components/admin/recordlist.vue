@@ -34,7 +34,7 @@
           <td>{{record.borrowTime}}</td>
           <td>{{record.returnTime | returnFilter record.borrowTime record.memberRank}}</td>
         </tr>
-      </tale>
+      </table>
     </div>
 	</div>
 </template>

@@ -28,7 +28,7 @@ router.redirect({
 router.beforeEach(function(transition){
 	if(transition.to.auth){
 		//用户登录验证
-		if(localStorage.userId){
+		if(localStorage.userid){
 			transition.next()
 		}else{
 			//先记录当前url，作为参数传递给login页面，login成功后可以返回登录前页面。

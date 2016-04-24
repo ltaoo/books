@@ -40,7 +40,7 @@
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'searchByBookId'){
-		//根据书籍isbn码查询记录
+		//根据书籍id码查询记录
 		$bookId = $_REQUEST['bookId'];
 		$sql = "select * from records
 		where bookId = '$bookId' and returnTime = '0000-00-00'";
@@ -211,6 +211,108 @@
 			$result['state'] = 200;
 			$result['data'] = $records;
 		}
+		$mysqli->close();
+		die(json_encode($result));
+	}elseif($action == 'searchRecordByMemberId'){
+		$result = array();
+		//根据会员学号查询记录
+		$memberId = $_REQUEST['memberId'];
+		$sql = "select * from records, books, members 
+		where records.bookId = books.bookId and records.memberId = members.memberId and members.memberId = '$memberId'";
+		$results = $mysqli->query($sql);
+		//如果查询执行不正确则返回false
+		if(!$results){
+			die(json_encode($result['state']=500));
+		}
+		$records = array();
+		while($row = $results->fetch_assoc()){
+			//var_dump($row);
+			$record = array(
+				'recordId' => $row['recordId'],
+				'returnTime' => $row['returnTime'],
+				'memberId' => $row['memberId'],
+				'memberNum' => $row['memberNum'],
+				'memberName' => $row['memberName'],
+				'memberRank' => $row['memberRank'],
+				'memberCreateTime' => $row['memberCreateTime'],
+				'bookId' => $row['bookId'],
+				'bookIsbn' => $row['bookIsbn'],
+				'bookTitle' => $row['bookTitle'],
+				'bookImg' => $row['bookImg'],
+				'borrowTime' => $row['borrowTime']
+			);
+			$records[] = $record;
+		}
+		if(count($records) == 0){
+			$result['state'] = 404;
+		}else{
+			$result['state'] = 200;
+			$result['data'] = $records;
+		}
+		$mysqli->close();
+		die(json_encode($result));
+	}elseif($action == 'searchByMemberId'){
+		$result = array();
+		//根据会员学号查询记录
+		$memberId = $_REQUEST['memberId'];
+		/*$sql = "select * from records, books, members
+		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and members.memberId = '$memberId'";*/
+		$sql = "select bookTilte
+		from books where books.bookId = (select bookId from records where records.memberId = '$memberId')";
+		//先从records中查询是否存在借阅记录
+		$sql = "select * from records where records.memberId = '$memberId' and records.returnTime = 0000-00-00";
+		$results = $mysqli->query($sql);
+		//如果查询执行不正确则返回false
+		if(!$results){
+			die(json_encode($result['state']=500));
+		}
+		//$records = array();
+		$row = $results->fetch_row();
+		//var_dump($row);
+		if($row){
+			//如果查询到记录
+			$sql = "select * from records, books, members 
+			where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and members.memberId = '$memberId'";
+			$results = $mysqli->query($sql);
+			$row = $results->fetch_row();
+			//var_dump($row);
+			//exit;
+			/*$record = array(
+				'recordId' => $row['recordId'],
+				'memberId' => $row['memberId'],
+				'memberNum' => $row['memberNum'],
+				'memberName' => $row['memberName'],
+				'memberRank' => $row['memberRank'],
+				'memberCreateTime' => $row['memberCreateTime'],
+				'bookId' => $row['bookId'],
+				'bookIsbn' => $row['bookIsbn'],
+				'bookTitle' => $row['bookTitle'],
+				'bookImg' => $row['bookImg'],
+				'borrowTime' => $row['borrowTime']
+			);*/
+			$record = array(
+				'recordId' => $row[0],
+				'memberId' => $row[11],
+				'memberNum' => $row[13],
+				'memberName' => $row[12],
+				'memberRank' => $row[16],
+				'memberCreateTime' => $row[17],
+				'bookId' => $row[5],
+				'bookIsbn' => $row[7],
+				'bookTitle' => $row[6],
+				'bookImg' => $row[10],
+				'borrowTime' => $row[3]
+			);
+			$result['state'] = 200;
+			$result['data'] = $record;
+		}else{
+			//没有正在借阅的借阅记录
+			$result['mes'] = "empty";
+		}
+		/*while($row = $results->fetch_assoc()){
+			var_dump($row);
+		}
+		exit;*/
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'update'){
