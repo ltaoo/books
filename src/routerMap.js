@@ -1,6 +1,7 @@
 import index from './components/index.vue'
 import goodsdetail from './components/goodsDetail.vue'
 import login from './components/login.vue'
+import tips from './components/tips.vue';
 
 import user from './components/user/index.vue'
 import info from './components/user/userInfo.vue';
@@ -61,6 +62,11 @@ export default function(router) {
 		'/order': {
 			name: 'order',
 			component: order
+		},
+		//下单成功提示页
+		'/success': {
+			name: 'orderSuccess',
+			component: tips
 		},
 		//用户登录页
 		'/login': {

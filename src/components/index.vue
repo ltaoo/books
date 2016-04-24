@@ -19,37 +19,16 @@
 				<hr>
 				<p>商品数量：<span>{{sumNum}}</span></p>
 				<p>总价：<span>{{sumPrice}}</span></p>
-				<button class="btn btn-default" v-on:click="count = !count">结算</button>
-			</div>
-			<div class="col-xs-3" v-show="count">
-				<h3>结算</h3>
-				<span v-on:click="count = !count">返回修改购物车</span>
-				<hr>
-				<h4>总价格：<span>{{sumPrice}}</span></h4>
-				<form action="" class="form-horizontal">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="请输入收货人">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="请输入收货地址">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="请输入联系方式">
-					</div>
-					<div class="form-group">
-						<button class="btn btn-default" v-on:click="count()">确认提交订单</button>
-						<!--点击提交订单后，弹出提示购买成功，查看订单或继续购物，怎么提示？-->
-					</div>
-				</form>
+				<a v-link="{ path: '/order' }">结算</a>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import store from '../store/index.js'
+	import store from '../store/index.js';
 	//加载组件
-	import book from './index/book.vue'
+	import book from './index/book.vue';
 
 	export default {
 		name: 'Index',
@@ -113,6 +92,9 @@
 						alert('已经在购物车内');
 					}
 				}
+			},
+			createOrder: function(){
+				this.cartList = [];
 			}
 		},
 		computed: {
@@ -122,7 +104,7 @@
 				for (let i = 0, len = this.cartList.length ; i < len; i++) {
 					//获取购买数量
 					let price = this.cartList[i].bookPrice;
-					sum += parseInt(price);
+					sum += parseFloat(price);
 				}
 				console.log(sum);
 				return sum;

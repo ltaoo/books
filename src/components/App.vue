@@ -1,6 +1,7 @@
 <template>
   <ul class="nav">
     <li><a v-link="{ path: '/index' }">主页</a></li>
+    <li><a v-link="{ path: '/order' }">订单结算</a></li>
     <li><a v-link="{ path: '/user/info' }">用户主页</a></li>
     <li><a v-link="{ path: '/admin' }">后台</a></li>
     <li><a v-link="{ path: '/return' }">还书</a></li>

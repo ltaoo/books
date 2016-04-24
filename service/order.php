@@ -52,47 +52,30 @@
 		$mysqli->close();
 		die(json_encode($result));
 	}
-	if($action == "addCart"){
-		$cartSession = $_POST['cartsession'];
-		$bookId = $_POST['bookId'];
-		$bookTitle = $_POST["bookTitle"];
-		$bookPrice = $_POST['bookPrice'];
+	if($action == "createOrder"){
+		$memberId = $_POST['memberId'];
+		$booklist = $_POST["booklist"];
+		$message = $_POST['message'];
+
 		//写入数据库
-		$sql = "INSERT INTO `cart`
-				(`bookTitle`, `bookId`, `bookPrice`, `cartSession`) 
+		$sql = "INSERT INTO `orders`
+				(`memberId`, `booklist`, `message`, `orderState`) 
 				VALUES 
-				('$bookTitle', '$bookId', '$bookPrice', '$cartSession')";
+				('$memberId', '$booklist', '$message', 0)";
 		$insert_row = $mysqli->query($sql);
 		//var_dump($insert_row);
 		//如果添加成功，$results为true
+		//var_dump($insert_row);
 		if($insert_row){
 		    //print 'Success! ID of last inserted record is : ' .$mysqli->insert_id .'<br />'; 
-		    $cartId = $mysqli->insert_id;
+		    $orderId = $mysqli->insert_id;
 		    //这个地方只要返回成功后的id就可以，查询就交给查询接口。
-		    $result = array();
 		    $result['state'] = 'success';
-		    $result['cartId'] = $cartId;
+		    $result['orderId'] = $orderId;
 		}else{
 		    //die('Error : ('. $mysqli->errno .') '. $mysqli->error);
 		    $result['state'] = $mysqli->error;
 		}
-		$mysqli->close();
-		die(json_encode($result));
-	}
-	//从购物车中移除商品
-	if($action == "emptyCart"){
-		$cartSession = $_REQUEST['cartSession'];
-		//写入数据库
-		$sql = 'DELETE FROM `cart` WHERE `cartSession` =' . $cartSession;
-		$results = $mysqli->query($sql);
-		if($results){
-		    //print 'Success! record updated / deleted'; 
-		    $result['state'] = 'success';
-		}else{
-		    //print 'Error : ('. $mysqli->errno .') '. $mysqli->error;
-		    $result['state'] = 'err';
-		}
-		// close connection 
 		$mysqli->close();
 		die(json_encode($result));
 	}

@@ -86,3 +86,31 @@ bookStore.delete = obj =>{
 		})
 	})
 }
+//生成订单
+bookStore.createOrder = post => {
+	return new Promise((resolve, reject) => {
+		Vue.http.options.emulateJSON = true;
+		Vue.http.post('./service/order.php?action=createOrder', post).then(res => {
+			if(res.data.state == 'success') {
+				//如果添加成功
+				resolve(res.data);
+			}else{
+				reject(res);
+			}
+		}).catch(err => {
+			reject(err);
+		})
+	})
+}
+//清空购物车
+bookStore.emptyCart = cartSession => {
+	return new Promise((resolve, reject) => {
+		if(cartSession){
+			Vue.http.get('./service/cart.php?action=emptyCart&cartSession=' + cartSession).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
