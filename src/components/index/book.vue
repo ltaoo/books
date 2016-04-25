@@ -1,11 +1,12 @@
 <template>
 	<div class="col-xs-12 sale">
 		<img v-bind:src="book.bookImg" alt="">
+		<span class="label">{{computedState}}</span>
 		<div class="info">
 			<h4><a v-link = "{ path: '/goods/' + book.bookId}">{{book.bookTitle}}</a></h4>
 			<p>ISBN：<span>{{book.bookIsbn}}</span></p>
-			<p>被借阅次数：<span>{{book.borrowTimes}}</span></p>
-			<p>原价：<del>{{book.bookPrice}}</del>  现价：<span>{{book.bookPrice | sumPriceByBorrowTimes book.borrowTimes}}</span></p>
+			<p>被借阅次数：<span>{{book.borrowTimes}}</span>  |上架日期：<span>{{book.createTime}}</span></p>
+			<p>原价：<del>{{book.bookPrice}}</del>  |现价：<span>{{book.bookPrice | sumPriceByBorrowTimes book.borrowTimes book.createTime}}</span></p>
 			<template v-if="book.returnTime | isBorrow">
 				<button class="btn btn-default">立即购买</button>
 				<button class="btn btn-default" v-on:click="addCart(book)">加入购物车</button>
@@ -47,6 +48,10 @@
 				var loss = value*0.1;
 				var price = value-(times*loss);
 				var number = price.toFixed(1);
+				//如果是特价书籍，直接以3折出售
+				/*if(this.computedState == '特价') {
+
+				}*/
 
 				number = String.prototype.split.call(number, '.');
 				//console.log(c);
@@ -62,6 +67,26 @@
 			}
 		},
 		computed: {
+			computedState: function(){
+				//根据书籍上架时间分为新品、特价两种
+				//获取到当前时间
+				var nowDate = new Date();
+				var nowDate = nowDate.toLocaleDateString();
+				var first = Date.parse(nowDate);
+				var second = Date.parse(this.book.createTime);
+
+				//var cha = nowDate.getmilliseconds() - this.book.createTime.getmilliseconds();
+				//判断时间差，一周内的属于新上架
+				var day = (first-second)/86400000;
+				if(day.toFixed() < 8) {
+					return '新上架';
+				}
+				for(var i = 1;i < 3; i++) {
+				  if(day.toFixed() > 30*i && this.book.borrowTimes < 3*i) {
+				    return '特价';
+				  }
+				}
+			}
 		},
 		filters: {
 			isBorrow: function(value) {
@@ -91,5 +116,13 @@
 		padding-right: 10px;
 		border: 1px solid #eee;
 		margin-right: 20px;
+		position: relative;
+	}
+	.label{
+		position: absolute;
+	  background: red;
+	  color: #fff;
+	  top: 4px;
+	  left: 95px;
 	}
 </style>

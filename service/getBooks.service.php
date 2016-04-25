@@ -5,7 +5,7 @@
 	$action = $_REQUEST['action'];
 	//获取书籍列表
 	if($action == 'getBookList'){
-		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, bookState, 
+		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, bookState, createTime,
 		(select count(*) from records where records.bookId = books.bookId) as borrowTimes,
 		(select count(*) from records where records.bookId = books.bookId and returnTime = 0000-00-00) as returnTime
 		from books order by borrowTimes desc";
@@ -22,7 +22,8 @@
 				'returnTime' => $row['returnTime'],
 				'bookSummary' => $row['bookSummary'],
 				'bookState' => $row['bookState'],
-				'bookImg' => $row['bookImg']
+				'bookImg' => $row['bookImg'],
+				'createTime' => $row['createTime']
 			);
 			$books[] = $book;
 		}
@@ -97,7 +98,7 @@
 		}
 		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, 
 		(select borrowTime from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as borrowTime
-		from books where bookTitle like '%" . $bookName . "%'";
+		from books where bookState = 0 and bookTitle like '%" . $bookName . "%'";
 		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
 		if (!$results){

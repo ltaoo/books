@@ -85,11 +85,6 @@
         })
       }
     },
-    computed: {
-      fetchBookList: ()=>{
-        //根据booklist获取商品列表
-      }
-    },
     methods: {
       confirmOrder: (obj)=>{
         //更新订单状态为已确认

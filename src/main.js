@@ -50,4 +50,5 @@ router.beforeEach(function(transition){
 })
 //加载配置路由
 routerMap(router)
+//开始
 router.start(App, '#app')

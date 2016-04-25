@@ -11,9 +11,9 @@
 	$bookImg = $_POST['images']['medium'];
 	$createTime = date('Y-m-d');
 	$sql = "INSERT INTO `books`
-		(`bookTitle`, `bookIsbn`, `bookPrice`, `bookSummary`, `bookImg`) 
+		(`bookTitle`, `bookIsbn`, `bookPrice`, `bookSummary`, `bookImg`, `createTime) 
 		VALUES 
-		('$bookTitle', '$bookIsbn', '$bookPrice', '$bookSummary', '$bookImg')";
+		('$bookTitle', '$bookIsbn', '$bookPrice', '$bookSummary', '$bookImg', '$createTime')";
 	$insert_row = $mysqli->query($sql);
 	//var_dump($insert_row);
 	//如果添加成功，$results为true

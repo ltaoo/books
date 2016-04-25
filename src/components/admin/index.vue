@@ -153,7 +153,9 @@
 								this.showInfo = true
 							}else{
 								console.log(resp)
+								//如果查询到的bookState != 0 ，就不能借阅
 								//获取到数据后传递给父组件
+								
 								this.bookList = resp.data
 							}
 						})
