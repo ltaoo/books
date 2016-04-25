@@ -1,15 +1,15 @@
 <template>
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-9">
+			<div class="col-xs-8">
 				<div class="row">
-					<book v-for="book in booksList" v-bind:book="book"></book>
+					<book v-for="book in booksList | fetchNotSale" v-bind:book="book"></book>
 				</div>
 			</div>
-			<div class="col-xs-3" v-show="cartList.length == 0">
+			<div class="col-xs-4" v-show="cartList.length == 0">
 				<h3>购物车内没有商品</h3>
 			</div>
-			<div class="col-xs-3" v-show="cartList.length !== 0 && count == false">
+			<div class="col-xs-4" v-show="cartList.length !== 0 && count == false">
 				<h3>购物车</h3>
 				<hr>
 				<div v-for="book in cartList" track-by="$index">
@@ -94,6 +94,7 @@
 				}
 			},
 			createOrder: function(){
+				//清空购物车
 				this.cartList = [];
 			}
 		},
@@ -115,6 +116,7 @@
 		},
 		methods: {
 			delete: function(obj, index){
+				obj.cartSession = localStorage.cartSession;
 				store.delete(obj).then(res=>{
 					console.log(res);
 					if(res.state == 'success'){

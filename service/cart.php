@@ -79,7 +79,25 @@
 		$mysqli->close();
 		die(json_encode($result));
 	}
-	//从购物车中移除商品
+	//从购物车中移除指定
+	if($action == "delete"){
+		$cartSession = $_REQUEST['cartSession'];
+		$bookId = $_REQUEST['bookId'];
+		//写入数据库
+		$sql = "DELETE FROM `cart` WHERE `cartSession`='$cartSession' and `bookId` = '$bookId'";
+		$results = $mysqli->query($sql);
+		if($results){
+		    //print 'Success! record updated / deleted'; 
+		    $result['state'] = 'success';
+		}else{
+		    //print 'Error : ('. $mysqli->errno .') '. $mysqli->error;
+		    $result['state'] = 'err';
+		}
+		// close connection 
+		$mysqli->close();
+		die(json_encode($result));
+	}
+	//从购物车中移除所有商品
 	if($action == "emptyCart"){
 		$cartSession = $_REQUEST['cartSession'];
 		//写入数据库

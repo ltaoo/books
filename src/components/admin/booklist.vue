@@ -13,6 +13,7 @@
 				<th>书籍ISBN码</th>
 				<th>书籍价格</th>
 				<th>借阅次数</th>
+				<th>书籍状态</th>
 				<th>书籍封面</th>
 				<th>操作</th>
 			</tr>
@@ -22,6 +23,7 @@
 				<td>{{book.bookIsbn}}</td>
 				<td>{{book.bookPrice}}</td>
 				<td>{{book.borrowTimes}}</td>
+				<td>{{book.bookState}}</td>
 				<td>{{book.bookImg}}</td>
 				<td>
 					<a @click="deleteBook(book.bookId, $index)">删除</a> 

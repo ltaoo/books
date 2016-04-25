@@ -4,6 +4,7 @@
 			<h3>用户主页</h3>
       <li><a v-link="{ path: '/user/info' }">用户信息</a></li>
       <li><a v-link="{ path: '/user/records' }">借阅记录</a></li>
+      <li><a v-link="{ path: '/user/order' }">查看订单</a></li>
       <li><a v-link="{ path: '/user/address' }">收货地址管理</a></li>
     </div>
     <hr>

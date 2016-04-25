@@ -5,8 +5,9 @@ import Router from 'vue-router'
 import routerMap from'./routerMap.js'
 //引入过滤器
 import {rank, sumDaysByRank, sumCanBorrow, sumRank } from './filters/admin.js';
+import {fetchNotSale, sumPriceByBorrowTimes, orderState } from './filters/index.js';
 
-import App from './components/App.vue'
+import App from './components/App.vue';
 //用户验证
 import userAuthentication from './store/authentication.js'
 
@@ -16,6 +17,9 @@ Vue.filter('rank', rank)
 Vue.filter('sumDaysByRank', sumDaysByRank)
 Vue.filter('sumCanBorrow', sumCanBorrow)
 Vue.filter('sumRank', sumRank);
+Vue.filter('fetchNotSale', fetchNotSale);
+Vue.filter('sumPriceByBorrowTimes', sumPriceByBorrowTimes);
+Vue.filter('orderState', orderState);
 
 var router = new Router()
 

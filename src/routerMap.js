@@ -6,6 +6,7 @@ import tips from './components/tips.vue';
 import user from './components/user/index.vue'
 import info from './components/user/userInfo.vue';
 import records from './components/user/userRecords.vue';
+import userOrder from './components/user/userOrder.vue';
 import address from './components/user/userAddress.vue';
 
 import cart from './components/cart/index.vue'
@@ -48,6 +49,9 @@ export default function(router) {
 	        // Baz也是一样，不同之处是匹配的路由会是/foo/baz
 	        component: records
 	      },
+      	'/order': {
+      		component: userOrder
+      	},
 	      '/address': {
 	      	component: address
 	      }

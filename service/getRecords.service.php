@@ -274,10 +274,10 @@
 			$sql = "select * from records, books, members 
 			where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and members.memberId = '$memberId'";
 			$results = $mysqli->query($sql);
-			$row = $results->fetch_row();
+			$row = $results->fetch_assoc();
 			//var_dump($row);
 			//exit;
-			/*$record = array(
+			$record = array(
 				'recordId' => $row['recordId'],
 				'memberId' => $row['memberId'],
 				'memberNum' => $row['memberNum'],
@@ -289,19 +289,6 @@
 				'bookTitle' => $row['bookTitle'],
 				'bookImg' => $row['bookImg'],
 				'borrowTime' => $row['borrowTime']
-			);*/
-			$record = array(
-				'recordId' => $row[0],
-				'memberId' => $row[11],
-				'memberNum' => $row[13],
-				'memberName' => $row[12],
-				'memberRank' => $row[16],
-				'memberCreateTime' => $row[17],
-				'bookId' => $row[5],
-				'bookIsbn' => $row[7],
-				'bookTitle' => $row[6],
-				'bookImg' => $row[10],
-				'borrowTime' => $row[3]
 			);
 			$result['state'] = 200;
 			$result['data'] = $record;

@@ -35,6 +35,7 @@
 <script>
   import store from '../../store/index.js';
   import adminstore from '../../store/admin.js';
+  import common from '../../store/common.js';
   //
   import Router from 'vue-router';
   export default {
@@ -51,7 +52,7 @@
         console.log('cartSession：' + localStorage.cartSession);
         if(!localStorage.cartSession){
           var router = new Router();
-          router.go({path: '/index'});
+          router.replace({path: '/index'});
         }
         //通过userid查找购物车记录
         //购物车列表
@@ -82,9 +83,9 @@
         for (let i = 0, len = this.cartList.length ; i < len; i++) {
           //获取购买数量
           let price = this.cartList[i].bookPrice;
-          sum += parseInt(price);
+          sum += parseFloat(price);
         }
-        console.log(sum);
+        //console.log(sum);
         return sum;
       },
       sumNum () {
@@ -111,14 +112,20 @@
           //生成订单成功，清空购物车
           store.emptyCart(localStorage.cartSession).then(res=>{
             console.log(res);
-            //跳转地址
-            //移除localStorage
-            localStorage.removeItem('cartSession');
-            var router = new Router();
-            router.go({path: '/success'});
+            //更新书籍状态为已出售
+            bookList.forEach(bookId=>{
+              common.updateBookState(bookId, 1).then(res=>{
+                //console.log()
+                //跳转地址
+                //移除localStorage
+                localStorage.removeItem('cartSession');
+                var router = new Router();
+                router.replace({path: '/success'});
+              })
+            })
           }).catch(err=>{
             console.log(err);
-          })
+          });
         }).catch(err =>{
           console.log(err);
         })

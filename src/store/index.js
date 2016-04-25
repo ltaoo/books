@@ -76,10 +76,11 @@ bookStore.addCart = obj => {
 		})
 	})
 }
-//从购物车中移除
+//从购物车中移除指定商品，还要确定是移除了该用户的，所以还要传入cartSession
 bookStore.delete = obj =>{
 	return new Promise((resolve, reject) => {
-		Vue.http.get('./service/cart.php?action=delete&bookId=' + obj.bookId).then(res=>{
+		Vue.http.options.emulateJSON = true;
+		Vue.http.get('./service/cart.php?action=delete&cartSession='+obj.cartSession+'&bookId='+obj.bookId).then(res=>{
 			resolve(res.data);
 		}).catch(err=>{
 			reject(err);
@@ -107,6 +108,18 @@ bookStore.emptyCart = cartSession => {
 	return new Promise((resolve, reject) => {
 		if(cartSession){
 			Vue.http.get('./service/cart.php?action=emptyCart&cartSession=' + cartSession).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
+//根据会员id查询订单列表
+bookStore.fetchOrderList = memberId => {
+	return new Promise((resolve, reject) =>{
+		if(memberId) {
+			Vue.http.get('./service/order.php?action=list&memberId=' + memberId).then(res=>{
 				resolve(res.data);
 			}).catch(err=>{
 				reject(err);

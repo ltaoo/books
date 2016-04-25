@@ -5,63 +5,19 @@
 	//数据赋值
 	$action = $_REQUEST['action'];
 	//获取购物车商品信息，get请求获取数据，但是要带参数cartSession，
-	if($action == "list") {
-		$cartSession = $_REQUEST['cartSession'];
-		$sql = "select * from cart where cartSession=" . $cartSession;
-		$results = $mysqli->query($sql);
-		/*
-			object(mysqli_result)[2]
-			  public 'current_field' => null
-			  public 'field_count' => null
-			  public 'lengths' => null
-			  public 'num_rows' => null
-			  public 'type' => null
-		*/
-		//如果结果集为空，会返回false，如果结果集不为空，则返回一个对象。
-		//echo '是否查询成功还是是否有结果集，看看返回的是什么值：';
-		//var_dump($results);
-		//exit;
-		//var_dump($results);
-		//var_dump($results->fetch_row());
-		if($results === false){
-			//如果结果集为空
-			$result['state'] = 'err';
-			die(json_encode($result));
-		}else{
-			$cart = array();
-			while($row = $results->fetch_assoc()) {
-			    $temp = array(
-			    	'cartId' => $row['id'],
-			    	'bookId' => $row['bookId'],
-			    	'bookPrice' => $row['bookPrice'],
-			    	'bookTitle' => $row['bookTitle']
-			    );
-			    $cart[] = $temp;
-			}
-			$result['state'] = 200;
-			$result['data'] = $cart;
-		}
-		if(count($result['data']) == 0) {
-			//如果没有记录
-			$result['msg'] = 'empty';
-		}
-		//var_dump($cart);
-		// Frees the memory associated with a result
-		$results->free();
-		// close connection 
-		$mysqli->close();
-		die(json_encode($result));
-	}
+	
+	//新增订单
 	if($action == "createOrder"){
 		$memberId = $_POST['memberId'];
 		$booklist = $_POST["booklist"];
 		$message = $_POST['message'];
-
+		//创建时间
+		$createTime = date('Y/m/d');
 		//写入数据库
 		$sql = "INSERT INTO `orders`
-				(`memberId`, `booklist`, `message`, `orderState`) 
+				(`memberId`, `booklist`, `message`, `orderState`, `createTime`) 
 				VALUES 
-				('$memberId', '$booklist', '$message', 0)";
+				('$memberId', '$booklist', '$message', 0, 'createTime')";
 		$insert_row = $mysqli->query($sql);
 		//var_dump($insert_row);
 		//如果添加成功，$results为true
@@ -79,12 +35,81 @@
 		$mysqli->close();
 		die(json_encode($result));
 	}
-	//更新购物车，修改记录
-	if($action == "update"){
-		var_dump($_POST);
-		$id = $_POST['cartId'];
-		$goodsNum = $_POST['cartNum'];
-		$sql = "UPDATE cart SET goodsNum=" . $goodsNum ." WHERE id= " .$id;
+	//根据用户id查询所有订单记录
+	elseif($action == "list") {
+		$memberId = $_REQUEST['memberId'];
+		$sql = "select * from orders where memberId= '$memberId'";
+		$results = $mysqli->query($sql);
+		$result = array();
+		if($results === false){
+			//如果结果集为空
+			$result['state'] = 'err';
+		}else{
+			$orders = array();
+			while($row = $results->fetch_assoc()) {
+			    $temp = array(
+			    	'orderId' => $row['orderId'],
+			    	'memberId' => $row['memberId'],
+			    	'booklist' => $row['booklist'],
+			    	'message' => $row['message'],
+			    	'orderState' => $row['orderState']
+			    );
+			    $orders[] = $temp;
+			}
+			$result['state'] = 200;
+			$result['data'] = $orders;
+		}
+		//var_dump($result);
+		if(count($result['data']) == 0) {
+			//如果没有记录
+			$result['msg'] = 'empty';
+		}
+		//var_dump($cart);
+		// Frees the memory associated with a result
+		$results->free();
+		// close connection 
+		$mysqli->close();
+		die(json_encode($result));
+	}
+	elseif($action == "fetchList") {
+		$sql = "select * from orders";
+		$results = $mysqli->query($sql);
+		$result = array();
+		if($results === false){
+			//如果结果集为空
+			$result['state'] = 'err';
+		}else{
+			$orders = array();
+			while($row = $results->fetch_assoc()) {
+			    $temp = array(
+			    	'orderId' => $row['orderId'],
+			    	'memberId' => $row['memberId'],
+			    	'booklist' => $row['booklist'],
+			    	'message' => $row['message'],
+			    	'orderState' => $row['orderState']
+			    );
+			    $orders[] = $temp;
+			}
+			$result['state'] = 200;
+			$result['data'] = $orders;
+		}
+		//var_dump($result);
+		if(count($result['data']) == 0) {
+			//如果没有记录
+			$result['msg'] = 'empty';
+		}
+		//var_dump($cart);
+		// Frees the memory associated with a result
+		$results->free();
+		// close connection 
+		$mysqli->close();
+		die(json_encode($result));
+	}
+	//确认订单
+	elseif($action == 'confirmOrder') {
+		$orderId = $_REQUEST['orderId'];
+		$sql = "UPDATE `orders` 
+			SET `orderState`= 1 WHERE `orderId`=" . $orderId;
 		$results = $mysqli->query($sql);
 
 		//MySqli Delete Query
@@ -100,34 +125,26 @@
 		// close connection 
 		$mysqli->close();
 		die(json_encode($result));
-
 	}
-
-	//根据商品名称查询购物车对应记录id
-	if($action == 'find') {
-		$goodsName = $_REQUEST['goodsName'];
-		$sql = "select id, goodsNum from cart where goodsName='" . $goodsName . "'";
+	//取消订单
+	elseif($action == 'cancelOrder') {
+		$orderId = $_REQUEST['orderId'];
+		$sql = "UPDATE `orders` 
+			SET `orderState`= 2 WHERE `orderId`=" . $orderId;
 		$results = $mysqli->query($sql);
-		if($results === false){
-			//如果结果集为空
-			$result['state'] = 'err';
-		}else{
-			$cart = array();
-			while($row = $results->fetch_assoc()) {
-			    $cart = array(
-			    	'cartId' => $row['id'],
-			    	'goodsNum' => $row['goodsNum']
-			    );
-			}
-			$result['state'] = 'success';
-			$result['data'] = $cart;
-		}
-		//var_dump($cart);
-		// Frees the memory associated with a result
 
-		die(json_encode($result));
-		$results->free();
+		//MySqli Delete Query
+		//$results = $mysqli->query("DELETE FROM products WHERE ID=24");
+
+		if($results){
+		    //print 'Success! record updated / deleted'; 
+		    $result['state'] = 'success';
+		}else{
+		    //print 'Error : ('. $mysqli->errno .') '. $mysqli->error;
+		    $result['state'] = 'err';
+		}
 		// close connection 
 		$mysqli->close();
+		die(json_encode($result));
 	}
 ?>

@@ -365,3 +365,37 @@ adminStore.getRecordList = () => {
 		})
 	})
 }
+//获取所有订单
+adminStore.fetchOrderList = () =>{
+	return new Promise((resolve, reject) => {
+		Vue.http.get('./service/order.php?action=fetchList').then(res=>{
+			resolve(res.data);
+		}).catch(err=>{
+			reject(err);
+		})
+	})
+}
+//确认订单
+adminStore.confirmOrder = orderId => {
+	return new Promise((resolve, reject)=>{
+		if(orderId) {
+			Vue.http.get('./service/order.php?action=confirmOrder&orderId=' + orderId).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
+//取消订单
+adminStore.cancelOrder = orderId => {
+	return new Promise((resolve, reject)=>{
+		if(orderId) {
+			Vue.http.get('./service/order.php?action=cancelOrder&orderId=' + orderId).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
