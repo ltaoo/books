@@ -51,3 +51,16 @@ export function fetchNotSale(array) {
   });
   return newArray;
 }
+//过滤评论用户名显示
+export function hiddenName (value) {
+  if(value) {
+    var len = value.length;
+    var firstName = value.charAt(0);
+    var x = '';
+    for(var n = 1; n < len; n++) {
+      x += 'X';
+    }
+    return firstName + x;
+  }
+  return value;
+}

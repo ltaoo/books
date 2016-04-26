@@ -17,7 +17,7 @@
 		$sql = "INSERT INTO `orders`
 				(`memberId`, `booklist`, `message`, `orderState`, `createTime`) 
 				VALUES 
-				('$memberId', '$booklist', '$message', 0, 'createTime')";
+				('$memberId', '$booklist', '$message', 0, '$createTime')";
 		$insert_row = $mysqli->query($sql);
 		//var_dump($insert_row);
 		//如果添加成功，$results为true

@@ -127,3 +127,43 @@ bookStore.fetchOrderList = memberId => {
 		}
 	})
 }
+//添加评论
+bookStore.addComment = post => {
+	return new Promise((resolve, reject) => {
+		Vue.http.options.emulateJSON = true;
+		Vue.http.post('./service/comment.php?action=addComment', post).then(res => {
+			if(res.data.state == 'success') {
+				//如果添加成功
+				resolve(res.data);
+			}else{
+				reject(res);
+			}
+		}).catch(err => {
+			reject(err);
+		})
+	})
+}
+//获取评论列表
+bookStore.fetchComment = bookIsbn => {
+	return new Promise((resolve, reject) =>{
+		if(bookIsbn) {
+			Vue.http.get('./service/comment.php?action=list&bookIsbn=' + bookIsbn).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
+//根据commentId查询
+bookStore.fetchById = id => {
+	return new Promise((resolve, reject) =>{
+		if(id) {
+			Vue.http.get('./service/comment.php?action=fetchById&commentId=' + id).then(res=>{
+				resolve(res.data);
+			}).catch(err=>{
+				reject(err);
+			})
+		}
+	})
+}
