@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --no-info",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "dev": "node build/dev-server.js",
+    "build": "node build/build.js"
   },
   "author": "litao",
   "license": "MIT",
@@ -23,7 +23,19 @@
     "vue-loader": "^8.0.0",
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-middleware": "^1.9.0",
+    "webpack-hot-middleware": "^2.15.0",
+    "webpack-merge": "^2.3.1",
+    "shelljs": "^0.7.6",
+    "eventsource-polyfill": "^0.9.6",
+    "express": "^4.14.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "friendly-errors-webpack-plugin": "^1.1.2",
+    "html-webpack-plugin": "^2.26.0",
+    "http-proxy-middleware": "^0.17.3",
+    "json-loader": "^0.5.4",
+    "opn": "^4.0.2",
+    "ora": "^0.4.1"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
