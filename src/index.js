@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
 import Router from 'vue-router'
-
-import routerMap from'./routerMap.js'
 //引入过滤器
-import {rank, sumDaysByRank, sumCanBorrow, sumRank } from './filters/admin.js';
 import {fetchNotSale, sumPriceByBorrowTimes, orderState, hiddenName } from './filters/index.js';
-
 import App from './components/App.vue';
 //用户验证
 import userAuthentication from './store/authentication.js'
-
+// 自定义路由
+import routerMap from'./routerMap.js'
+// 注册路由
 Vue.use(Router)
+// 将 ajax 库挂载到 vue 上
 Vue.use(Resource)
+import {rank, sumDaysByRank, sumCanBorrow, sumRank } from './filters/admin.js';
 Vue.filter('rank', rank)
 Vue.filter('sumDaysByRank', sumDaysByRank)
 Vue.filter('sumCanBorrow', sumCanBorrow)
