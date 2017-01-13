@@ -1,8 +1,12 @@
 <template>
 	<div class="book" v-for="book in bookList">
-		<h3>{{book.booksTitle}}</h3>
-		<p>{{book.booksNumber}}</p>
-		<input type="button" value="借阅" class="form-control" @click="borrow(book)">
+		<h3>{{book.bookTitle}}</h3>
+		<p>{{book.bookIsbn}}</p>
+		<!--这里可以根据返回的returnTime来判断，如果是null，就表示未被借出-->
+		<template v-if="book.borrowTime|sumCanBorrow">
+			<input type="button" value="借阅" class="form-control" @click="borrow(book)">
+		</template>
+		<p v-else>已被借阅：{{book.borrowTime}}</p>
 	</div>
 	<div class="clear"></div>
 </template>
@@ -37,6 +41,6 @@
 		padding:10px;
 		margin:10px;
 		float:left;
-		width:20%;
+		width:33%;
 	}
 </style>

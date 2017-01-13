@@ -6,21 +6,15 @@ const auth = new EventEmitter()
 
 export default auth
 
-auth.login = function(username, password){
+auth.login = function(post){
 	return new Promise(function(resolve, reject){
-		Vue.http.get('./src/data/user.json').then(res => {
+		Vue.http.options.emulateJSON = true;
+		Vue.http.post('./service/memberLogin.php', post).then(res => {
 			//先读取到用户列表
 			//因为用的是示例数据，这里要循环读取
-			for (var i = res.length - 1; i >= 0; i--) {
-				if(res[i].userName == username && res[i].userTel == password){
-					//如果用户名和密码都匹配
-					resolve(res[i])
-				}else{
-					reject(0)
-				}
-			}
+			resolve(res.data);
 		}).catch(err => {
-			reject(err)
+			reject(err);
 		})
 	})
 }

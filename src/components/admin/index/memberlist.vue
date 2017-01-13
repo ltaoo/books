@@ -1,11 +1,17 @@
 <template>
-	<div class="member" v-for="member in memberList" v-show="memberList.length > 0">
-		<h3>{{member.userName}}</h3>
-		<p>{{member.userRank}}</p>
-		<input type="radio" name="memberInfo" v-model="memberInfo" value="{{member.userName}}" v-on:click="chooseMember(member)">
+	<div class="member" v-for="member in memberList" v-show="memberList.length > 0" 
+		v-bind:class="{ 'choose': $index == i}">
+		<h3>{{member.memberName}}（{{member.memberRank | rank}}）</h3>
+		<span>{{member.memberCreateTime}}</span>
+		<p>学号：{{member.memberNum}}</p>
+		<p v-if="member.borrowNum != 0" >已借图书</p>
+		<div v-else>
+			<p v-if="member.memberCreateTime | sumDaysByRank member.memberRank">会员已超期</p>
+			<p v-else @click="chooseMember(member, $index)">选择</p>
+		</div>
 	</div>
 	<div class="clear"></div>
-	<p>选择了{{memberInfo}}</p>
+	{{memberInfo.memberName}}
 </template>
 
 <script>
@@ -15,13 +21,25 @@
 		data(){
 			return {
 				memberList:[],
-				member:{},
-				memberInfo: {}
+				memberInfo: {},
+				i: null
 			}
 		},
 		methods: {
-			chooseMember: function(obj) {
+			chooseMember: function(obj, index) {
+				//还要在这个地方判断下这个会员是否已经超期或者借了书，如果借了就不能点击？
+				//那还是用按钮比较简单
+				this.memberInfo = obj
+				this.i = index
 				this.$dispatch('chooseMember', obj)
+			}
+		},
+		events: {
+			//初始化事件
+			init: function(){
+				console.log('init event is happen')
+				this.i = null
+				this.memberInfo = null
 			}
 		}
 	}
@@ -37,6 +55,9 @@
 		padding:10px;
 		margin:10px;
 		float:left;
-		width:20%;
+		width:30%;
+	}
+	.choose{
+		border:1px solid red;
 	}
 </style>
