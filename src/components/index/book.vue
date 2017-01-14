@@ -27,10 +27,7 @@
 			book: Object
 		},
 		data() {
-			return {
-			}
 		},
-
 		methods: {
 			addCart: function(obj){
 				//只负责添加到购物车，其他逻辑交给购物车去处理

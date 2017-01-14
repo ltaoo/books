@@ -258,7 +258,8 @@ adminStore.addBook = postData => {
 	return new Promise(function(resolve, reject){
 		if(postData){
 			Vue.http.options.emulateJSON = true;
-			Vue.http.post('./service/addBook.service.php', postData).then(res => {
+			console.log('post data', postData)
+			Vue.http.post('/service/addBook.service.php', postData).then(res => {
 				resolve(res)
 			}).catch(err => {
 				reject(err)

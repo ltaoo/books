@@ -1,3 +1,4 @@
 # Stop the db and remove the container.
 
-docker stop db && docker rm db
+docker stop books_db && docker rm books_db
+docker stop books && docker rm books

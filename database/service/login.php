@@ -30,13 +30,13 @@
 
 	$username = $_POST['username'];
   	$password = $_POST['password'];
-  	$admins = array();
   	$sql = "select * from admin where adminName = '".$username."' and adminPassword = '".$password."'";
   	// echo $sql;
   	$results = $mysqli->query($sql);
   	//var_dump($results);
   	//获取单条记录
   	$row = $results->fetch_row();
+  	$result = array();
   	if($row){
   	  //如果记录存在
   	  $result['state'] = 'success';

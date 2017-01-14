@@ -81,13 +81,11 @@ app.get('/service/:query', (req, res, next) => {
 app.post('/service/:query', (req, res, next) => {
 	// console.log(req.body)
 	var query = req.url.split('/')[2]
-	var data = {
-	    username: req.body.username,
-	    password: req.body.password
-    }
     var formData = new FormData()
-    for(let name in data) {
-		formData.append(name, data[name])
+    // console.log(req.body)
+    for(let name in req.body) {
+    	console.log(name, req.body[name])
+		formData.append(name, req.body[name])
 	}
 	fetch('http://127.0.0.1:8123/' + query, {
 		method: 'POST',

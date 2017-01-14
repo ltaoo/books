@@ -102,14 +102,24 @@
 					console.log(res);
 					//提取书籍对象数组。
 					this.resultList = res.books;
+				}).catch(err => {
+					console.log(err)
 				})
 			},
 			addBook: function(book){
+				// console.log(book)
 				//这里通过接口保存到数据库中
 				//先将价格提取出来。
-				book.price = parseFloat(book.price.match(/[1-9]\d*\.*\d*/g)[0]);
-				Admin.addBook(book).then(res => {
-					//console.log(res);
+				var post = {
+					title: book.title,
+					price: parseFloat(book.price.match(/[1-9]\d*\.*\d*/g)[0]),
+					isbn13: book.isbn13,
+					summary: book.summary,
+					image: book.images.medium
+				}
+				// console.log(JSON.stringify(book))
+				Admin.addBook(post).then(res => {
+					console.log(res);
 					if(res.data.bookId){
 						//如果返回了bookId，就是添加成功
 						//查询这本书
@@ -121,7 +131,11 @@
 							this.resultList = [];
 							this.doubanQuery = null;
 						})
+					} else {
+						console.log('err', res.data)
 					}
+				}).catch(err => {
+					console.log(err)
 				})
 			},
 			deleteBook: function(bookId, index){

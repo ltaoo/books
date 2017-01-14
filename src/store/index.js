@@ -24,7 +24,7 @@ bookStore.fetchItem = function(id){
 //获取全部书籍记录
 bookStore.fetchItems = function(){
 	return new Promise(function(resolve, reject){
-		Vue.http.get('./service/getBooks.service.php?action=getBookList').then(function(res){
+		Vue.http.get('/service/getBooks.service.php?action=getBookList').then(function(res){
 			resolve(res.data)
 		}).catch(function(err){
 			reject(err)

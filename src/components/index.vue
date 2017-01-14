@@ -53,7 +53,7 @@
 		route: {
 			data ({to}) {
 				store.fetchItems().then(res => {
-					console.log(res);
+					console.log('books', res);
 					this.booksList = res;
 				})
 				//购物车列表
