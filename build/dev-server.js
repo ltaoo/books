@@ -12,6 +12,10 @@ var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
 var webpackProxyMiddleware = require('http-proxy-middleware')
 
+// 用来做代理的请求库
+var fetch = require('isomorphic-fetch')
+var FormData = require('form-data')
+
 // 引入 webpack 配置文件
 var webpackConfig = require('./webpack.dev.conf')
 // 端口号如果没有在命令行或者系统变量指定，就用通用配置中的
@@ -54,6 +58,54 @@ Object.keys(proxyTable).forEach(context => {
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 // 当前目录下的 static 文件夹？
 app.use(staticPath, express.static('./static'))
+
+app.use(require('body-parser').urlencoded({extended: true}))
+
+// 代理配置
+app.get('/service/:query', (req, res, next) => {
+	var query = req.url.split('/')[2]
+	console.log(req.url)
+	console.log(query)
+	fetch('http://127.0.0.1:8123/' + query)
+		.then(response => {
+			return response.json()
+		})
+		.then(response => {
+			console.log(response)
+			res.send(response)
+		})
+		.catch(err => {
+			console.log(err)
+		})
+})
+app.post('/service/:query', (req, res, next) => {
+	// console.log(req.body)
+	var query = req.url.split('/')[2]
+	var data = {
+	    username: req.body.username,
+	    password: req.body.password
+    }
+    var formData = new FormData()
+    for(let name in data) {
+		formData.append(name, data[name])
+	}
+	fetch('http://127.0.0.1:8123/' + query, {
+		method: 'POST',
+		body: formData
+	})
+	.then(response => {
+		// console.log(response)
+		return response.json()
+	})
+	.then(response => {
+		res.send(response)
+	})
+	.catch(err => {
+		res.send(err)
+	})
+})
+
+
 
 // 服务器 url 地址
 var uri = `http://localhost:${port}`

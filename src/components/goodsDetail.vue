@@ -9,7 +9,6 @@
 					<p>被借阅次数：<span>{{book.borrowTimes}}</span></p>
 					<p>原价：<del>{{book.bookPrice}}</del>  现价：<span>{{book.bookPrice | sumPriceByBorrowTimes book.borrowTimes}}</span></p>
 					<template v-if="book.returnTime == 0">
-						<button class="btn btn-default">立即购买</button>
 						<button class="btn btn-default" v-on:click="addCart(book)">加入购物车</button>
 					</template>
 					<template v-else>

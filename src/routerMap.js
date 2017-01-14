@@ -121,8 +121,7 @@ export default function(router) {
 		//后台登录页
 		'/adminLogin': {
 			name: 'adminlogin',
-			component: adminlogin,
-			adminAuth: true
+			component: adminlogin
 		}
 	})
 }

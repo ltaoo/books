@@ -2,7 +2,6 @@
 	header("content-type:text/html;charset=utf-8");
 	// 默认地址为 localhost
 	$serverName = env("MYSQL_PORT_3306_TCP_ADDR", "localhost");
-	echo $serverName;
 	// 默认数据库名为 bookshop
 	$databaseName = env("MYSQL_INSTANCE_NAME", "bookshop");
 	// 默认用户名为 root

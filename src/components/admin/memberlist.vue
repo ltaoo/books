@@ -1,10 +1,18 @@
 <template>
 	<div class="container">
+		<ul class="nav">
+		  <li><a v-link="{ path: '/admin' }">租书</a></li>
+		  <li><a v-link="{ path: '/return' }">还书</a></li>
+		  <li><a v-link="{ path: '/bookList' }">书籍列表</a></li>
+		  <li><a v-link="{ path: '/memberList' }">用户列表</a></li>
+		  <li><a v-link="{ path: '/recordList' }">借阅记录</a></li>
+		  <li><a v-link="{ path: '/orderList' }">订单记录</a></li>
+		</ul>
 		<h3>用户列表页</h3>
 		<hr>
 		<div class="form-inline">
 			<input type="text" class="form-control" placeholder="输入学号或姓名" v-model="query">
-			<button class="btn btn-default" @click="showModal=true">添加新会员</button>
+			<button class="btn btn-default form-control" @click="showModal=true">添加新会员</button>
 		</div>
 		<table class="table table-hover">
 			<tr>
@@ -49,8 +57,10 @@
 			</div>
 		</div>
 		<div slot="modal-footer">
-			<input type="reset" class="btn btn-default" value="重置">
-			<input type="submit" class="btn btn-default" value="确定" @click="addMember(member)">
+			<div class="footerBtn">
+				<input type="reset" class="btn btn-default" value="重置">
+				<input type="submit" class="btn btn-default" value="确定" @click="addMember(member)">
+			</div>
 		</div>
 	</modal>
 </template>
@@ -120,5 +130,11 @@
 <style>
 	.form-control{
 		margin-bottom: 10px;
+	}
+	.form-group{
+		padding: 10px;
+	}
+	.footerBtn{
+		padding: 10px;
 	}
 </style>

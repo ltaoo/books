@@ -1,21 +1,20 @@
 <template>
 	<div class="container">
-		<h3>登录页面</h3>
+		<h3>登录页面 | <a v-link="{ path: '/index' }">主页</a></h3>
 		<hr>
 	
 		<div class="row">
 			<div class="col-xs-4 col-xs-offset-4">
 				<form action="" class="form-horizontal">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="用户名" v-model="user.username">
+						<input type="text" class="form-control" placeholder="用户名" v-model="username">
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" placeholder="密码" v-model="user.password">
+						<input type="password" class="form-control" placeholder="密码" v-model="password">
 					</div>
 					<div class="form-group">
-						<button class="btn btn-default" v-on:click="login(user)">登录</button>
+						<button class="btn btn-default form-control" v-on:click="login(username, password)">登录</button>
 					</div>
-					{{username}}
 				</form>
 			</div>
 		</div>
@@ -29,12 +28,17 @@
 		name: 'login',
 		data(){
 			return {
-				user: null
+				username: '',
+				password: ''
 			}
 		},
 		methods: {
-			login: function(user){
+			login: function(name, paw){
 				//用户登录
+				var user = {
+					username: name,
+					password: paw
+				}
 				auth.login(user).then(res => {
 					//console.log(res);
 					if(res.state == 'success'){

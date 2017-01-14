@@ -1,8 +1,17 @@
 <template>
 	<div class="container">
+		<ul class="nav">
+		  <li><a v-link="{ path: '/admin' }">租书</a></li>
+		  <li><a v-link="{ path: '/return' }">还书</a></li>
+		  <li><a v-link="{ path: '/bookList' }">书籍列表</a></li>
+		  <li><a v-link="{ path: '/memberList' }">用户列表</a></li>
+		  <li><a v-link="{ path: '/recordList' }">借阅记录</a></li>
+		  <li><a v-link="{ path: '/orderList' }">订单记录</a></li>
+		  <li><a @click="adminlogout()">注销</a></li>
+		</ul>
 		<h3>后台主页</h3>
 		<hr>
-		<div class="form-inline">
+		<div class="form-inline row">
 			<input type="text" class="form-control membersearch" placeholder="请输入会员姓名或学号" v-model="memberQuery">
 			<input type="button" class="form-control" value="查询" v-on:click="searchMember(memberQuery)">
 		</div>
@@ -11,7 +20,7 @@
 			<member v-bind:member-list="memberList"></member>
 		</div>
 		<hr>
-		<div class="form-inline">
+		<div class="form-inline row">
 			<input type="text" class="form-control booksearch" placeholder="请输入书籍名或ISBN码" v-model="bookQuery">
 			<input type="button" class="form-control" value="查询" v-on:click="searchBook(bookQuery)">
 		</div>
@@ -20,12 +29,21 @@
 		</div>
 	</div>
   	<modal v-bind:show.sync="showModal">
-	    <div slot="body">
-	    	<p>{{choosemember.memberName}}</p>
-	    	<p>{{choosebook.bookTitle}}</p>
+			<div slot="modal-header" class="modal-header">
+		    <h4 class="modal-title">确定借阅信息</h4>
+		  </div>
+	    <div slot="modal-body" class="borrowInfo">
+	    	<p>姓名：{{choosemember.memberName}}</p>
+	    	<p>学号：{{choosemember.memberNum}}</p>
+	    	<p>开始日期：{{choosemember.memberCreateTime}}</p>
+	    	<p>会员等级：{{choosemember.memberRank | rank}}</p>
+	    	<p>图书名称：{{choosebook.bookTitle}}</p>
+	    	<p>图书ISBN码：{{choosebook.bookIsbn}}</p>
 	    </div>
-	    <div slot="footer">
-	    	<button class="btn btn-default" @click="borrow(choosemember, choosebook)">确认</button>
+	    <div slot="modal-footer">
+	    	<div class="footerBtn">
+	    		<button class="btn btn-default" @click="borrow(choosemember, choosebook)">确认</button>
+	    	</div>
 	    </div>
 	</modal>
 	<alert :show.sync="showSuccess" dismissable placement="top" type="success" width="400px" :duration="3000">
@@ -50,11 +68,13 @@
 	import member from './index/memberList.vue'
 	import book from './index/bookList.vue'
 	//引入模态框组件
-	import modal from '../public/modal.vue'
+	//import modal from '../public/modal.vue'
 	//引入alert组件
-	import {alert} from 'vue-strap'
+	import {alert, modal} from 'vue-strap'
 	//引入数据处理
 	import Admin from '../../store/admin.js'
+	import common from '../../store/common.js'
+	import Router from 'vue-router';
 	//
 	var $ = require('jquery')
 	export default {
@@ -145,7 +165,6 @@
 					//如果没有获取到数据
 					if(res.state == 404){
 						//alert('没有查询到');
-						//通过学号查询没有查询到，通过姓名查询试试看。
 						Admin.searchBookByName(param).then(resp => {
 							//console.log(resp)
 							if(resp.state == 404) {
@@ -174,8 +193,7 @@
 				//console.log(postData)
 				Admin.addBorrowRecord(postData).then(res => {
 					console.log(res)
-					if(res.data.state == 200){
-						console.log('借阅成功')
+					if(res.data.recordId){
 						//借阅成功后需要将所有的数据清空，恢复到初始状态，理论上来说当然是直接刷新页面方便
 						this.showModal = false
 						this.showSuccess = true
@@ -191,7 +209,18 @@
 				}).catch(err => {
 					console.log(err)
 				})
-			}
+			},
+			adminlogout: function(){
+        localStorage.removeItem('admin');
+        if(!localStorage.admin){
+          //返回首页
+          var router = new Router;
+          router.go({path: '/index'});
+          //清除localStorage
+        }else{
+          console.log(localStorage);
+        }
+      }
 		}
 	}
 </script>
@@ -200,6 +229,10 @@
 	.list{
 		height:160px;
 		width:100%;
+		padding-left: 20px;
+	}
+	.borrowInfo{
+		padding: 10px;
 	}
 </style>
 

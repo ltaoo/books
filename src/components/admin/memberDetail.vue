@@ -1,4 +1,12 @@
 <template>
+	<ul class="nav">
+	  <li><a v-link="{ path: '/admin' }">租书</a></li>
+	  <li><a v-link="{ path: '/return' }">还书</a></li>
+	  <li><a v-link="{ path: '/bookList' }">书籍列表</a></li>
+	  <li><a v-link="{ path: '/memberList' }">用户列表</a></li>
+	  <li><a v-link="{ path: '/recordList' }">借阅记录</a></li>
+	  <li><a v-link="{ path: '/orderList' }">订单记录</a></li>
+	</ul>
 	<div class="container">
 		<h3>修改用户信息</h3>
 		<hr>

@@ -1,7 +1,16 @@
 <template>
-	<div class="container">
+  <div class="container">
+    <ul class="nav">
+      <li><a v-link="{ path: '/admin' }">租书</a></li>
+      <li><a v-link="{ path: '/return' }">还书</a></li>
+      <li><a v-link="{ path: '/bookList' }">书籍列表</a></li>
+      <li><a v-link="{ path: '/memberList' }">用户列表</a></li>
+      <li><a v-link="{ path: '/recordList' }">借阅记录</a></li>
+      <li><a v-link="{ path: '/orderList' }">订单记录</a></li>
+    </ul>
 		<h3>借阅记录列表页</h3>
 		<hr>
+    {{recordlist | searchBy}}
     <div class="row">
       <form action="" class="form-inline">
         <input type="text" class="form-control" placeholder="请输入信息查找" v-model="query">
@@ -23,7 +32,7 @@
           <th>借阅时间</th>
           <th>归还时间</th>
         </tr>
-        <tr v-for = "record in recordlist | filterBy query | serachBy filter">
+        <tr v-for = "record in recordlist | filterBy query | searchBy filter">
           <td>{{$index + 1}}</td>
           <td>{{record.memberNum}}</td>
           <td>{{record.memberName}}</td>

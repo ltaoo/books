@@ -1,5 +1,13 @@
 <template>
   <div class="container">
+    <ul class="nav">
+      <li><a v-link="{ path: '/admin' }">租书</a></li>
+      <li><a v-link="{ path: '/return' }">还书</a></li>
+      <li><a v-link="{ path: '/bookList' }">书籍列表</a></li>
+      <li><a v-link="{ path: '/memberList' }">用户列表</a></li>
+      <li><a v-link="{ path: '/recordList' }">借阅记录</a></li>
+      <li><a v-link="{ path: '/orderList' }">订单记录</a></li>
+    </ul>
     <h3>订单列表</h3>
     <hr>
     <table class="table table-hover">

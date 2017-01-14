@@ -8,7 +8,7 @@
 			<p>被借阅次数：<span>{{book.borrowTimes}}</span>  |上架日期：<span>{{book.createTime}}</span></p>
 			<p>原价：<del>{{book.bookPrice}}</del>  |现价：<span>{{book.bookPrice | sumPriceByBorrowTimes book.borrowTimes book.createTime}}</span></p>
 			<template v-if="book.returnTime | isBorrow">
-				<button class="btn btn-default">立即购买</button>
+				
 				<button class="btn btn-default" v-on:click="addCart(book)">加入购物车</button>
 			</template>
 			<template v-else>
@@ -43,16 +43,26 @@
 				//按原价75折作为初始价格
 				var value = obj.bookPrice;
 				var times = obj.borrowTimes;
-				value = 0.75*value;
+				var newvalue = 0.75*value;
 				//假设每次借阅折损10%
-				var loss = value*0.1;
-				var price = value-(times*loss);
+				var loss = newvalue*0.1;
+				var price = newvalue-(times*loss);
 				var number = price.toFixed(1);
 				//如果是特价书籍，直接以3折出售
-				/*if(this.computedState == '特价') {
+				var nowDate = new Date();
+				var nowDate = nowDate.toLocaleDateString();
+				var first = Date.parse(nowDate);
+				var second = Date.parse(obj.createTime);
 
-				}*/
-
+				//判断时间差，一周内的属于新上架
+				var day = (first-second)/86400000;
+				//这个地方应该递进，比如上架时间超过60而且借阅次数小于6，上架时间超过90而且借阅次数小于9这样。
+				for(var i = 1;i < 3; i++) {
+				  if(day.toFixed() > 30*i && times < 3*i) {
+				    number = obj.bookPrice*0.3;
+				    continue;
+				  }
+				}
 				number = String.prototype.split.call(number, '.');
 				//console.log(c);
 				if(number[1] > 5) {
@@ -62,7 +72,7 @@
 				  number[1] = 5;
 				}
 				var post = obj;
-				post.bookPrice = number.join('.');
+				post.newPrice = number.join('.');
 				this.$dispatch('addCart', post);
 			}
 		},

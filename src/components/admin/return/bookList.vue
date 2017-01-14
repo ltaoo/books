@@ -1,7 +1,7 @@
 <template>
 	<div class="record" v-for="record in recordList">
 		<h3>{{record.bookTitle}}</h3>
-		<p>{{record.memberName}}({{record.memberRank}}){{record.memberCreateTime}}</p>
+		<p>{{record.memberName}}({{record.memberRank | rank}}){{record.memberCreateTime}}</p>
 		<p>{{record.borrowTime}}</p>
 		<button class="form-control" @click="returnBook(record)">
 			还书

@@ -1,24 +1,29 @@
 <template>
 	<div class="container">
-		<h3>还书/续借</h3>
+		<ul class="nav">
+		  <li><a v-link="{ path: '/admin' }">租书</a></li>
+		  <li><a v-link="{ path: '/return' }">还书</a></li>
+		  <li><a v-link="{ path: '/bookList' }">书籍列表</a></li>
+		  <li><a v-link="{ path: '/memberList' }">用户列表</a></li>
+		  <li><a v-link="{ path: '/recordList' }">借阅记录</a></li>
+		  <li><a v-link="{ path: '/orderList' }">订单记录</a></li>
+		</ul>
+		<h3>还书</h3>
 		<hr>
 		<div class="form-inline">
 			<!--无论输入什么，在前端利用回调多次去查询api，优先查询书籍ISBN码-->
 			<input type="text" class="form-control" placeholder="请输入查询条件" v-model="query">
-			<button class="btn btn-default" v-on:click="search(query)">查询</button>
+			<button class="btn btn-default form-control" v-on:click="search(query)">查询</button>
 		</div>
 		<div class="row">
 			<book :record-list="recordList"></book>
 		</div>
 	</div>
-	<modal :show.sync="showModal">
-		<div slot="body">
-			确定归还这本书吗？
-		</div>
-		<div slot="footer">
-			<button class="form-control" @click="returnBook()">确定</button>
-		</div>
-	</modal>
+	<alert :show.sync="showModal" dismissable placement="top" type="info" width="400px" :duration="3000">
+		<span class="icon-info-circled alert-icon-float-left"></span>
+		<strong>确定归还这本书吗？</strong>
+		<button class="btn btn-primary form-control" @click="returnBook()">确定</button>
+	</alert>
 	<alert :show.sync="showNoInput" dismissable placement="top" type="danger" width="400px" :duration="3000">
 		<span class="icon-info-circled alert-icon-float-left"></span>
 		<strong>请输入查询条件</strong>
@@ -31,10 +36,11 @@
 
 <script>
 	import book from './return/bookList.vue'
-	import modal from '../public/modal.vue'
-	import {alert} from 'vue-strap'
+	//import modal from '../public/modal.vue'
+	import {alert, modal} from 'vue-strap'
 	//数据处理
 	import Admin from '../../store/admin.js'
+	import common from '../../store/common.js'
 	export default {
 		name: 'returnbooks',
 		components: {
@@ -47,7 +53,9 @@
 				showModal: false,
 				recordList: [],
 				chooseRecord: {},
-				query: ''
+				query: '',
+				showNoResult: false,
+				showNoInput: false
 			}
 		},
 		methods: {
@@ -88,12 +96,16 @@
 				//console.log(this.chooseRecord.recordId)
 				//recordId = this.chooseRecord.recordId
 				const recordId = this.chooseRecord.recordId
-				console.log(recordId)
+				//console.log(recordId)
 				return Admin.returnBook(recordId).then(res => {
-					console.log(res)
+					//console.log(res)
 					if(res.state == 200){
-						console.log('更新成功')
-            //更新成功后页面初始化
+						//console.log('更新成功')            
+						//更新成功后页面初始化
+            this.showModal = false;
+            this.query = null;
+            this.chooseRecord = null;
+            this.recordList = []; 
 					}else{
 						console.log('更新失败')
 					}

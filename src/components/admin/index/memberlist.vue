@@ -7,11 +7,10 @@
 		<p v-if="member.borrowNum != 0" >已借图书</p>
 		<div v-else>
 			<p v-if="member.memberCreateTime | sumDaysByRank member.memberRank">会员已超期</p>
-			<p v-else @click="chooseMember(member, $index)">选择</p>
+			<button v-else @click="chooseMember(member, $index)" class="btn btn-default form-control">选择</button>
 		</div>
 	</div>
 	<div class="clear"></div>
-	{{memberInfo.memberName}}
 </template>
 
 <script>
@@ -53,9 +52,9 @@
 		border:1px solid #eee;
 		border-radius:5px;
 		padding:10px;
-		margin:10px;
 		float:left;
-		width:30%;
+		width:25%;
+		margin-left: 10px;
 	}
 	.choose{
 		border:1px solid red;

@@ -1,12 +1,16 @@
 <template>
-	<div class="book" v-for="book in bookList">
-		<h3>{{book.bookTitle}}</h3>
-		<p>{{book.bookIsbn}}</p>
-		<!--这里可以根据返回的returnTime来判断，如果是null，就表示未被借出-->
-		<template v-if="book.borrowTime|sumCanBorrow">
-			<input type="button" value="借阅" class="form-control" @click="borrow(book)">
-		</template>
-		<p v-else>已被借阅：{{book.borrowTime}}</p>
+	<div class="book col-xs-3" v-for="book in bookList">
+		<img v-bind:src="book.bookImg" alt="">
+		<div class="detail">
+			<h3>{{book.bookTitle}}</h3>
+			<p>{{book.bookIsbn}}</p>
+			<p>上架时间：{{book.createTime}}</p>
+			<!--这里可以根据返回的returnTime来判断，如果是null，就表示未被借出-->
+			<template v-if="book.borrowTime|sumCanBorrow">
+				<input type="button" value="借阅" class="form-control" @click="borrow(book)">
+			</template>
+			<p v-else>已被借阅：{{book.borrowTime}}</p>
+		</div>
 	</div>
 	<div class="clear"></div>
 </template>
@@ -39,8 +43,13 @@
 		border:1px solid #eee;
 		border-radius:5px;
 		padding:10px;
-		margin:10px;
 		float:left;
-		width:33%;
+	}
+	.book img{
+		float:left;
+		margin-right: 20px;
+	}
+	.detail{
+		float:left;
 	}
 </style>

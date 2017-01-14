@@ -32,7 +32,7 @@
     },
     route: {
       data (to) {
-        console.log(localStorage.userid);
+        //console.log(localStorage.userid);
         //查询用户信息
         store.getMemberById(localStorage.userid).then(res => {
           console.log(res.data);

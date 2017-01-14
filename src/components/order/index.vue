@@ -19,7 +19,7 @@
           <tr v-for="book in cartList">
             <td>{{$index + 1}}</td>
             <td>{{book.bookTitle}}</td>
-            <td>{{book.bookPrice}}</td>
+            <td>{{book.newPrice}}</td>
           </tr>
         </table>
         <textarea class="form-control" rows="3" placeholder="请留言" v-model="message"></textarea>
@@ -82,7 +82,7 @@
         let sum = 0;
         for (let i = 0, len = this.cartList.length ; i < len; i++) {
           //获取购买数量
-          let price = this.cartList[i].bookPrice;
+          let price = this.cartList[i].newPrice;
           sum += parseFloat(price);
         }
         //console.log(sum);
@@ -114,7 +114,7 @@
             console.log(res);
             //更新书籍状态为已出售
             bookList.forEach(bookId=>{
-              common.updateBookState(bookId, 1).then(res=>{
+              common.updateBookState(bookId, 2).then(res=>{
                 //console.log()
                 //跳转地址
                 //移除localStorage
