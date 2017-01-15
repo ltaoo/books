@@ -92,7 +92,7 @@
 				showInfo: false,
 				memberList:[],
 				bookList: [],
-				choosemember: null,
+				choosemember: {},
 				choosebook: {}
 			}
 		},

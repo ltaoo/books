@@ -9,7 +9,7 @@ export default auth
 auth.login = function(post){
 	return new Promise(function(resolve, reject){
 		Vue.http.options.emulateJSON = true;
-		Vue.http.post('./service/memberLogin.php', post).then(res => {
+		Vue.http.post('/service/memberLogin.php', post).then(res => {
 			//先读取到用户列表
 			//因为用的是示例数据，这里要循环读取
 			resolve(res.data);

@@ -8,9 +8,9 @@ create table if not exists `members`(
 	memberRank INT, 
 	memberCreateTime DATE);
 insert into members (memberName, memberNum, memberTel, memberAddress, memberRank) values (
-	'litao', 
-	'1218040201', 
-	'15173200753', 
+	'ltaoo', 
+	'123456', 
+	'123456', 
 	'8-8-218', 
 	1);
 -- drop table if exists `books`;
@@ -52,6 +52,6 @@ create table if not exists `admin` (adminId INT NOT NULL AUTO_INCREMENT PRIMARY 
 	adminPassword TEXT, 
 	rank INT);
 insert into admin (adminName, adminPassword, rank) values (
-	'ltaoo', 
+	'admin', 
 	'123456', 
 	0);

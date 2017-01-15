@@ -7,13 +7,13 @@ echo "Starting DB..."
 docker run --name books_db -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=bookshop -d mysql
 
 # Wait for the database service to start up.
-echo "Waiting for DB to start up..."  
-docker exec books_db mysqladmin --silent --wait=30 -uroot -p123 ping || exit 1
+# echo "Waiting for DB to start up..."  
+# docker exec books_db mysqladmin --silent --wait=30 -uroot -p123 ping || exit 1
 
 # Run the setup script.
-echo "Setting up initial data..."  
+# echo "Setting up initial data..."  
 # 将 setup.sql 导入 bookshop 表
-docker exec -i books_db mysql -uroot -p123 bookshop < setup.sql
+# docker exec -i books_db mysql -uroot -p123 bookshop < setup.sql
 
 # 开启 php 服务
 echo "Starting php server"
