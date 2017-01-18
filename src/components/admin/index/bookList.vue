@@ -25,7 +25,8 @@
 			}
 		},
 		methods: {
-			borrow: function(obj) {
+			// 借阅书籍
+			borrow(obj) {
 				//获取到要借阅的书籍信息，加上要借这本书的会员信息，共同post到数据库中。
 				//所以这里还是要写一个广播事件，告诉父组件选择了哪本书。
 				this.$dispatch('chooseBook', obj)

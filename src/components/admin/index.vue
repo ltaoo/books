@@ -168,6 +168,7 @@
 					})
 
 			},
+			// 点击搜索图书
 			searchBook(param) {
 				if(!param || param.trim() === ''){
 					this.showDangerNoInput = true
@@ -201,7 +202,7 @@
 			// 点击书籍进行借阅
 			borrow(member, book){
 				//提交到数据库
-				var postData = {
+				const postData = {
 					memberId: member.memberId,
 					bookId: book.bookId
 				}

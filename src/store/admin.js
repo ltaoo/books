@@ -49,7 +49,7 @@ adminStore.searchMemberByNum = param => {
 adminStore.searchMemberByName = param =>{
 	return new Promise(function(resolve, reject){
 		if(param) {
-			Vue.http.get(quert(memberapi, 'searchByName', 'memberName', param))
+			Vue.http.get(query(memberapi, 'searchByName', 'memberName', param))
 				.then(res => {
 					//console.log(res)
 					resolve(res.data)
@@ -291,6 +291,7 @@ adminStore.addBook = postData => {
 		}
 	})
 }
+
 //借阅成功，将借阅记录写入数据库。
 adminStore.addBorrowRecord = postData => {
 	//console.log(postData)

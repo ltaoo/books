@@ -30,7 +30,7 @@
           <th>书籍ISBN码</th>
           <th>书籍名称</th>
           <th>借阅时间</th>
-          <th>归还时间</th>
+          <th>状态</th>
         </tr>
         <tr v-for = "record in recordlist | filterBy query | searchBy filter">
           <td>{{$index + 1}}</td>
@@ -58,10 +58,10 @@
       }
     },
     route: {
-      data({to}) {
-        return Admin.getRecordList().then(res => {
-          console.log(res.data);
-          this.recordlist = res.data;
+      data ({ to }) {
+        Admin.getRecordList().then(res => {
+          console.log(res.data)
+          this.recordlist = res.data
         })
       }
     }

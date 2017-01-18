@@ -130,41 +130,40 @@ export function searchBy (value, query) {
 	}
 }
 
+// 根据借阅时间和会员等级计算归还时间
 export function returnFilter (value, borrowtime, rank) {
-	if(value == undefined){
-		return value;
+	if(value){
+		// 如果为假，表示未还，为真就是直接 0000-00-00 的情况，肯定是已还
+		return '已还'
 	}else{
-		var reg = /0000-00-00/;     
-	    var r = value.match(reg);
-		if(r == null){
-			//没有匹配到，就是已经还了的
-			//records[i] = {};
-			return '已还';
-		}else{
+		// var reg = /0000-00-00/;     
+	 //    var r = value.match(reg);
+		// if(r == null){
+		// 	//没有匹配到，就是已经还了的
+		// 	//records[i] = {};
+		// 	return '已还';
+		// }else{
 			//return '未还';
+
 			//会员等级
-			var rank = rank;
 			//借阅时间
-			var DateTwo = borrowtime;
+			const DateTwo = borrowtime;
 			//获取当前时间
-			var myDate = new Date();
-			var year = myDate.getFullYear();
-			var month = myDate.getMonth() + 1;
-			var date = myDate.getDate();
+			const myDate = new Date();
+			const year = myDate.getFullYear();
+			const month = myDate.getMonth() + 1;
+			const date = myDate.getDate();
 			//当前时间
-			var DateOne = year + "-" + month + "-" + date;
+			const DateOne = year + "-" + month + "-" + date;
 			//获取时间差
-			var cha = getTimeCha(DateOne, DateTwo);
-			if(rank == '0'){
+			const cha = getTimeCha(DateOne, DateTwo);
+			if(rank === '0'){
 				//如果是周卡会员而且超期了，就显示超期
-				//records.push(value[i]);
 				if(cha > 7){
 					return '超期' + (cha - 7) + '天';
 				}else{
-
 					return '应还时间:' + getTimeAdd(DateTwo, 7);
 				}
-				
 			}else if(rank == '1'){
 				//如果是月卡会员而且超期了，就显示超期
 				//records.push(value[i]);
@@ -179,6 +178,6 @@ export function returnFilter (value, borrowtime, rank) {
 				return '未还';
 			}
 			
-		}
+		// }
 	}
 }

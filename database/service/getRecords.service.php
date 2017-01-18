@@ -4,6 +4,7 @@
 	//连接数据库
 	include_once('public/mysqliConnect.php');
 	$action = $_REQUEST['action'];
+	// 获取借阅记录列表
 	if($action == 'recordsList'){
 		$sql = "select * from records, books, members 
 		where records.bookId = books.bookId and records.memberId = members.memberId";
