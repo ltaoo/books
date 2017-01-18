@@ -168,37 +168,38 @@
 					})
 
 			},
-			searchBook: function(param) {
+			searchBook(param) {
 				if(!param || param.trim() === ''){
 					this.showDangerNoInput = true
 					return false
 				}
-				return Admin.searchBookByIsbn(param).then( res => {
-					//打印出获取的数据
-					//console.log(res.data)
-					//如果没有获取到数据
-					if(res.state == 404){
-						//alert('没有查询到');
-						Admin.searchBookByName(param).then(resp => {
-							//console.log(resp)
-							if(resp.state == 404) {
-								console.log('没有查询到')
-								this.showInfo = true
-							}else{
-								console.log(resp)
-								//如果查询到的bookState != 0 ，就不能借阅
-								//获取到数据后传递给父组件
-								
-								this.bookList = resp.data
-							}
-						})
-					}else{
-						console.log(res)
-						this.bookList = res.data
-					}
-				})
+				Admin.searchBookByIsbn(param)
+					.then( res => {
+						//console.log(res.data)
+						//如果没有获取到数据
+						if(res.state == 404){
+							//alert('没有查询到');
+							return Admin.searchBookByName(param)
+						}else{
+							// console.log(res)
+							this.bookList = res.data
+						}
+					})
+					.then(res => {
+						if(res.state == 404) {
+							this.showInfo = true
+						}else{
+							//如果查询到的bookState != 0 ，就不能借阅
+							//获取到数据后传递给父组件
+							this.bookList = res.data
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
 			},
-			borrow: function(member, book){
+			// 点击书籍进行借阅
+			borrow(member, book){
 				//提交到数据库
 				var postData = {
 					memberId: member.memberId,
@@ -224,17 +225,17 @@
 					console.log(err)
 				})
 			},
+			// 管理员推出登陆
 			adminlogout: function(){
-        localStorage.removeItem('admin');
-        if(!localStorage.admin){
-          //返回首页
-          var router = new Router;
-          router.go({path: '/index'});
-          //清除localStorage
-        }else{
-          console.log(localStorage);
-        }
-      }
+		        localStorage.removeItem('admin');
+		        if(!localStorage.getItem('admin')){
+		          	//返回首页
+		          	const router = new Router
+		          	router.go({path: '/index'})
+		        }else{
+		          	console.log(localStorage);
+		        }
+		    }
 		}
 	}
 </script>

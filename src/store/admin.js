@@ -4,11 +4,16 @@ import { EventEmitter } from 'events'
 //注册监听
 const adminStore = new EventEmitter()
 
-const api = '/service/getMembers.service.php?'
-function query(action, query, param) {
+function query(api, action, query, param) {
 	return `${api}action=${action}&${query}=${param}`
 }
 
+const prefix = '/service/'
+
+/* --------------
+ * 会员信息接口
+ ---------------*/
+const memberapi = `${prefix}getMembers.service.php?`
 //根据用户Id获取信息
 adminStore.getMemberById = param =>{
 	return new Promise(function(resolve, reject){
@@ -28,7 +33,7 @@ adminStore.searchMemberByNum = param => {
 	return new Promise(function(resolve, reject){
 		// 判断查询条件是否为空
 		if(param) {
-			Vue.http.get(query('searchByNum', 'memberNum', param))
+			Vue.http.get(query(memberapi, 'searchByNum', 'memberNum', param))
 				.then(res => {
 					//console.log(res)
 					resolve(res.data)
@@ -44,48 +49,24 @@ adminStore.searchMemberByNum = param => {
 adminStore.searchMemberByName = param =>{
 	return new Promise(function(resolve, reject){
 		if(param) {
-			Vue.http.get('./service/getMembers.service.php?action=searchByName&memberName=' + param).then(res => {
-				//console.log(res)
-				resolve(res.data)
-			}).catch(err => {
-				reject(err)
-			})
-		}else{
-			reject('param is empty')
-		}
-	})
-}
-//通过书籍ISBN码查询书籍
-adminStore.searchBookByIsbn = function(param){
-	return new Promise(function(resolve, reject){
-		//先判断查询条件是否存在
-		if(param) {
-			Vue.http.get('./service/getBooks.service.php?action=searchByIsbn&bookIsbn=' + param).then(res => {
-				resolve(res.data)
-			}).catch(err => {
-				reject(err)
-			})
-		}else{
-			reject('param is empty')
-		}
-	})
-}
-//通过书籍名查询书籍
-adminStore.searchBookByName = function(param){
-	return new Promise(function(resolve, reject){
-		//先判断查询条件是否存在
-		if(param) {
-			Vue.http.get('./service/getBooks.service.php?action=searchByName&bookName=' + param).then(res => {
-				resolve(res.data)
-			}).catch(err => {
-				reject(err)
-			})
+			Vue.http.get(quert(memberapi, 'searchByName', 'memberName', param))
+				.then(res => {
+					//console.log(res)
+					resolve(res.data)
+				})
+				.catch(err => {
+					reject(err)
+				})
 		}else{
 			reject('param is empty')
 		}
 	})
 }
 
+/* --------------
+ * 书籍信息接口
+ ---------------*/
+const bookapi = `${prefix}getBooks.service.php?`
 //通过书籍id查询借阅记录
 adminStore.searchrecordByBookId = function (param) {
 	return new Promise(function(resolve, reject){
@@ -106,6 +87,42 @@ adminStore.searchrecordByBookId = function (param) {
 		}
 	})
 }
+//通过书籍ISBN码查询书籍
+adminStore.searchBookByIsbn = function(param){
+	return new Promise(function(resolve, reject){
+		//先判断查询条件是否存在
+		if(param) {
+			Vue.http.get(query(bookapi, 'searchByIsbn', 'bookIsbn', param))
+				.then(res => {
+					resolve(res.data)
+				}).catch(err => {
+					reject(err)
+				})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
+//通过书籍名查询书籍
+adminStore.searchBookByName = function(param){
+	return new Promise(function(resolve, reject){
+		//先判断查询条件是否存在
+		if(param) {
+			Vue.http.get(query(bookapi, 'searchByName', 'bookName', param))
+				.then(res => {
+					resolve(res.data)
+				}).catch(err => {
+					reject(err)
+				})
+		}else{
+			reject('param is empty')
+		}
+	})
+}
+
+/* --------------
+ * 借阅记录接口
+ ---------------*/
 //通过书籍isbn码查询已借书籍
 adminStore.searchRecordByIsbn = function (param) {
 	return new Promise(function(resolve, reject){
