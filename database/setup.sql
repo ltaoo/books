@@ -7,12 +7,13 @@ create table if not exists `members`(
 	memberAddress TEXT, 
 	memberRank INT, 
 	memberCreateTime DATE);
-insert into members (memberName, memberNum, memberTel, memberAddress, memberRank) values (
+insert into members (memberName, memberNum, memberTel, memberAddress, memberRank, memberCreateTime) values (
 	'ltaoo', 
 	'123456', 
 	'123456', 
 	'8-8-218', 
-	1);
+	1,
+	'2015-10-20');
 -- drop table if exists `books`;
 create table if not exists `books` (bookId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	bookTitle TEXT, 

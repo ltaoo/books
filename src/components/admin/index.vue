@@ -76,8 +76,6 @@
 	import common from '../../store/common.js'
 	// 路由库
 	import Router from 'vue-router'
-	//
-	import $ from 'jquery'
 	export default {
 		// 组件名
 		name: 'index',
@@ -85,9 +83,9 @@
 		data(){
 			return {
 				// 输入框内容
-				memberQuery: '',
+				memberQuery: null,
 				// 
-				bookQuery: '',
+				bookQuery: null,
 				// 查询到的会员
 				members: [],
 				// 是否显示 modal
@@ -142,35 +140,36 @@
 					this.showDangerNoInput = true
 					return false
 				}
-				return Admin.searchMemberByNum(param).then( res => {
-					//打印出获取的数据
-					//console.log(res)
-					//如果没有获取到数据
-					if(res.state == 404){
-						//alert('没有查询到');
-						//通过学号查询没有查询到，通过姓名查询试试看。
-						Admin.searchMemberByName(param).then(resp => {
-							if(resp.state == 404) {
-								console.log('没有查询到')
-								this.showInfo = true
-							}else{
-								console.log(resp)
-								this.memberList = resp.data
-								//查询完后将chooseMember清空
-								this.choosemember = null
-							}
-						})
-					}else{
-						console.log(res)
-						this.memberList = res.data
-					}
-					//每次点击完查询按钮，都把list组件初始化
-					this.$broadcast('init')
-				})
+				// 根据学号查询
+				Admin.searchMemberByNum(param)
+					.then(res => {
+						// console.log(res)
+						//通过学号查询没有查询到，就通过姓名查询试试看。
+						if(res.state == 404){
+							return Admin.searchMemberByName(param)
+						}else{
+							// console.log(res)
+							this.memberList = res.data
+						}
+					})
+					.then(res => {
+						if(res.state == 404) {
+							this.showInfo = true
+						} else {
+							this.memberList = res.data
+							//查询完后将chooseMember清空
+							this.choosemember = {}
+							//每次点击完查询按钮，都把list组件初始化
+							this.$broadcast('init')
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
 
 			},
 			searchBook: function(param) {
-				if(param == '' || !param || !$('.booksearch').val().trim()){
+				if(!param || param.trim() === ''){
 					this.showDangerNoInput = true
 					return false
 				}

@@ -44,7 +44,6 @@ router.beforeEach(function(transition){
 		}
 	}else if(transition.to.adminAuth){
 		// 如果是访问需要登陆的后台页面
-		console.log(localStorage.getItem('admin'))
 		if(localStorage.getItem('admin')) {
 			transition.next();
 		}else{

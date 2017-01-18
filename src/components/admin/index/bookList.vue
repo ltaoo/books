@@ -21,7 +21,6 @@
 		props: ['bookList'],
 		data(){
 			return {
-				bookList:[],
 				book:{}
 			}
 		},

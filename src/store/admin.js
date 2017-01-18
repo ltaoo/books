@@ -4,13 +4,16 @@ import { EventEmitter } from 'events'
 //注册监听
 const adminStore = new EventEmitter()
 
-export default adminStore
+const api = '/service/getMembers.service.php?'
+function query(action, query, param) {
+	return `${api}action=${action}&${query}=${param}`
+}
 
 //根据用户Id获取信息
 adminStore.getMemberById = param =>{
 	return new Promise(function(resolve, reject){
 		if(param){
-			Vue.http.get('./service/getMembers.service.php?action=searchById&memberId=' + param).then(res => {
+			Vue.http.get('/service/getMembers.service.php?action=searchById&memberId=' + param).then(res => {
 				resolve(res.data)
 			}).catch(err => {
 				reject(err)
@@ -20,16 +23,18 @@ adminStore.getMemberById = param =>{
 		}
 	})
 }
-//根据会员学号查询
-adminStore.searchMemberByNum = param =>{
+//根据会员学号查询会员
+adminStore.searchMemberByNum = param => {
 	return new Promise(function(resolve, reject){
+		// 判断查询条件是否为空
 		if(param) {
-			Vue.http.get('./service/getMembers.service.php?action=searchByNum&memberNum=' + param).then(res => {
-				//console.log(res)
-				resolve(res.data)
-			}).catch(err => {
-				reject(err)
-			})
+			Vue.http.get(query('searchByNum', 'memberNum', param))
+				.then(res => {
+					//console.log(res)
+					resolve(res.data)
+				}).catch(err => {
+					reject(err)
+				})
 		}else{
 			reject('param is empty')
 		}
@@ -400,3 +405,4 @@ adminStore.cancelOrder = orderId => {
 		}
 	})
 }
+export default adminStore

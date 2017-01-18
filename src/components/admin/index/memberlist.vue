@@ -19,7 +19,6 @@
 		props: ['memberList'],
 		data(){
 			return {
-				memberList:[],
 				memberInfo: {},
 				i: null
 			}
