@@ -1,20 +1,17 @@
 <template>
-	<router-view class="view">
+	<router-view>
 	</router-view>
 </template>
 
-<script>
-</script>
-
 <style>
-  body{
+  body {
     font-family: "微软雅黑";
   }
-  .nav:after{
+  .nav:after {
     content: '';
     clear: both;
   }
-  .nav li{
+  .nav li {
     float: left;
   }
 </style>

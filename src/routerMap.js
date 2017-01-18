@@ -1,26 +1,47 @@
+/* ----------------
+ * 前台
+ -----------------*/
+// 前台首页
 import index from './components/index.vue'
+// 商品详情页
 import goodsdetail from './components/goodsDetail.vue'
+// 用户登陆页
 import login from './components/login.vue'
-import tips from './components/tips.vue';
-
+// ？
+import tips from './components/tips.vue'
+// 个人中心首页
 import user from './components/user/index.vue'
-import info from './components/user/userInfo.vue';
-import records from './components/user/userRecords.vue';
-import userOrder from './components/user/userOrder.vue';
-import address from './components/user/userAddress.vue';
-
+// 个人中心信息页
+import info from './components/user/userInfo.vue'
+// 个人中心借阅记录页
+import records from './components/user/userRecords.vue'
+// 个人中心订单记录页
+import userOrder from './components/user/userOrder.vue'
+// 个人中心设置地址页
+import address from './components/user/userAddress.vue'
+// 购物车组件
 import cart from './components/cart/index.vue'
+// 订单页面
 import order from './components/order/index.vue'
-//后台页面
+/* ----------------
+ * 后台
+ -----------------*/
+ // 后台首页
 import admin from './components/admin/index.vue'
+// 还书页
 import returnbooks from './components/admin/returnbooks.vue'
+// 书籍列表页
 import booklist from './components/admin/booklist.vue'
+// 会员列表页
 import memberlist from './components/admin/memberlist.vue'
+// 会员详情页
 import memberDetail from './components/admin/memberDetail.vue'
+// 借阅记录页
 import recordlist from './components/admin/recordlist.vue'
+// 订单记录页
 import orderlist from './components/admin/orderlist.vue'
+// 管理员登陆页
 import adminlogin from './components/admin/adminlogin.vue'
-
 
 export default function(router) {
 	router.map({

@@ -17,7 +17,7 @@
 		</div>
 		<!--再将父组件的数据传递给子组件，这里是传递给会员列表-->
 		<div class="row list">
-			<member v-bind:member-list="memberList"></member>
+			<Member v-bind:member-list="memberList"></Member>
 		</div>
 		<hr>
 		<div class="form-inline row">
@@ -25,7 +25,7 @@
 			<input type="button" class="form-control" value="查询" v-on:click="searchBook(bookQuery)">
 		</div>
 		<div class="row list">
-			<book v-bind:book-list="bookList"></book>
+			<Book v-bind:book-list="bookList"></Book>
 		</div>
 	</div>
   	<modal v-bind:show.sync="showModal">
@@ -65,8 +65,8 @@
 </template>
 
 <script>
-	import member from './index/memberList.vue'
-	import book from './index/bookList.vue'
+	import Member from './index/memberList.vue'
+	import Book from './index/bookList.vue'
 	//引入模态框组件
 	//import modal from '../public/modal.vue'
 	//引入alert组件
@@ -74,31 +74,44 @@
 	//引入数据处理
 	import Admin from '../../store/admin.js'
 	import common from '../../store/common.js'
-	import Router from 'vue-router';
+	// 路由库
+	import Router from 'vue-router'
 	//
-	var $ = require('jquery')
+	import $ from 'jquery'
 	export default {
+		// 组件名
 		name: 'index',
+		// state
 		data(){
 			return {
+				// 输入框内容
 				memberQuery: '',
+				// 
 				bookQuery: '',
+				// 查询到的会员
 				members: [],
+				// 是否显示 modal
 				showModal: false,
 				showSuccess: false,
 				showDangerNoInput: false,
 				showDangerNoMember: false,
+				// 
 				notChoose: false,
 				showInfo: false,
+				// 获取到的会员列表
 				memberList:[],
+				// 获取到的书籍列表
 				bookList: [],
+				// 点击的会员
 				choosemember: {},
+				// 点击的书籍
 				choosebook: {}
 			}
 		},
+		// 声明组件
 		components: {
-			member,
-			book,
+			Member,
+			Book,
 			modal,
 			alert
 		},
@@ -121,9 +134,11 @@
 			}
 		},
 		methods: {
-			searchMember: function(param) {
+			// 点击搜索会员
+			searchMember(param) {
 				//先判断输入是否有效，只判断是否输入，sql注入暂时不考虑
-				if(param == '' || !param || !$('.membersearch').val().trim()){
+				if( !param || param.trim() === ""){
+					// 如果没有输入搜索内容，就显示错误提示
 					this.showDangerNoInput = true
 					return false
 				}

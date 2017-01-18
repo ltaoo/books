@@ -1,13 +1,12 @@
+// 核心框架
 import Vue from 'vue'
+// ajax 库
 import Resource from 'vue-resource'
+// 路由库
 import Router from 'vue-router'
-
-import routerMap from'./routerMap.js'
-//引入过滤器
+// 过滤器
 import {rank, sumDaysByRank, sumCanBorrow, sumRank, searchBy, returnFilter, bookState } from './filters/admin.js';
 import {fetchNotSale, sumPriceByBorrowTimes, orderState, hiddenName } from './filters/index.js';
-
-import App from './components/App.vue';
 //用户验证
 import userAuthentication from './store/authentication.js'
 
@@ -25,8 +24,7 @@ Vue.filter('searchBy', searchBy);
 Vue.filter('returnFilter', returnFilter);
 Vue.filter('bookState', bookState);
 
-var router = new Router()
-
+const router = new Router()
 router.redirect({
 	//应该要有404页面会更友好。
 	'*': '/index'
@@ -40,17 +38,17 @@ router.beforeEach(function(transition){
 			transition.next()
 		}else{
 			//先记录当前url，作为参数传递给login页面，login成功后可以返回登录前页面。
-			let redirect = encodeURIComponent(transition.to.path)
+			const redirect = encodeURIComponent(transition.to.path)
 			//跳转页面
 			transition.redirect('/login?redirect=' + redirect)
 		}
 	}else if(transition.to.adminAuth){
-		//后台验证
-		//console.log('后台')
-		if(localStorage.admin) {
+		// 如果是访问需要登陆的后台页面
+		console.log(localStorage.getItem('admin'))
+		if(localStorage.getItem('admin')) {
 			transition.next();
 		}else{
-			let adminredirect = encodeURIComponent(transition.to.path);
+			const adminredirect = encodeURIComponent(transition.to.path);
 			//跳转页面
 			console.log(adminredirect);
 			transition.redirect('/adminLogin?redirect=' + adminredirect);
@@ -60,6 +58,8 @@ router.beforeEach(function(transition){
 	}
 })
 //加载配置路由
+import routerMap from'./routerMap.js'
 routerMap(router)
 //开始
+import App from './components/App.vue';
 router.start(App, '#app')

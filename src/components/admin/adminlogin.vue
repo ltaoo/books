@@ -2,7 +2,6 @@
   <div class="container">
     <h3>管理员登录页</h3>
     <hr>
-  
     <div class="row">
       <div class="col-xs-4 col-xs-offset-4">
         <form action="" class="form-horizontal">
@@ -22,40 +21,44 @@
 </template>
 
 <script>
-  import auth from '../../store/authentication.js';
-  import Router from 'vue-router';
+  import auth from '../../store/authentication.js'
+  import Router from 'vue-router'
   export default {
+    // 组件名
     name: 'login',
+    // 本地 state
     data(){
       return {
-        username: '',
-        password: ''
+        username: null,
+        password: null
       }
     },
     methods: {
-      login: function(name, paw){
+      // 点击登陆
+      login: function(username, password){
+        // 需要增加一个公共表单验证
+        if(!username || !password || username.trim() === "" || password.trim() === "") {
+          // alert('请输入用户名或密码')
+          return
+        }
         //用户登录
-        var user = {
-          username: name,
-          password: paw
+        const user = {
+          username,
+          password
         }
         auth.adminlogin(user).then(res => {
           //console.log(res);
           if(res.state == 'success'){
-            //如果登录成功，跳转回页面。
-            //var router = new Router();
-            //获取到redirect，先判断是否有
-            var url = decodeURIComponent(this.$route.query.redirect);
-            console.log(url);
-            var router = new Router();
+            // 登陆成功跳转到后台首页
+            const url = decodeURIComponent(this.$route.query.redirect)
+            const router = new Router();
             //给localstroage添加登录
-            //console.log(res);
-            localStorage.admin = res.data[0];
-            router.go({path: '/admin' });
-            //location.href = "/admin";
+            console.log(res)
+            localStorage.setItem('admin', res.data[1])
+            router.go({path: '/admin' })
           }
         }).catch(err => {
-          console.log(err)
+          alert(err)
         })
       }
     }
