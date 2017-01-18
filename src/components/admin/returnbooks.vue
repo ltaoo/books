@@ -62,34 +62,35 @@
 			search: function(param) {
 				//判断是否存在
 				if(param) {
-					Admin.searchRecordByIsbn(param).then(res => {
-						//这里是处理查询到的情况，就直接赋值
-						this.recordList = res.data;
-						console.log('根据isbn')
-					}).catch(function() {
-						//这里是处理没有查询到的情况         这里就直接传给Name查询了？
-						return Admin.searchRecordByTitle(param);
-					}).then(titleRes => {
-						//这里处理的应该是根据标题查询的结果
-						this.recordList = titleRes.data
-						console.log('根据title')
-					}).catch(function(){
-						return Admin.searchRecordByName(param)
-					}).then(nameRes => {
-						this.recordList = nameRes.data
-						console.log('根据name')
-					}).catch(function(){
-						return Admin.searchRecordByNum(param)
-					}).then(numRes => {
-						this.recordList = numRes.data
-						console.log('根据num')
-					}).catch(function(err){
-						console.log(err)
-					})
-				}else{
-          //没有输入查询条件
-          console.log('请输入查询条件')
-        }
+					Admin.searchRecordByIsbn(param)
+						.then(res => {
+							//这里是处理查询到的情况，就直接赋值
+							this.recordList = res.data;
+							console.log('根据isbn')
+						}).catch(function() {
+							//这里是处理没有查询到的情况         这里就直接传给Name查询了？
+							return Admin.searchRecordByTitle(param);
+						}).then(titleRes => {
+							//这里处理的应该是根据标题查询的结果
+							this.recordList = titleRes.data
+							console.log('根据title')
+						}).catch(function(){
+							return Admin.searchRecordByName(param)
+						}).then(nameRes => {
+							this.recordList = nameRes.data
+							console.log('根据name')
+						}).catch(function(){
+							return Admin.searchRecordByNum(param)
+						}).then(numRes => {
+							this.recordList = numRes.data
+							console.log('根据num')
+						}).catch(function(err){
+							console.log(err)
+						})
+					}else{
+			          //没有输入查询条件
+			          console.log('请输入查询条件')
+			        }
 			},
 			returnBook: function(){
 				//这里处理数据，更新records。
@@ -97,15 +98,15 @@
 				//recordId = this.chooseRecord.recordId
 				const recordId = this.chooseRecord.recordId
 				//console.log(recordId)
-				return Admin.returnBook(recordId).then(res => {
+				Admin.returnBook(recordId).then(res => {
 					//console.log(res)
 					if(res.state == 200){
 						//console.log('更新成功')            
 						//更新成功后页面初始化
-            this.showModal = false;
-            this.query = null;
-            this.chooseRecord = null;
-            this.recordList = []; 
+			            this.showModal = false;
+			            this.query = null;
+			            this.chooseRecord = null;
+			            this.recordList = []; 
 					}else{
 						console.log('更新失败')
 					}

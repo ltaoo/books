@@ -68,7 +68,7 @@
 		//根据书籍isbn码查询记录
 		$bookIsbn = $_REQUEST['bookIsbn'];
 		$sql = "select * from records, books, members 
-		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and books.bookIsbn like '%".$bookIsbn."'";
+		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime is NULL and books.bookIsbn like '%".$bookIsbn."'";
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){

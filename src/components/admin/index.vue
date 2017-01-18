@@ -221,6 +221,9 @@
 						this.bookQuery = ''
 						//广播初始化事件，让memberlist.vue初始化
 						this.$broadcast('init')
+					}else {
+						// 借阅失败
+						console.log('borrow fail')
 					}
 				}).catch(err => {
 					console.log(err)

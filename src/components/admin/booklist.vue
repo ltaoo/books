@@ -89,9 +89,8 @@
 		route: {
 			data({to}) {
 				return Index.fetchItems().then(res => {
-					//console.log(res);
-					console.log('booklist page');
-					this.bookList = res;
+					console.log(res)
+					this.bookList = res
 				})
 			}
 		},

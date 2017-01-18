@@ -5,10 +5,13 @@
 	$action = $_REQUEST['action'];
 	//获取书籍列表
 	if($action == 'getBookList'){
-		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, bookState, createTime,
+		// borrowTimes 是借阅次数
+		// 在借阅记录表中，且借阅时间为已经归还的，
+		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
 		(select count(*) from records where records.bookId = books.bookId) as borrowTimes,
-		(select count(*) from records where records.bookId = books.bookId and returnTime = 0000-00-00) as returnTime
+		(select count(*) from records where records.bookId = books.bookId and returnTime is NULL) as bookState
 		from books order by borrowTimes desc";
+		// 怎么算书籍状态呢，书籍状态暂时分已借出和可借两种
 		//$sql = "select * from books ";
 		$results = $mysqli->query($sql);
 		$books = array();

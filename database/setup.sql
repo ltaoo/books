@@ -48,7 +48,8 @@ create table if not exists `comments` (commentId INT NOT NULL AUTO_INCREMENT PRI
 	memberId INT, 
 	createTime DATE);
 -- drop table if exists `admin`;
-create table if not exists `admin` (adminId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+create table if not exists `admin` (
+	adminId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	adminName TEXT, 
 	adminPassword TEXT, 
 	rank INT);

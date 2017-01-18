@@ -20,6 +20,7 @@
 	    //这个地方只要返回成功后的id就可以，查询就交给查询接口。
 	    $result = array();
 	    $result['recordId'] = $recordId;
+	    // 然后是更新会员表
 	    //echo $bookId;
 	}else{
 	    //die('Error : ('. $mysqli->errno .') '. $mysqli->error);
