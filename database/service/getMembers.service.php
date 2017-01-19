@@ -7,8 +7,8 @@
 		//获取会员列表
 	if($action == 'getMemberList'){
 		$sql = "select memberId, memberName, memberNum, memberTel, memberAddress, memberRank, memberCreateTime,  
-		(select count(*) from records where records.memberId = members.memberId and records.returnTime != 0000-00-00) as borrowTimes,
-		(select count(*) from records where records.memberId = members.memberId and records.returnTime = 0000-00-00) as borrowNum 
+		(select count(*) from records where records.memberId = members.memberId and records.returnTime is not NULL) as borrowTimes,
+		(select count(*) from records where records.memberId = members.memberId and records.returnTime is NULL) as borrowNum 
 		from members";
 		$results = $mysqli->query($sql);
 		$members = array();
