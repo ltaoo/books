@@ -57,7 +57,7 @@
 		$result = array();
 		$books = array();
 		$bookIsbn = $_REQUEST['bookIsbn'];
-		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, 
+		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
 		(select borrowTime from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as borrowTime
 		from books where books.bookIsbn =" . $bookIsbn;
 		$results = $mysqli->query($sql);
@@ -76,7 +76,8 @@
 					'bookPrice' => $row['bookPrice'],
 					'borrowTime' => $row['borrowTime'],
 					'bookSummary' => $row['bookSummary'],
-					'bookImg' => $row['bookImg']
+					'bookImg' => $row['bookImg'],
+					'createTime' => $row['createTime']
 				);
 				$books[] = $a;
 			}
@@ -99,8 +100,8 @@
 			$result['state'] = 504;
 			die(json_encode($result));
 		}
-		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, 
-		(select borrowTime from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as borrowTime
+		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
+		(select borrowTime from records where records.bookId = books.bookId and records.returnTime is NULL) as borrowTime
 		from books where bookState = 0 and bookTitle like '%" . $bookName . "%'";
 		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
@@ -118,7 +119,8 @@
 					'bookPrice' => $row['bookPrice'],
 					'borrowTime' => $row['borrowTime'],
 					'bookSummary' => $row['bookSummary'],
-					'bookImg' => $row['bookImg']
+					'bookImg' => $row['bookImg'],
+					'createTime' => $row['createTime']
 				);
 				$books[] = $a;
 			}
@@ -136,7 +138,7 @@
 		$result = array();
 		$book = array();
 		$bookId = $_REQUEST['bookId'];
-		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, 
+		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
 		(select count(*) from records where records.bookId = books.bookId) as borrowTimes,
 		(select count(*) from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as returnTime
 		from books where bookId = '$bookId'";
@@ -159,6 +161,7 @@
 			'borrowTimes' => $row['borrowTimes'],
 			'bookSummary' => $row['bookSummary'],
 			'bookImg' => $row['bookImg'],
+			'createTime' => $row['createTime'],
 			'returnTime' => $row['returnTime']
 		);
 		$result['state'] = 200;

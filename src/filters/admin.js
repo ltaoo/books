@@ -49,7 +49,7 @@ export function sumDaysByRank(value, rank){
 }
 //根据书籍是否已借出判断是否有借阅按钮
 export function sumCanBorrow(value){
-	if(value == null){
+	if(value === null){
 		return true
 	}else{
 		return false

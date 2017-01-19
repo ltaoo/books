@@ -176,7 +176,6 @@
 				}
 				Admin.searchBookByIsbn(param)
 					.then( res => {
-						//console.log(res.data)
 						//如果没有获取到数据
 						if(res.state == 404){
 							//alert('没有查询到');
@@ -192,6 +191,7 @@
 						}else{
 							//如果查询到的bookState != 0 ，就不能借阅
 							//获取到数据后传递给父组件
+							console.log(res.data)
 							this.bookList = res.data
 						}
 					})
