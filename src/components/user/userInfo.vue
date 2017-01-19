@@ -25,32 +25,36 @@
     name: 'userinfo',
     data () {
       return {
-        member: null,
+        member: {},
         borrowBook: false,
-        book: null
+        book: {}
       }
     },
     route: {
       data (to) {
         //console.log(localStorage.userid);
         //查询用户信息
-        store.getMemberById(localStorage.userid).then(res => {
-          console.log(res.data);
-          this.member = res.data;
-        }).catch(err => {
-          console.log(err);
-        })
+        store.getMemberById(localStorage.getItem('userid'))
+          .then(res => {
+            console.log(res.data)
+            this.member = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
         //查询借阅记录
-        store.searchRecordByMemberId(localStorage.userid).then(res => {
-          console.log(res.data);
-          if(res.state === 200) {
-            //如果有借阅记录
-            this.borrowBook = true;
-            this.book = res.data;
-          }
-        }).catch(err => {
-          console.log(err);
-        })
+        store.searchRecordByMemberId(localStorage.getItem('userid'))
+          .then(res => {
+            console.log(res.data)
+            if(res.state === 200) {
+              //如果有借阅记录
+              this.borrowBook = true
+              this.book = res.data
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   }

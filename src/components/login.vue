@@ -28,16 +28,16 @@
 		name: 'login',
 		data(){
 			return {
-				username: '',
-				password: ''
+				username: null,
+				password: null
 			}
 		},
 		methods: {
-			login: function(name, paw){
+			login: function(username, password){
 				//用户登录
-				var user = {
-					username: name,
-					password: paw
+				const user = {
+					username,
+					password
 				}
 				auth.login(user).then(res => {
 					//console.log(res);
@@ -50,7 +50,7 @@
 						var router = new Router();
 						//给localstroage添加登录
 						//console.log(res);
-						localStorage.userid = res.data[0];
+						localStorage.setItem('userid', res.data[0])
 						router.go({path: '/user/info' });
 					}
 				})

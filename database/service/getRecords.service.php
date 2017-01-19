@@ -44,7 +44,7 @@
 		//根据书籍id码查询记录
 		$bookId = $_REQUEST['bookId'];
 		$sql = "select * from records
-		where bookId = '$bookId' and returnTime = '0000-00-00'";
+		where bookId = '$bookId' and returnTime is NULL";
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){
@@ -107,7 +107,7 @@
 		//根据书籍名查询记录
 		$bookTitle = $_REQUEST['bookTitle'];
 		$sql = "select * from records, books, members 
-		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and books.bookTitle like '%".$bookTitle."%'";
+		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime is NULL and books.bookTitle like '%".$bookTitle."%'";
 		//echo $sql;
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
@@ -145,7 +145,7 @@
 		//根据会员名查询记录
 		$memberName = $_REQUEST['memberName'];
 		$sql = "select * from records, books, members 
-		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and members.memberName like '%".$memberName."'";
+		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime is NULL and members.memberName like '%".$memberName."'";
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){
@@ -182,7 +182,7 @@
 		//根据会员学号查询记录
 		$memberNum = $_REQUEST['memberNum'];
 		$sql = "select * from records, books, members 
-		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and members.memberNum like '%".$memberNum."'";
+		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime is NULL and members.memberNum like '%".$memberNum."'";
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){
@@ -257,11 +257,11 @@
 		//根据会员学号查询记录
 		$memberId = $_REQUEST['memberId'];
 		/*$sql = "select * from records, books, members
-		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and members.memberId = '$memberId'";*/
+		where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime is NULL and members.memberId = '$memberId'";*/
 		$sql = "select bookTilte
 		from books where books.bookId = (select bookId from records where records.memberId = '$memberId')";
 		//先从records中查询是否存在借阅记录
-		$sql = "select * from records where records.memberId = '$memberId' and records.returnTime = 0000-00-00";
+		$sql = "select * from records where records.memberId = '$memberId' and records.returnTime is NULL";
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){
@@ -273,7 +273,7 @@
 		if($row){
 			//如果查询到记录
 			$sql = "select * from records, books, members 
-			where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime = '0000-00-00' and members.memberId = '$memberId'";
+			where records.bookId = books.bookId and records.memberId = members.memberId and records.returnTime is NULL and members.memberId = '$memberId'";
 			$results = $mysqli->query($sql);
 			$row = $results->fetch_assoc();
 			//var_dump($row);
