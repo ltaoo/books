@@ -13,12 +13,17 @@ git clone https://github.com/ltaoo/books.git
 npm i
 ```
 
-安装依赖完成后需要使用 docker 运行 php 容器和 mysql 容器提供接口，进入`books/database`文件夹
+安装依赖完成后需要使用 docker 运行 php 容器和 mysql 容器提供接口，进入`books/database`文件夹，首先是构建镜像：
+```bash
+docker build -t bookshop .
+```
+
+运行数据库容器与 php 容器：
 ```bash
 ./start.sh
 ```
 
-会开启名为`books`的`php`容器和名为`books_db`的`mysql`容器，再初始化数据表
+开启名为`books`的`php`容器和名为`books_db`的`mysql`容器，再初始化数据表
 ```bash
 docker exec -i books_db mysql -uroot -p123 bookshop < setup.sql
 ```
@@ -36,8 +41,6 @@ npm run dev
 
 ### 书籍管理
 登陆后台后可以进入"书籍列表"添加新书籍，点击"添加新书籍"，输入书籍名称或者 ISBN 码搜索后添加。
-> 由于数据库编码问题只能添加不包含中文信息的书籍。
-
 添加书籍成功后可以在前台首页看到新添加的书籍。
 
 ### 借阅记录管理

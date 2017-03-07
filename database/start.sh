@@ -4,7 +4,7 @@
 # for a users-service user which can access it.
 echo "Starting DB..."  
 # 配置 mysql 超级用户密码 数据库名 用户名 密码
-docker run --name books_db -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=bookshop -d mysql
+docker run --name books_db -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=bookshop -d bookshop
 
 # Wait for the database service to start up.
 # echo "Waiting for DB to start up..."  
