@@ -1,65 +1,71 @@
 var path = require('path')
-var extractTextPlugin = require('extract-text-webpack-plugin')
 var config = require('../config')
-var projectRoot = path.resolve(__dirname, '../')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-// 这个函数用来把传入的参数和打包文件夹拼接
-// 至于为什么要写成一个函数，因为会调用两次，如果每次都这样写不是很麻烦吗？现在只要调用一个函数就可以了
-exports.assetsPath = (_path) => {
-	var assetsSubDirectory = process.env.NODE_ENV === 'production'
-		? config.build.assetsSubDirectory
-		: config.dev.assetsSubDirectory
-	return path.posix.join(assetsSubDirectory, _path)	
+exports.assetsPath = function (_path) {
+  var assetsSubDirectory = process.env.NODE_ENV === 'production'
+    ? config.build.assetsSubDirectory
+    : config.dev.assetsSubDirectory
+  return path.posix.join(assetsSubDirectory, _path)
 }
 
-// 样式的 loader
-exports.cssLoaders = (options) => {
-	options = options || {}
-	// 生成 loaders
-	function generateLoaders (loaders) {
-		var sourceLoader = loaders.map(loader => {
-			var extraParamChar
-			// 判断 loader 是否有 ?
-			if(/\?/.test(loader)) {
-				// 
-				loader = loader.replace(/\?/, '-loader')
-				extraParamChar = '&'
-			} else {
-				loader = `${loader}-loader`
-				extraParamChar = '?'
-			}
+exports.cssLoaders = function (options) {
+  options = options || {}
 
-			//
-			return loader + (options.sourceMap ? `${extraParamChar}sourceMap` : '')
-			// return loader
-		})
+  var cssLoader = {
+    loader: 'css-loader',
+    options: {
+      minimize: process.env.NODE_ENV === 'production',
+      sourceMap: options.sourceMap
+    }
+  }
 
-		// 如果传入的配置项中要求打包 css 文件
-		if(options.extract) {
-			return extractTextPlugin.extract(sourceLoader)
-		} else {
-			return sourceLoader.join('!')
-		}
-	}
+  // generate loader string to be used with extract text plugin
+  function generateLoaders (loader, loaderOptions) {
+    var loaders = [cssLoader]
+    if (loader) {
+      loaders.push({
+        loader: loader + '-loader',
+        options: Object.assign({}, loaderOptions, {
+          sourceMap: options.sourceMap
+        })
+      })
+    }
 
-	return {
-		css: generateLoaders(['css']),
-		// postcss: generateLoaders(['css']),
-		// scss: generateLoaders(['css', 'sass']),
-	}
+    // Extract CSS when that option is specified
+    // (which is the case during production build)
+    if (options.extract) {
+      return ExtractTextPlugin.extract({
+        use: loaders,
+        fallback: 'vue-style-loader'
+      })
+    } else {
+      return ['vue-style-loader'].concat(loaders)
+    }
+  }
+
+  // http://vuejs.github.io/vue-loader/en/configurations/extract-css.html
+  return {
+    css: generateLoaders(),
+    postcss: generateLoaders(),
+    less: generateLoaders('less'),
+    sass: generateLoaders('sass', { indentedSyntax: true }),
+    scss: generateLoaders('sass'),
+    stylus: generateLoaders('stylus'),
+    styl: generateLoaders('stylus')
+  }
 }
 
-// 暴露出来的方法，传入配置项，返回 loaders 数组
-exports.styleLoaders = (options) => {
-	var output = []
-	// 返回 loaders
-	var loaders = exports.cssLoaders(options)
-	for(var extension in loaders) {
-		var loader = loaders[extension]
-		output.push({
-			test: new RegExp('\\.' + extension + '$'),
-			loader
-		})
-	}
-	return output
+// Generate loaders for standalone style files (outside of .vue)
+exports.styleLoaders = function (options) {
+  var output = []
+  var loaders = exports.cssLoaders(options)
+  for (var extension in loaders) {
+    var loader = loaders[extension]
+    output.push({
+      test: new RegExp('\\.' + extension + '$'),
+      use: loader
+    })
+  }
+  return output
 }

@@ -1,45 +1,35 @@
-// https://github.com/shelljs/shelljs
-// 加载该依赖后可以直接使用 shell 命令如 rm 等
-require('shelljs/global')
-env.NODE_ENV = 'production'
+require('./check-versions')()
 
-var path = require('path')
+process.env.NODE_ENV = 'production'
+
 var ora = require('ora')
+var rm = require('rimraf')
+var path = require('path')
+var chalk = require('chalk')
 var webpack = require('webpack')
-// 通用配置
 var config = require('../config')
-// webpack 打包配置
 var webpackConfig = require('./webpack.prod.conf')
 
-console.log(`
-	提示:
-	打包后得到的网站，必须在 HTTP 服务器下才能工作,
-	不能直接打开
-`)
-
-// 显示进度
-var spinner = ora('building for production')
+var spinner = ora('building for production...')
 spinner.start()
 
-// 获取到打包的文件夹路径
-var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
-// 删除已经存在的打包文件夹, -rf 参数是用来删除非空文件夹
-rm('-rf', assetsPath)
-// 创建打包
-mkdir('-p', assetsPath)
-// 拷贝项目下的 static 文件夹到打包文件夹下
-cp('-R', '/static/*', assetsPath)
+rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
+  if (err) throw err
+  webpack(webpackConfig, function (err, stats) {
+    spinner.stop()
+    if (err) throw err
+    process.stdout.write(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
+    }) + '\n\n')
 
-webpack(webpackConfig, (err, stats) => {
-	// 打包完成后停止终端的 loading
-	spinner.stop()
-	if(err) throw err
-
-	process.stdout.write(stats.toString({
-		colors: true,
-		modules: false,
-		children: false,
-		chunks: false,
-		chunkModules: false
-	}) + '\n')
+    console.log(chalk.cyan('  Build complete.\n'))
+    console.log(chalk.yellow(
+      '  Tip: built files are meant to be served over an HTTP server.\n' +
+      '  Opening index.html over file:// won\'t work.\n'
+    ))
+  })
 })
