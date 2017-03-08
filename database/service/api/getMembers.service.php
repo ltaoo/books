@@ -45,7 +45,6 @@
 			$result['state'] = 500;
 		}else{
 			while($row = $results->fetch_assoc()) {
-				var_dump($row);
 			    $temp = array(
 			    	'memberId' => $row['memberId'],
 					'memberName' => $row['memberName'],
@@ -61,11 +60,11 @@
 			}
 		}
 		
-		if(count($members) == 0){
-			$result['state'] = 404;
-		}else{
-			$result['state'] = 200;
-		}
+		// if(count($members) == 0){
+		// 	$result['state'] = 404;
+		// }else{
+		// 	$result['state'] = 200;
+		// }
 		$result['data'] = $members;
 		// close connection 
 		$mysqli->close();
@@ -103,11 +102,6 @@
 				'borrowTimes' => $row['borrowTimes']
 			);
 			$members[] = $a;
-		}
-		if(count($members) == 0){
-			$result['state'] = 404;
-		}else{
-			$result['state'] = 200;
 		}
 		$result['data'] = $members;
 		$results->free();

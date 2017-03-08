@@ -27,16 +27,16 @@
 				<a @click="adminlogout()">注销</a>
 			</el-menu-item>
 		</el-menu>
-		<el-row>
+		<el-row :gutter="20">
 			<el-col :span="12">
 				<el-input
 					placeholder="请输入会员姓名或学号"
 					icon="search"
-					v-model="memberQuery"
+					v-model = "memberQuery"
 					:on-icon-click="searchMember.bind(this, memberQuery)"
 				>
 				</el-input>
-			<!-- <Member v-bind:member-list="memberList"></Member> -->
+				<MemberList :members = "members" />
 			</el-col>
 			<el-col :span="12">
 				<el-input
@@ -86,7 +86,7 @@
  --></template>
 
 <script>
-	// import Member from './index/memberList.vue'
+	import MemberList from '@/components/MemberList.vue'
 	// import Book from './index/bookList.vue'
 	// 引入模态框组件
 	// import modal from '../public/modal.vue'
@@ -98,11 +98,10 @@
 	import Router from 'vue-router'
 	export default {
 		// 组件名
-		name: 'index',
+		name: 'Index',
 		// state
 		data () {
 			return {
-				// 输入框内容
 				memberQuery: null,
 				bookQuery: null,
 				// 查询到的会员
@@ -119,7 +118,7 @@
 		},
 		// 声明组件
 		components: {
-			// Member,
+			MemberList
 			// Book
 		},
 		events: {
@@ -155,28 +154,40 @@
 				// 根据学号查询
 				searchMemberByNum(param)
 					.then(res => {
-						// console.log(res)
-						// 通过学号查询没有查询到，就通过姓名查询试试看。
-						if (res.state === 404) {
+						console.log('searchMemberByNum result is: ', res)
+						// 通过学号查询没有查询到，就通过姓名查询
+						if (res.data.length === 0) {
 							return searchMemberByName(param)
 						} else {
 							// console.log(res)
-							this.memberList = res.data
+							this.members = res.data
 						}
+					}, err => {
+						this.$message({
+							message: err,
+							type: 'info'
+						})
 					})
 					.then(res => {
-						if (res.state === 404) {
-							this.showInfo = true
+						console.log('searchMemberByName result is: ', res)
+						if (res.data.length === 0) {
+							// 根据学号、姓名都没有查询到，表示没有
+							this.$message({
+								message: '没有查询到',
+								type: 'info'
+							})
 						} else {
-							this.memberList = res.data
+							this.members = res.data
 							// 查询完后将chooseMember清空
-							this.choosemember = {}
-							// 每次点击完查询按钮，都把list组件初始化
-							this.$broadcast('init')
+							// this.choosemember = {}
+							// // 每次点击完查询按钮，都把list组件初始化
+							// this.$broadcast('init')
 						}
-					})
-					.catch(err => {
-						console.log(err)
+					}, err => {
+						this.$message({
+							message: err,
+							type: 'info'
+						})
 					})
 			},
 			// 点击搜索图书

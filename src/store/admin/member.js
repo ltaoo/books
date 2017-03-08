@@ -22,8 +22,10 @@ export function searchMemberByNum (param) {
 	return new Promise((resolve, reject) => {
 		fetch(url(memberapi, 'searchByNum', 'memberNum', param))
 			.then(res => {
-				// console.log(res)
-				resolve(res.data)
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
 			})
 			.catch(err => {
 				reject(err)
@@ -35,8 +37,10 @@ export function searchMemberByName (param) {
 	return new Promise((resolve, reject) => {
 		fetch(url(memberapi, 'searchByName', 'memberName', param))
 			.then(res => {
-				// console.log(res)
-				resolve(res.data)
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
 			})
 			.catch(err => {
 				reject(err)
