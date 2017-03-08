@@ -68,9 +68,26 @@ export function searchMemberByName (param) {
 }
 // 添加会员到数据库
 export function createMember (member) {
-	// const FormData = require('form-data')
 	return new Promise((resolve, reject) => {
 		fetch(`${prefix}/addMember.service.php`, {
+			method: 'POST',
+			body: convert(member)
+		})
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+// 更新会员信息
+export function updateMember (member) {
+	return new Promise((resolve, reject) => {
+		fetch(`${prefix}/getMembers.service.php?action=update`, {
 			method: 'POST',
 			body: convert(member)
 		})

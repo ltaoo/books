@@ -8,7 +8,6 @@
 			<div class="bottom clearfix">
 				<time class="time">{{record.borrowTime}}</time>
 				<el-button 
-					type="text" 
 					class="button"
 					@click = "choose(record)"
 				>归还</el-button>

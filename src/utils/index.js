@@ -16,6 +16,7 @@ export function url (api, action, query, param) {
  * @param <Object> data
  * @return <FormData>
  */
+// const FormData = require('form-data')
 export function convert (data) {
 	let formData = new FormData()
 	for (let key in data) {

@@ -41,7 +41,7 @@ import Books from '@/containers/Admin/Books.vue'
 // 会员列表页
 import Members from '@/containers/Admin/Members.vue'
 // 会员详情页
-// import MemberDetail from '@/components/admin/memberDetail.vue'
+import MemberDetail from '@/containers/Admin/MemberDetail.vue'
 // 借阅记录页
 import Records from '@/containers/Admin/Records.vue'
 // 订单记录页
@@ -108,6 +108,12 @@ const router = new Router({
 					path: 'records',
 					name: 'Records',
 					component: Records,
+					meta: { adminAuth: true }
+				}, {
+					// 会员修改页
+					path: 'member/:id',
+					name: 'MemberDetail',
+					component: MemberDetail,
 					meta: { adminAuth: true }
 				}
 			]

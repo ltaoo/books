@@ -6,7 +6,6 @@
 			<div class="bottom clearfix">
 				<time class="time">{{member.memberCreateTime}}</time>
 			</div>
-			<p>{{member.borrowNum}}</p>
 			<p v-if = "member.borrowNum !== '0'">已借图书({{member.borrowNum}})</p>
 			<div v-else>
 				<p v-if = "outdate">会员已超期</p>

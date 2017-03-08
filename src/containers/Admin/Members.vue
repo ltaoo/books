@@ -59,6 +59,17 @@
 				label="创建时间"
 			>
 			</el-table-column>
+			<el-table-column
+				label="操作"
+			>
+				<template scope="scope">
+					<router-link :to = "{path: '/admin/member/' + scope.row.memberId}">编辑</router-link>
+					<el-button
+						size="small"
+						type="danger"
+						@click="deleteMember(scope.$index, scope.row)">删除</el-button>
+				</template>
+			</el-table-column>
 		</el-table>
 		<el-dialog title="新增会员" v-model="dialogVisible" size="small">
 			<!-- <span>这是一段信息</span> -->

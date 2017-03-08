@@ -8,7 +8,7 @@
 		>
 		</el-input>
 		<el-row :gutter = "10">
-			<el-col :span = "12" v-for = "record in records" :key = "record.recordId">
+			<el-col :span = "8" v-for = "record in records" :key = "record.recordId">
 				<Record
 					:record = "record"
 					:choose = "returnBook"

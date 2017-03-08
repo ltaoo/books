@@ -13,4 +13,7 @@
 	.el-row {
 		margin-bottom: 20px;
 	}
+	.el-card {
+		margin-top: 20px;
+	}
 </style>
