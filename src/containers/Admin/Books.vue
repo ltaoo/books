@@ -60,6 +60,7 @@
 			<BookList 
 				:books="resultList" 
 				:choose = "addBook"
+				:Child = "Book"
 			/>		
 		</el-dialog>	
 	</div>
@@ -73,6 +74,7 @@
 		searchBookById
 	} from '@/store/books'
 	import BookList from '@/components/BookList.vue'
+	import Book from '@/components/Book.vue'
 	export default {
 		name: 'Members',
 		data () {
@@ -87,7 +89,9 @@
 				// 查询豆瓣得到的结果
 				resultList: [],
 				// 保存填写新会员的信息
-				book: {}
+				book: {},
+				// 传给 booklist 的子组件
+				Book
 			}
 		},
 		components: {

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-	import Book from '@/components/Book.vue'
+	import Book from '@/components/Book'
 	export default {
 		name: 'BookList',
 		props: ['books', 'choose'],

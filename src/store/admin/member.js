@@ -68,7 +68,6 @@ export function searchMemberByName (param) {
 }
 // 添加会员到数据库
 export function createMember (member) {
-	// member.memberRank = parseFloat(member.memberRank)
 	// const FormData = require('form-data')
 	let formData = new FormData()
 	for (let key in member) {

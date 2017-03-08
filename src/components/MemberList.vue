@@ -3,6 +3,7 @@
 		<el-col :span="8" v-for="member in members" :key="member.memberId">
 			<Member 
 				:member = "member"
+				:choose = "choose"
 			/>
 		</el-col>
 	</el-row>
@@ -12,7 +13,7 @@
 	import Member from '@/components/Member.vue'
 	export default {
 		name: 'MemberList',
-		props: ['members'],
+		props: ['members', 'choose'],
 		components: {
 			Member
 		}

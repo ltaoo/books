@@ -1,10 +1,10 @@
 <template>
 	<el-card :body-style="{ padding: '0px' }">
-		<img :src="book.image" class="image">
+		<img :src="book.image || book.bookImg" class="image">
 		<div style="padding: 14px;">
-			<span>{{book.title}}</span>
+			<span>{{book.title || book.bookTitle}}</span>
 			<div class="bottom clearfix">
-				<time class="time">{{book.pubdate}}</time>
+				<time class="time">{{book.pubdate || '0000-00-00'}}</time>
 				<el-button 
 					type="text" 
 					class="button"

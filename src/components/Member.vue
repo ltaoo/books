@@ -5,7 +5,11 @@
 			<span>{{member.memberName}}</span>
 			<div class="bottom clearfix">
 				<time class="time">{{member.memberCreateTime}}</time>
-				<el-button type="text" class="button">选择</el-button>
+				<el-button 
+					type="text" 
+					class="button"
+					@click = "choose(member)"
+				>选择</el-button>
 			</div>
 		</div>
 	</el-card>
@@ -26,7 +30,7 @@
 		// 组件名
 		name: 'Member',
 		// 从父组件传过来的属性
-		props: ['member'],
+		props: ['member', 'choose'],
 		methods: {
 			chooseMember (obj, index) {
 				// 选择会员，这里要通知父组件

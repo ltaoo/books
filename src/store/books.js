@@ -74,3 +74,33 @@ export function searchBookById (id) {
 			})
 	})
 }
+// 通过书籍ISBN码查询书籍
+export function searchBookByIsbn (param) {
+	return new Promise((resolve, reject) => {
+		fetch(url(bookapi, 'searchByIsbn', 'bookIsbn', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+// 通过书籍名查询书籍
+export function searchBookByName (param) {
+	return new Promise((resolve, reject) => {
+		fetch(url(bookapi, 'searchByName', 'bookName', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}

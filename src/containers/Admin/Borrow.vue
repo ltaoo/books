@@ -1,5 +1,6 @@
 <template>
-	<el-row :gutter="20">
+	<div>
+		<el-row :gutter="20">
 			<el-col :span="12">
 				<el-input
 					placeholder="请输入会员姓名或学号"
@@ -8,30 +9,44 @@
 					:on-icon-click="searchMember.bind(this, memberQuery)"
 				>
 				</el-input>
-				<MemberList :members = "members" />
+				<MemberList 
+					:members = "members" 
+					:choose = "chooseMember"
+				/>
 			</el-col>
 			<el-col :span="12">
 				<el-input
 					placeholder="请输入书籍名或ISBN码"
 					icon="search"
 					v-model="bookQuery"
+					:on-icon-click="searchBook.bind(this, bookQuery)"
 				>
 				</el-input>	
-			<!-- <Book v-bind:book-list="bookList"></Book> -->
+				<BookList 
+					:books = "books" 
+					:choose = "chooseBook"
+				/>
 			</el-col>
 		</el-row>
+		<el-dialog title="请确认以下信息" v-model="dialogVisible" size="small">
+			<span>{{choosedMember.memberName}}</span> 借阅
+			<span>{{choosedBook.bookTitle}}</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="borrow(choosedMember, choosedBook)">确 定</el-button>
+			</span>
+		</el-dialog>
+	</div>
 </template>
 
 
 <script>
 	import MemberList from '@/components/MemberList.vue'
-	// import Book from './index/bookList.vue'
-	// 引入模态框组件
-	// import modal from '../public/modal.vue'
-	// 引入alert组件
+	import BookList from '@/components/BookList.vue'
 	// 引入数据处理
 	import { searchMemberByName, searchMemberByNum } from '@/store/admin/member'
-	// import common from '../../store/common.js'
+	import { searchBookByName, searchBookByIsbn } from '@/store/books'
+	import { borrow } from '@/store/admin/records'
 	// 路由库
 	import Router from 'vue-router'
 	export default {
@@ -44,38 +59,24 @@
 				bookQuery: null,
 				// 查询到的会员
 				members: [],
+				// 查询到的图书
+				books: [],
 				// 获取到的会员列表
 				memberList: [],
 				// 获取到的书籍列表
 				bookList: [],
+				// 模态框
+				dialogVisible: false,
 				// 点击的会员
-				choosemember: {},
+				choosedMember: {},
 				// 点击的书籍
-				choosebook: {}
+				choosedBook: {}
 			}
 		},
 		// 声明组件
 		components: {
-			MemberList
-			// Book
-		},
-		events: {
-			chooseMember (member) {
-				this.choosemember = member
-			},
-			chooseBook (book) {
-				this.choosebook = book
-				// 这里只是处理list组件点击了借阅事件，接下来的判断还是由index来处理
-				if (this.choosemember) {
-					// 如果选择了会员，将模态框展示出来
-					this.showModal = true
-				} else {
-					// 不然就提示没有选择会员
-					console.log('没有选择会员')
-					// 这里触发alert组件
-					this.showDangerNoMember = true
-				}
-			}
+			MemberList,
+			BookList
 		},
 		methods: {
 			// 点击搜索会员
@@ -92,7 +93,6 @@
 				// 根据学号查询
 				searchMemberByNum(param)
 					.then(res => {
-						console.log('searchMemberByNum result is: ', res)
 						// 通过学号查询没有查询到，就通过姓名查询
 						if (res.data.length === 0) {
 							return searchMemberByName(param)
@@ -107,7 +107,6 @@
 						})
 					})
 					.then(res => {
-						console.log('searchMemberByName result is: ', res)
 						if (res.data.length === 0) {
 							// 根据学号、姓名都没有查询到，表示没有
 							this.$message({
@@ -130,65 +129,87 @@
 			},
 			// 点击搜索图书
 			searchBook (param) {
-				if (!param || param.trim() === '') {
-					this.showDangerNoInput = true
+				if (!param || !param.trim()) {
+					this.$message({
+						message: '请输入查询条件',
+						type: 'warning'
+					})
 					return false
 				}
-				// Admin.searchBookByIsbn(param)
-				// 	.then(res => {
-				// 		// 如果没有获取到数据
-				// 		if (res.state === 404) {
-				// 			// alert('没有查询到');
-				// 			return Admin.searchBookByName(param)
-				// 		} else {
-				// 			// console.log(res)
-				// 			this.bookList = res.data
-				// 		}
-				// 	})
-				// 	.then(res => {
-				// 		if (res.state === 404) {
-				// 			this.showInfo = true
-				// 		} else {
-				// 			// 如果查询到的bookState != 0 ，就不能借阅
-				// 			// 获取到数据后传递给父组件
-				// 			console.log(res.data)
-				// 			this.bookList = res.data
-				// 		}
-				// 	})
-				// 	.catch(err => {
-				// 		console.log(err)
-				// 	})
+				searchBookByIsbn(param)
+					.then(res => {
+						if (res.data.length === 0) {
+							return searchBookByName(param)
+						} else {
+							this.books = res.data
+						}
+					})
+					.then(res => {
+						if (res.data.length === 0) {
+							this.$message({
+								message: '结果为空',
+								type: 'info'
+							})
+						} else {
+							this.books = res.data
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: err,
+							type: 'warning'
+						})
+					})
+			},
+			chooseMember (member) {
+				this.choosedMember = member
+			},
+			chooseBook (book) {
+				this.choosedBook = book
+				// 这里只是处理list组件点击了借阅事件，接下来的判断还是由index来处理
+				if (this.choosedMember.memberName) {
+					this.dialogVisible = true
+				} else {
+					this.$message({
+						message: '请先选择会员',
+						type: 'info'
+					})
+				}
 			},
 			// 点击书籍进行借阅
 			borrow (member, book) {
 				// 提交到数据库
-				// const postData = {
-				// 	memberId: member.memberId,
-				// 	bookId: book.bookId
-				// }
-				// Admin.addBorrowRecord(postData)
-				// 	.then(res => {
-				// 		console.log(res)
-				// 		if (res.data.recordId) {
-				// 			// 借阅成功后需要将所有的数据清空，恢复到初始状态，理论上来说当然是直接刷新页面方便
-				// 			this.showModal = false
-				// 			this.showSuccess = true
-				// 			this.bookList = []
-				// 			this.memberList = []
-				// 			this.choosemember = {}
-				// 			this.choosebook = {}
-				// 			this.memberQuery = ''
-				// 			this.bookQuery = ''
-				// 			// 广播初始化事件，让memberlist.vue初始化
-				// 			this.$broadcast('init')
-				// 		} else {
-				// 			// 借阅失败
-				// 			console.log('borrow fail')
-				// 		}
-				// 	})
-				// 	.catch(err => {
-				// 		console.log(err)
-				// 	})
+				const postData = {
+					memberId: member.memberId,
+					bookId: book.bookId
+				}
+				borrow(postData)
+					.then(res => {
+						if (res.recordId) {
+							// 借阅成功后需要将所有的数据清空，恢复到初始状态，理论上来说当然是直接刷新页面方便
+							this.dialogVisible = false
+							this.bookList = []
+							this.memberList = []
+							this.choosedMember = {}
+							this.choosedBook = {}
+							this.memberQuery = ''
+							this.bookQuery = ''
+							// 广播初始化事件，让memberlist.vue初始化
+							// this.$broadcast('init')
+						} else {
+							// 借阅失败
+							this.$message({
+								message: '借阅失败',
+								type: 'info'
+							})
+						}
+					})
+					.catch(err => {
+						this.$message({
+							message: err,
+							type: 'info'
+						})
+					})
 			},
 			// 管理员推出登陆
 			adminlogout () {
