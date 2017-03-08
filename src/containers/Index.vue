@@ -1,34 +1,39 @@
 <template>
-	<div class="container">
-		<ul class="nav">
-			<li><a v-link="{ path: '/index' }">主页</a></li>
-			<li><a v-link="{ path: '/user/info' }">用户主页</a></li>
-			<li v-if ="userLogin == true"><a @click="logout()">注销</a></li>
-			<el-menu 
+	<div>
+		<el-menu 
 			theme="dark" 
-			:default-active="activeIndex" 
 			class="el-menu-demo" 
 			mode="horizontal" 
-			@select="handleSelect">
-				<el-menu-item index="1">处理中心</el-menu-item>
-				<el-submenu index="2">
-					<template slot="title">我的工作台</template>
-					<el-menu-item index="2-1">选项1</el-menu-item>
-					<el-menu-item index="2-2">选项2</el-menu-item>
-					<el-menu-item index="2-3">选项3</el-menu-item>
-				</el-submenu>
-				<el-menu-item index="3">
-					<a href="https://www.ele.me" target="_blank">订单管理</a>
-				</el-menu-item>
-			</el-menu>
-		</ul>
-		<div class="row">
-			<div class="col-xs-8">
-				<input type="text" class="form-control" placeholder="输入图书名称筛选" v-model="query">
-				<div class="row">
-					<!-- <book v-for="book in booksList | filterBy query | fetchNotSale" v-bind:book="book"></book> -->
+		>
+			<el-menu-item index="1">
+				<router-link :to="{ path: '/index' }">惠学图书管理系统</router-link>
+			</el-menu-item>
+			<el-menu-item index="2">
+				<router-link :to="{ path: '/user/info' }">用户主页</router-link>
+			</el-menu-item>
+			<el-menu-item index="3">
+				<a href="https://www.ele.me" target="_blank">订单管理</a>
+			</el-menu-item>
+			<el-submenu index="4">
+				<template slot="title">我的工作台</template>
+				<el-menu-item index="2-1">选项1</el-menu-item>
+				<el-menu-item index="2-2">选项2</el-menu-item>
+				<el-menu-item index="2-3">选项3</el-menu-item>
+			</el-submenu>
+			<el-menu-item index="5" v-if ="userLogin">
+				<a @click="logout()">注销</a>
+			</el-menu-item>
+		</el-menu>
+		<el-row>
+  			<el-col :span="16">
+	  			<div>
+					<input type="text" class="form-control" placeholder="输入图书名称筛选" v-model="query">
+						<!-- <book v-for="book in booksList | filterBy query | fetchNotSale" v-bind:book="book"></book> -->
 				</div>
-			</div>
+  			</el-col>
+		</el-row>
+<!-- 		<div class="row">
+			<div class="col-xs-8">
 			<div class="col-xs-4" v-show="cartList.length == 0">
 				<h3>购物车内没有商品</h3>
 			</div>
@@ -44,7 +49,7 @@
 				<p>总价：<span>{{sumPrice}}</span></p>
 				<a class="btn btn-default form-control" v-link="{ path: '/order' }">结算</a>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -69,7 +74,9 @@
 				// 是否重复
 				isChong: false,
 				// 用户是否登录
-				userLogin: true
+				userLogin: true,
+				// 筛选图书条件
+				query: ''
 			}
 		},
 		route: {

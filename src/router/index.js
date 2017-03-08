@@ -31,7 +31,7 @@ import Index from '@/containers/Index.vue'
  * 后台
  ----------------- */
  // 后台首页
-// import Admin from '@/components/admin/index.vue'
+import Admin from '@/containers/Admin/Index.vue'
 // // 还书页
 // import Returnbooks from '@/components/admin/returnbooks.vue'
 // // 书籍列表页
@@ -70,11 +70,11 @@ export default new Router({
 		// 			component: Info
 		// 		}
 		// 	]
-		// }, {
-		// 	// 后台主页
-		// 	path: 'admin',
-		// 	name: 'Admin',
-		// 	component: Admin
+		}, {
+			// 后台主页
+			path: '/admin',
+			name: 'Admin',
+			component: Admin
 		}
 	]
 })
