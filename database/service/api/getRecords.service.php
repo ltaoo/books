@@ -92,12 +92,7 @@
 			);
 			$records[] = $record;
 		}
-		if(count($records) == 0){
-			$result['state'] = 404;
-		}else{
-			$result['state'] = 200;
-			$result['data'] = $records;
-		}
+		$result['data'] = $records;
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'searchByTitle'){
@@ -132,12 +127,7 @@
 			);
 			$records[] = $record;
 		}
-		if(count($records) == 0){
-			$result['state'] = 404;
-		}else{
-			$result['state'] = 200;
-			$result['data'] = $records;
-		}
+		$result['data'] = $records;
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'searchByName'){
@@ -169,12 +159,7 @@
 			);
 			$records[] = $record;
 		}
-		if(count($records) == 0){
-			$result['state'] = 404;
-		}else{
-			$result['state'] = 200;
-			$result['data'] = $records;
-		}
+		$result['data'] = $records;
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'searchByNumber'){
@@ -206,12 +191,7 @@
 			);
 			$records[] = $record;
 		}
-		if(count($records) == 0){
-			$result['state'] = 404;
-		}else{
-			$result['state'] = 200;
-			$result['data'] = $records;
-		}
+		$result['data'] = $records;
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'searchRecordByMemberId'){
@@ -244,12 +224,7 @@
 			);
 			$records[] = $record;
 		}
-		if(count($records) == 0){
-			$result['state'] = 404;
-		}else{
-			$result['state'] = 200;
-			$result['data'] = $records;
-		}
+		$result['data'] = $records;
 		$mysqli->close();
 		die(json_encode($result));
 	}elseif($action == 'searchByMemberId'){
@@ -309,11 +284,6 @@
 		//UPDATE `records` SET `returnTime` = '2015-12-30' WHERE `records`.`recordId` =7
 		$sql = "UPDATE `records` SET `returnTime` = '$time' WHERE `records`.`recordId` =" . $recordId;
 		$results = $mysqli->query($sql);
-		if($results){
-			$result['state'] = 200;
-		}else{
-			$result['state'] = 500;
-		}
 		$mysqli->close();
 		die(json_encode($result));
 	}

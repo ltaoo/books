@@ -29,6 +29,23 @@ export function borrow (data) {
 			})
 	})
 }
+// 还书，更新records的returnTime字段
+export function returnBook (param) {
+	return new Promise((resolve, reject) => {
+		// 判断条件是否存在或者是否合法
+		fetch(url(api, 'update', 'recordId', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+
 // 获取所有借阅记录
 export function fetchRecords () {
 	return new Promise((resolve, reject) => {
@@ -44,83 +61,70 @@ export function fetchRecords () {
 			})
 	})
 }
-// // 通过书籍isbn码查询已借书籍
-// adminStore.searchRecordByIsbn = function (param) {
-// 	return new Promise(function(resolve, reject){
-// 		// 判断条件是否存在或者是否合法
-// 		if(param) {
-// 			Vue.http.get('./service/getRecords.service.php?action=serachByIsbn&bookIsbn=' + param).then(res => {
-// 				// 在这里还做一个判断，是否查询有结果
-// 				if(res.data.state == 200){
-// 					resolve(res.data)
-// 				} else {
-// 					reject('result is empty')
-// 				}
-// 			}).catch(err => {
-// 				reject(err)
-// 			})
-// 		} else {
-// 			reject('param is empty')
-// 		}
-// 	})
-// }
-// // 通过书籍名称查询已借书籍
-// adminStore.searchRecordByTitle = function (param) {
-// 	return new Promise(function(resolve, reject){
-// 		// 判断条件是否存在或者是否合法
-// 		if(param) {
-// 			Vue.http.get('./service/getRecords.service.php?action=searchByTitle&bookTitle=' + param).then(res => {
-// 				if(res.data.state == 200){
-// 					resolve(res.data)
-// 				} else {
-// 					reject('result is empty')
-// 				}
-// 			}).catch(err => {
-// 				reject(err)
-// 			})
-// 		} else {
-// 			reject('param is empty')
-// 		}
-// 	})
-// }
-// // 通过会员名查询已借书籍
-// adminStore.searchRecordByName = function (param) {
-// 	return new Promise(function(resolve, reject){
-// 		// 判断条件是否存在或者是否合法
-// 		if(param) {
-// 			Vue.http.get('./service/getRecords.service.php?action=searchByName&memberName=' + param).then(res => {
-// 				if(res.data.state == 200){
-// 					resolve(res.data)
-// 				} else {
-// 					reject('result is empty')
-// 				}
-// 			}).catch(err => {
-// 				reject(err)
-// 			})
-// 		} else {
-// 			reject('param is empty')
-// 		}
-// 	})
-// }
-// // 通过会员学号查询已借书籍
-// adminStore.searchRecordByNum = function (param) {
-// 	return new Promise(function(resolve, reject){
-// 		// 判断条件是否存在或者是否合法
-// 		if(param) {
-// 			Vue.http.get('./service/getRecords.service.php?action=searchByNumber&memberNum=' + param).then(res => {
-// 				if(res.data.state == 200){
-// 					resolve(res.data)
-// 				} else {
-// 					reject('result is empty')
-// 				}
-// 			}).catch(err => {
-// 				reject(err)
-// 			})
-// 		} else {
-// 			reject('param is empty')
-// 		}
-// 	})
-// }
+// 通过书籍isbn码查询已借书籍
+export function searchRecordByIsbn (param) {
+	return new Promise((resolve, reject) => {
+		// 判断条件是否存在或者是否合法
+		fetch(url(api, 'serachByIsbn', 'bookIsbn', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+// 通过书籍名称查询已借书籍
+export function searchRecordByTitle (param) {
+	return new Promise((resolve, reject) => {
+		// 判断条件是否存在或者是否合法
+		fetch(url(api, 'searchByTitle', 'bookTitle', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+// 通过会员名查询已借书籍
+export function searchRecordByName (param) {
+	return new Promise((resolve, reject) => {
+		// 判断条件是否存在或者是否合法
+		fetch(url(api, 'searchByName', 'memberName', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+// 通过会员学号查询已借书籍
+export function searchRecordByNum (param) {
+	return new Promise((resolve, reject) => {
+		// 判断条件是否存在或者是否合法
+		fetch(url(api, 'searchByNumber', 'memberNum', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
 // // 通过会员id查询已借书籍
 // adminStore.searchRecordByMemberId = function (param) {
 // 	return new Promise(function(resolve, reject){
@@ -160,3 +164,4 @@ export function fetchRecords () {
 // 		}
 // 	})
 // }
+

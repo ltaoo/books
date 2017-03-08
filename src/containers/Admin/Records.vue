@@ -77,7 +77,10 @@
 					this.records = res.data
 				})
 				.catch(err => {
-					console.log(err)
+					this.$message({
+						message: err,
+						type: 'warning'
+					})
 				})
 		}
 	}

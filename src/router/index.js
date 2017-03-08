@@ -35,7 +35,7 @@ import Admin from '@/containers/Admin/Index.vue'
 // 后台主页也就是借书页
 import Borrow from '@/containers/Admin/Borrow.vue'
 // 还书页
-// import Returnbooks from '@/components/admin/returnbooks.vue'
+import Return from '@/containers/Admin/Return.vue'
 // 书籍列表页
 import Books from '@/containers/Admin/Books.vue'
 // 会员列表页
@@ -79,10 +79,15 @@ export default new Router({
 			component: Admin,
 			children: [
 				{
-					// 主页
+					// 借书页
 					path: 'borrow',
 					name: 'Borrow',
 					component: Borrow
+				}, {
+					// 还书页
+					path: 'return',
+					name: 'Return',
+					component: Return
 				}, {
 					// 会员列表页
 					path: 'members',
