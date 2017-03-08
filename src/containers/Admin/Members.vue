@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class = "container">
 		<el-row :gutter="20">
 			<el-col :span="18">
 				<el-input
@@ -114,8 +114,8 @@
 </template>
 
 <script>
-	// 数据
 	import { fetchMembers, createMember, searchMemberById } from '@/store/admin/member'
+	// import { rank } from '@/utils/index'
 	export default {
 		name: 'Members',
 		data () {
@@ -191,6 +191,11 @@
 				// 			alert('删除失败,请重试')
 				// 		}
 				// 	})
+			}
+		},
+		computed: {
+			rank () {
+				return 'rank()'
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class = "container">
 		<el-input
 			placeholder="请输入会员姓名或学号查询"
 			icon="search"

@@ -1,6 +1,6 @@
 <template>
 	<el-row :gutter="20">
-		<el-col :span="8" v-for="member in members" :key="member.memberId">
+		<el-col :span="12" v-for="member in members" :key="member.memberId">
 			<Member 
 				:member = "member"
 				:choose = "choose"
@@ -22,6 +22,6 @@
 
 <style scoped>
 	.el-card {
-		margin-bottom: 20px;
+		margin-top: 20px;
 	}
 </style>

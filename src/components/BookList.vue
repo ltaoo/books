@@ -1,6 +1,6 @@
 <template>
 	<el-row :gutter="20">
-		<el-col :span="12" v-for="book in books" :key="book.bookId || book.id">
+		<el-col :span="8" v-for="book in books" :key="book.bookId || book.id">
 			<Book 
 				:book = "book"
 				:choose = "choose"
@@ -22,6 +22,6 @@
 
 <style scoped>
 	.el-card {
-		margin-bottom: 20px;
+		margin-top: 20px;
 	}
 </style>

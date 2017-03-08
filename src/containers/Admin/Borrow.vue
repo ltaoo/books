@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class = "container">
 		<el-row :gutter="20">
 			<el-col :span="12">
 				<el-input
@@ -9,7 +9,7 @@
 					:on-icon-click="searchMember.bind(this, memberQuery)"
 				>
 				</el-input>
-				<MemberList 
+				<MemberList
 					:members = "members" 
 					:choose = "chooseMember"
 				/>
@@ -47,12 +47,9 @@
 	import { searchMemberByName, searchMemberByNum } from '@/store/admin/member'
 	import { searchBookByName, searchBookByIsbn } from '@/store/books'
 	import { borrow } from '@/store/admin/records'
-	// 路由库
-	import Router from 'vue-router'
 	export default {
 		// 组件名
 		name: 'Index',
-		// state
 		data () {
 			return {
 				memberQuery: null,
@@ -115,10 +112,6 @@
 							})
 						} else {
 							this.members = res.data
-							// 查询完后将chooseMember清空
-							// this.choosemember = {}
-							// // 每次点击完查询按钮，都把list组件初始化
-							// this.$broadcast('init')
 						}
 					}, err => {
 						this.$message({
@@ -194,8 +187,6 @@
 							this.choosedBook = {}
 							this.memberQuery = ''
 							this.bookQuery = ''
-							// 广播初始化事件，让memberlist.vue初始化
-							// this.$broadcast('init')
 						} else {
 							// 借阅失败
 							this.$message({
@@ -210,17 +201,6 @@
 							type: 'info'
 						})
 					})
-			},
-			// 管理员推出登陆
-			adminlogout () {
-				localStorage.removeItem('admin')
-				if (!localStorage.getItem('admin')) {
-					// 返回首页
-					const router = new Router()
-					router.go({path: '/index'})
-				} else {
-					console.log(localStorage)
-				}
 			}
 		}
 	}

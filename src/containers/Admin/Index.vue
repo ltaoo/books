@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div>
 		<el-menu 
 			theme="dark" 
 			class="el-menu-demo" 
@@ -27,7 +27,9 @@
 				<a @click="dialogVisible = true">注销</a>
 			</el-menu-item>
 		</el-menu>
-		<router-view></router-view>
+		<keep-alive>
+			<router-view></router-view>
+		</keep-alive>
 		<el-dialog title="提示" v-model="dialogVisible" size="tiny">
 			<span>确定要退出登录吗？</span>
 			<span slot="footer" class="dialog-footer">

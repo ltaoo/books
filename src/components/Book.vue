@@ -4,9 +4,8 @@
 		<div style="padding: 14px;">
 			<span>{{book.title || book.bookTitle}}</span>
 			<div class="bottom clearfix">
-				<time class="time">{{book.pubdate || '0000-00-00'}}</time>
+				<time class="time">{{book.pubdate || book.createTime}}</time>
 				<el-button 
-					type="text" 
 					class="button"
 					@click = "choose(book)"
 				>选择</el-button>
