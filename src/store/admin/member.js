@@ -26,7 +26,10 @@ export function searchMemberById (param) {
 	return new Promise((resolve, reject) => {
 		fetch(url(memberapi, 'searchById', 'memberId', param))
 			.then(res => {
-				resolve(res.data)
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
 			})
 			.catch(err => {
 				reject(err)
@@ -52,6 +55,30 @@ export function searchMemberByNum (param) {
 export function searchMemberByName (param) {
 	return new Promise((resolve, reject) => {
 		fetch(url(memberapi, 'searchByName', 'memberName', param))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+// 添加会员到数据库
+export function createMember (member) {
+	// member.memberRank = parseFloat(member.memberRank)
+	// const FormData = require('form-data')
+	let formData = new FormData()
+	for (let key in member) {
+		formData.append(key, member[key])
+	}
+	return new Promise((resolve, reject) => {
+		fetch(`${prefix}/addMember.service.php`, {
+			method: 'POST',
+			body: formData
+		})
 			.then(res => {
 				return res.json()
 			})

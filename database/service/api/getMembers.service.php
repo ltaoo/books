@@ -141,7 +141,6 @@
 			);
 			$member = $a;
 		}
-		$result['state'] = 200;
 		$result['data'] = $member;
 		$results->free();
 		$mysqli->close();

@@ -10,7 +10,7 @@
 				</el-input>
 			</el-col>
 			<el-col :span="6">
-				<el-button type="primary">添加新会员</el-button>
+				<el-button type="primary" @click="dialogVisible = true">添加新会员</el-button>
 			</el-col>
 		</el-row>
 		<el-table
@@ -60,6 +60,30 @@
 			>
 			</el-table-column>
 		</el-table>
+		<el-dialog title="新增会员" v-model="dialogVisible" size="small">
+			<!-- <span>这是一段信息</span> -->
+			<el-input placeholder="请输入内容" v-model="member.memberName">
+				<template slot="prepend">会员名</template>
+			</el-input>
+			<el-input placeholder="请输入内容" v-model="member.memberNum">
+				<template slot="prepend">学号</template>
+			</el-input>
+			<el-input placeholder="请输入内容" v-model="member.memberTel">
+				<template slot="prepend">联系方式</template>
+			</el-input>
+			<el-input placeholder="请输入内容" v-model="member.memberAddress">
+				<template slot="prepend">地址</template>
+			</el-input>
+			<el-radio-group v-model="member.memberRank">
+				<el-radio-button :label="0">周卡</el-radio-button>
+				<el-radio-button :label="1">月卡</el-radio-button>
+				<el-radio-button :label="2">期卡</el-radio-button>
+			</el-radio-group>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="addMember(member)">确 定</el-button>
+			</span>
+		</el-dialog>
 			<!-- <table class="table table-hover">
 				<tr>
 					<th>序号</th>
@@ -86,75 +110,73 @@
 					<td><a v-link = "{ path: '/member/' + member.memberId}">编辑</a>||<a @click="deleteMember(member.memberId, $index)">删除</a></td>
 				</tr>
 			</table> -->
-		<!-- <modal :show.sync="showModal">
-			<div slot="modal-header" class="modal-header">
-		    <h4 class="modal-title">添加新书籍</h4>
-		  </div>
-			<div slot="modal-body">
-				<div class="form-group">
-					<input type="text" class="form-control" v-model="member.memberName" placeholder="用户名">
-					<input type="text" class="form-control" v-model="member.memberNum" placeholder="学号">
-					<input type="text" class="form-control" v-model="member.memberTel" placeholder="联系方式">
-					<input type="text" class="form-control" v-model="member.memberAddress" placeholder="地址">
-					<input type="radio" name="rank" value='0' v-model="member.memberRank">周卡
-					<input type="radio" name="rank" value='1' v-model="member.memberRank">月卡
-					<input type="radio" name="rank" value='2' v-model="member.memberRank">期卡
-				</div>
-			</div>
-			<div slot="modal-footer">
-				<div class="footerBtn">
-					<input type="reset" class="btn btn-default" value="重置">
-					<input type="submit" class="btn btn-default" value="确定" @click="addMember(member)">
-				</div>
-			</div>
-		</modal> -->
 	</div>
 </template>
 
 <script>
 	// 数据
-	import { fetchMembers } from '@/store/admin/member'
+	import { fetchMembers, createMember, searchMemberById } from '@/store/admin/member'
 	export default {
 		name: 'Members',
 		data () {
 			return {
 				query: null,
 				members: [],
-				member: {}
+				// 新增会员的对话框是否可见
+				dialogVisible: false,
+				// 保存填写新会员的信息
+				member: {
+					memberRank: 0
+				}
 			}
-		},
-		components: {
 		},
 		created () {
 			fetchMembers()
 				.then(res => {
-					console.log(res.data)
 					this.members = res
 				})
 				.catch(err => {
-					console.log(err)
+					this.$message({
+						message: err
+					})
 				})
 		},
 		methods: {
 			addMember (member) {
-				// Admin.addMember(member)
-				// 	.then(res => {
-				// 		console.log(res)
-				// 		if (res.data.memberId) {
-				// 			// 如果返回了bookId，就是添加成功
-				// 			// 查询这本书
-				// 			// Admin.getMemberById(res.data.memberId)
-				// 			// 	.then(res => {
-				// 			// 		// 查询成功后，将这本书插入到列表中。
-				// 			// 		// this.bookList.$set(res);
-				// 			// 		// 并关闭modal。
-				// 			// 		console.log('search success')
-				// 			// 		this.showModal = false
-				// 			// 		this.memberList.push(res.data)
-				// 			// 		this.member = null
-				// 			// 	})
-				// 		}
-				// 	})
+				createMember(member)
+					.then(res => {
+						if (res.memberId) {
+							searchMemberById(res.memberId)
+								.then(res => {
+									this.members.push(res.data)
+								})
+								.catch(err => {
+									this.$message({
+										message: err,
+										type: 'info'
+									})
+								})
+							this.dialogVisible = false
+							this.member = {
+								memberNum: '',
+								memberName: '',
+								memberRank: 0,
+								memberTel: '',
+								memberAddress: ''
+							}
+						} else {
+							this.$message({
+								type: 'info',
+								message: res
+							})
+						}
+					})
+					.catch(err => {
+						this.$message({
+							type: 'info',
+							message: err
+						})
+					})
 			},
 			deleteMember (memberId, index) {
 				// Admin.deleteMember(memberId)

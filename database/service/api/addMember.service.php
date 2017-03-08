@@ -1,6 +1,6 @@
 <?php 
 	header("content-type:text/html;charset=utf8");
-	//var_dump($_POST);
+	// var_dump($_POST);
 	include_once('public/mysqliConnect.php');
 	$memberName = $_POST['memberName'];
 	$memberNum = $_POST['memberNum'];
