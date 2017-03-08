@@ -76,6 +76,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "element-ui": "^1.2.3",
+    "fetch-jsonp": "^1.0.6",
     "isomorphic-fetch": "^2.2.1",
     "vue": "^2.2.1",
     "vue-router": "^2.3.0"

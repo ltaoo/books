@@ -37,7 +37,7 @@ import Borrow from '@/containers/Admin/Borrow.vue'
 // 还书页
 // import Returnbooks from '@/components/admin/returnbooks.vue'
 // 书籍列表页
-// import Booklist from '@/components/admin/booklist.vue'
+import Books from '@/containers/Admin/Books.vue'
 // 会员列表页
 import Members from '@/containers/Admin/Members.vue'
 // 会员详情页
@@ -86,6 +86,10 @@ export default new Router({
 					path: 'members',
 					name: 'Members',
 					component: Members
+				}, {
+					path: 'books',
+					name: 'Books',
+					component: Books
 				}
 			]
 		}
