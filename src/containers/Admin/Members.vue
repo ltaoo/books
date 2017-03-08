@@ -67,7 +67,8 @@
 					<el-button
 						size="small"
 						type="danger"
-						@click="deleteMember(scope.$index, scope.row)">删除</el-button>
+						:disabled="scope.row.borrowNum !== '0'"
+						@click="deleteMember(scope.row.memberId, scope.$index)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -94,38 +95,12 @@
 				<el-button @click="dialogVisible = false">取 消</el-button>
 				<el-button type="primary" @click="addMember(member)">确 定</el-button>
 			</span>
-		</el-dialog>
-			<!-- <table class="table table-hover">
-				<tr>
-					<th>序号</th>
-					<th>会员姓名</th>
-					<th>会员学号</th>
-					<th>联系方式</th>
-					<th>地址</th>
-					<th>已借数量</th>
-					<th>累计借阅</th>
-					<th>会员等级</th>
-					<th>登记时间</th>
-					<th>操作</th>
-				</tr>
-				<tr v-for="member in memberList | filterBy query">
-					<td>{{$index + 1}}</td>
-					<td>{{member.memberName}}</td>
-					<td>{{member.memberNum}}</td>
-					<td>{{member.memberTel}}</td>
-					<td>{{member.memberAddress}}</td>
-					<td>{{member.borrowNum}}</td>
-					<td>{{member.borrowTimes}}</td>
-					<td>{{member.memberRank | rank}}</td>
-					<td>{{member.memberCreateTime}}</td>
-					<td><a v-link = "{ path: '/member/' + member.memberId}">编辑</a>||<a @click="deleteMember(member.memberId, $index)">删除</a></td>
-				</tr>
-			</table> -->
+		</el-dialog>	
 	</div>
 </template>
 
 <script>
-	import { fetchMembers, createMember, searchMemberById } from '@/store/admin/member'
+	import { fetchMembers, createMember, searchMemberById, deleteMember } from '@/store/admin/member'
 	// import { rank } from '@/utils/index'
 	export default {
 		name: 'Members',
@@ -190,18 +165,18 @@
 					})
 			},
 			deleteMember (memberId, index) {
-				// Admin.deleteMember(memberId)
-				// 	.then(res=> {
-				// 		// 这里判断是否成功，如果成功就页面上也同步删除该记录，或者刷新页面。
-				// 		// console.log(data);
-				// 		console.log(res)
-				// 		if (res.state == 'success') {
-				// 			// 如果删除成功
-				// 			this.memberList.splice(index, 1)
-				// 		} else {
-				// 			alert('删除失败,请重试')
-				// 		}
-				// 	})
+				deleteMember(memberId)
+					.then(res => {
+						this.$message({
+							message: '删除会员成功'
+						})
+						this.members.splice(index, 1)
+					})
+					.catch(err => {
+						this.$message({
+							message: err
+						})
+					})
 			}
 		},
 		computed: {

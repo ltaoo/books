@@ -102,3 +102,19 @@ export function updateMember (member) {
 			})
 	})
 }
+
+// 删除会员
+export function deleteMember (memberId) {
+	return new Promise((resolve, reject) => {
+		fetch(url(memberapi, 'delete', 'memberId', memberId))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}

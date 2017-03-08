@@ -42,7 +42,6 @@
 		name: 'memberdetail',
 		data () {
 			return {
-				show: false,
 				member: {}
 			}
 		},
@@ -58,6 +57,7 @@
 					this.$message({
 						message: err
 					})
+					router.push({ path: '/admin/members' })
 				})
 		},
 		methods: {
