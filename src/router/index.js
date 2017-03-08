@@ -43,13 +43,13 @@ import Members from '@/containers/Admin/Members.vue'
 // 会员详情页
 // import MemberDetail from '@/components/admin/memberDetail.vue'
 // 借阅记录页
-import Records from '@/containers/admin/Records.vue'
+import Records from '@/containers/Admin/Records.vue'
 // 订单记录页
 // import Orderlist from '@/components/admin/orderlist.vue'
 // 管理员登陆页
-// import Adminlogin from '@/components/admin/adminlogin.vue'
+import AdminLogin from '@/containers/Admin/AdminLogin.vue'
 
-export default new Router({
+const router = new Router({
 	routes: [
 		{
 			// 主页
@@ -77,34 +77,77 @@ export default new Router({
 			path: '/admin',
 			name: 'Admin',
 			component: Admin,
+			meta: { adminAuth: true },
 			children: [
 				{
 					// 借书页
 					path: 'borrow',
 					name: 'Borrow',
-					component: Borrow
+					component: Borrow,
+					meta: { adminAuth: true }
 				}, {
 					// 还书页
 					path: 'return',
 					name: 'Return',
-					component: Return
+					component: Return,
+					meta: { adminAuth: true }
 				}, {
 					// 会员列表页
 					path: 'members',
 					name: 'Members',
-					component: Members
+					component: Members,
+					meta: { adminAuth: true }
 				}, {
 					// 书籍列表页
 					path: 'books',
 					name: 'Books',
-					component: Books
+					component: Books,
+					meta: { adminAuth: true }
 				}, {
 					// 借阅记录列表页
 					path: 'records',
 					name: 'Records',
-					component: Records
+					component: Records,
+					meta: { adminAuth: true }
 				}
 			]
+		}, {
+			// 管理员登录
+			path: '/adminlogin',
+			name: 'AdminLogin',
+			component: AdminLogin
 		}
 	]
 })
+
+// 认证钩子
+router.beforeEach((to, from, next) => {
+	if (to.matched.some(record => record.meta.requiresAuth)) {
+		// 用户登录验证
+		if (localStorage.getItem('userId')) {
+			next()
+		} else {
+			next({
+				path: '/login',
+				query: {
+					redirect: to.fullPath
+				}
+			})
+		}
+	} else if (to.matched.some(record => record.meta.adminAuth)) {
+		if (localStorage.getItem('adminLogin')) {
+			next()
+		} else {
+			next({
+				path: '/adminlogin',
+				query: {
+					redirect: to.fullPath
+				}
+			})
+		}
+	} else {
+		next()
+	}
+})
+
+export default router

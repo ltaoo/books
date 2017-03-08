@@ -12,3 +12,14 @@ export function url (api, action, query, param) {
 	}
 	return url
 }
+/* 返回处理好的 formData
+ * @param <Object> data
+ * @return <FormData>
+ */
+export function convert (data) {
+	let formData = new FormData()
+	for (let key in data) {
+		formData.append(key, data[key])
+	}
+	return formData
+}

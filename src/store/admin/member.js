@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 // url 用来返回地址，省得拼接字符串
 import { prefix } from '@/config'
-import { url } from '@/utils'
+import { url, convert } from '@/utils'
 /* --------------
  * 会员信息接口
  --------------- */
@@ -69,14 +69,10 @@ export function searchMemberByName (param) {
 // 添加会员到数据库
 export function createMember (member) {
 	// const FormData = require('form-data')
-	let formData = new FormData()
-	for (let key in member) {
-		formData.append(key, member[key])
-	}
 	return new Promise((resolve, reject) => {
 		fetch(`${prefix}/addMember.service.php`, {
 			method: 'POST',
-			body: formData
+			body: convert(member)
 		})
 			.then(res => {
 				return res.json()

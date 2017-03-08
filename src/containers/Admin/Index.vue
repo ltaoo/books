@@ -23,45 +23,43 @@
 			<el-menu-item index="6">
 				<router-link :to="{ path: '/admin/orders' }">订单列表</router-link>
 			</el-menu-item>
-			<el-menu-item index="7">
-				<a @click="adminlogout()">注销</a>
+			<el-menu-item index="7" v-if = "isLogin">
+				<a @click="dialogVisible = true">注销</a>
 			</el-menu-item>
 		</el-menu>
 		<router-view></router-view>
+		<el-dialog title="提示" v-model="dialogVisible" size="tiny">
+			<span>确定要退出登录吗？</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="logout()">确 定</el-button>
+			</span>
+		</el-dialog>
 	</div>
-  	<!-- <modal v-bind:show.sync="showModal">
-			<div slot="modal-header" class="modal-header">
-		    <h4 class="modal-title">确定借阅信息</h4>
-		  </div>
-	    <div slot="modal-body" class="borrowInfo">
-	    	<p>姓名：{{choosemember.memberName}}</p>
-	    	<p>学号：{{choosemember.memberNum}}</p>
-	    	<p>开始日期：{{choosemember.memberCreateTime}}</p>
-	    	<p>会员等级：{{choosemember.memberRank | rank}}</p>
-	    	<p>图书名称：{{choosebook.bookTitle}}</p>
-	    	<p>图书ISBN码：{{choosebook.bookIsbn}}</p>
-	    </div>
-	    <div slot="modal-footer">
-	    	<div class="footerBtn">
-	    		<button class="btn btn-default" @click="borrow(choosemember, choosebook)">确认</button>
-	    	</div>
-	    </div>
-	</modal> -->
-	<!-- <alert :show.sync="showSuccess" dismissable placement="top" type="success" width="400px" :duration="3000">
-			<span class="icon-info-circled alert-icon-float-left"></span>
-		  	<strong>借阅成功</strong>
-	</alert>
-	<alert :show.sync="showDangerNoMember" dismissable placement="top" type="danger" width="400px" :duration="3000">
-		<span class="icon-info-circled alert-icon-float-left"></span>
-		<strong>请先选择会员</strong>
-	</alert>
-	<alert :show.sync="showDangerNoInput" dismissable placement="top" type="danger" width="400px" :duration="3000">
-		<span class="icon-info-circled alert-icon-float-left"></span>
-		<strong>请输入查询条件</strong>
-	</alert>
-	<alert :show.sync="showInfo" dismissable placement="top" type="info" width="400px" :duration="3000">
-		<span class="icon-info-circled alert-icon-float-left"></span>
-	  	<strong>没有查询到</strong>
-	</alert>
- --></template>
+</template>
+
+ <script>
+ 	import router from '@/router/index'
+ 	export default {
+ 		name: 'AdminIndex',
+ 		data () {
+ 			return {
+ 				isLogin: false,
+ 				dialogVisible: false
+ 			}
+ 		},
+ 		created () {
+ 			// 一加载就读取 localStorage
+ 			this.isLogin = !!localStorage.getItem('adminLogin')
+ 		},
+ 		methods: {
+ 			logout () {
+ 				localStorage.removeItem('adminLogin')
+ 				router.push({
+ 					path: '/'
+ 				})
+ 			}
+ 		}
+ 	}
+ </script>
 
