@@ -3,6 +3,7 @@
 		<el-col :span="12" v-for="book in books" :key="book.bookId || book.id">
 			<Book 
 				:book = "book"
+				:choose = "choose"
 			/>
 		</el-col>
 	</el-row>
@@ -12,7 +13,7 @@
 	import Book from '@/components/Book.vue'
 	export default {
 		name: 'BookList',
-		props: ['books'],
+		props: ['books', 'choose'],
 		components: {
 			Book
 		}

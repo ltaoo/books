@@ -37,3 +37,40 @@ export function searchByDouban (param) {
 			})
 	})
 }
+// 添加书籍到数据库
+export function createBook (book) {
+	let formData = new FormData()
+	for (let key in book) {
+		formData.append(key, book[key])
+	}
+	return new Promise((resolve, reject) => {
+		fetch(`${prefix}/addBook.service.php`, {
+			method: 'POST',
+			body: formData
+		})
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
+// 根据 id 查询书籍
+export function searchBookById (id) {
+	return new Promise((resolve, reject) => {
+		fetch(url(bookapi, 'searchById', 'bookId', id))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}

@@ -54,19 +54,24 @@
 			<el-input placeholder="输入书籍名或ISBN码" 
 				v-model="searchQuery"
 				icon="search"
+				:on-icon-click="searchByDouban.bind(this, searchQuery)"
 			>
 			</el-input>
-			<BookList :books="resultList" />
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="searchByDouban(searchQuery)">确 定</el-button>
-			</span>
+			<BookList 
+				:books="resultList" 
+				:choose = "addBook"
+			/>		
 		</el-dialog>	
 	</div>
 </template>
 
 <script>
-	import { fetchBooks, searchByDouban } from '@/store/books'
+	import {
+		fetchBooks,
+		searchByDouban,
+		createBook,
+		searchBookById
+	} from '@/store/books'
 	import BookList from '@/components/BookList.vue'
 	export default {
 		name: 'Members',
@@ -112,40 +117,42 @@
 					})
 			},
 			addBook (book) {
-				// createBook(member)
-				// 	.then(res => {
-				// 		if (res.memberId) {
-				// 			searchMemberById(res.memberId)
-				// 				.then(res => {
-				// 					this.members.push(res.data)
-				// 				})
-				// 				.catch(err => {
-				// 					this.$message({
-				// 						message: err,
-				// 						type: 'info'
-				// 					})
-				// 				})
-				// 			this.dialogVisible = false
-				// 			this.member = {
-				// 				memberNum: '',
-				// 				memberName: '',
-				// 				memberRank: 0,
-				// 				memberTel: '',
-				// 				memberAddress: ''
-				// 			}
-				// 		} else {
-				// 			this.$message({
-				// 				type: 'info',
-				// 				message: res
-				// 			})
-				// 		}
-				// 	})
-				// 	.catch(err => {
-				// 		this.$message({
-				// 			type: 'info',
-				// 			message: err
-				// 		})
-				// 	})
+				const data = {
+					title: book.title,
+					price: parseFloat(book.price.match(/[1-9]\d*\.*\d*/g)[0]),
+					isbn13: book.isbn13,
+					summary: book.summary,
+					image: book.images.medium
+				}
+				createBook(data)
+					.then(res => {
+						if (res.bookId) {
+							searchBookById(res.bookId)
+								.then(res => {
+									this.books.push(res.data)
+								})
+								.catch(err => {
+									this.$message({
+										message: err,
+										type: 'info'
+									})
+								})
+							this.dialogVisible = false
+							this.searchQuery = ''
+							this.resultList = []
+						} else {
+							this.$message({
+								type: 'info',
+								message: res
+							})
+						}
+					})
+					.catch(err => {
+						this.$message({
+							type: 'info',
+							message: err
+						})
+					})
 			},
 			deleteBook (memberId, index) {
 				// Admin.deleteMember(memberId)

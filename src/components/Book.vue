@@ -5,7 +5,11 @@
 			<span>{{book.title}}</span>
 			<div class="bottom clearfix">
 				<time class="time">{{book.pubdate}}</time>
-				<el-button type="text" class="button">选择</el-button>
+				<el-button 
+					type="text" 
+					class="button"
+					@click = "choose(book)"
+				>选择</el-button>
 			</div>
 		</div>
 	</el-card>
@@ -16,6 +20,6 @@
 		// 组件名
 		name: 'Book',
 		// 从父组件传过来的属性
-		props: ['book']
+		props: ['book', 'choose']
 	}
 </script>
