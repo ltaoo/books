@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch'
 
 import { prefix } from '@/config/index'
-// import { url } from '@/utils/index'
+import { url } from '@/utils/index'
 
-// const api = `${prefix}/getRecords.service.php?`
+const api = `${prefix}/getRecords.service.php?`
 /* --------------
  * 借阅记录接口
  --------------- */
@@ -29,17 +29,21 @@ export function borrow (data) {
 			})
 	})
 }
-// adminStore.getRecordList = () => {
-// 	return new Promise((resolve, reject) => {
-// 		Vue.http.get('./service/getRecords.service.php?action=recordsList')
-// 			.then(res=>{
-// 				resolve(res.data)
-// 			})
-// 			.catch(err =>{
-// 				reject(err)
-// 			})
-// 	})
-// }
+// 获取所有借阅记录
+export function fetchRecords () {
+	return new Promise((resolve, reject) => {
+		fetch(url(api, 'recordsList'))
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}
 // // 通过书籍isbn码查询已借书籍
 // adminStore.searchRecordByIsbn = function (param) {
 // 	return new Promise(function(resolve, reject){
