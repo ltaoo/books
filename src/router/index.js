@@ -30,21 +30,23 @@ import Index from '@/containers/Index.vue'
 /* ----------------
  * 后台
  ----------------- */
- // 后台首页
+// 后台根视图
 import Admin from '@/containers/Admin/Index.vue'
-// // 还书页
+// 后台主页也就是借书页
+import Borrow from '@/containers/Admin/Borrow.vue'
+// 还书页
 // import Returnbooks from '@/components/admin/returnbooks.vue'
-// // 书籍列表页
+// 书籍列表页
 // import Booklist from '@/components/admin/booklist.vue'
-// // 会员列表页
-// import Memberlist from '@/components/admin/memberlist.vue'
-// // 会员详情页
+// 会员列表页
+import Members from '@/containers/Admin/Members.vue'
+// 会员详情页
 // import MemberDetail from '@/components/admin/memberDetail.vue'
-// // 借阅记录页
+// 借阅记录页
 // import Recordlist from '@/components/admin/recordlist.vue'
-// // 订单记录页
+// 订单记录页
 // import Orderlist from '@/components/admin/orderlist.vue'
-// // 管理员登陆页
+// 管理员登陆页
 // import Adminlogin from '@/components/admin/adminlogin.vue'
 
 export default new Router({
@@ -74,7 +76,18 @@ export default new Router({
 			// 后台主页
 			path: '/admin',
 			name: 'Admin',
-			component: Admin
+			component: Admin,
+			children: [
+				{
+					path: 'borrow',
+					name: 'Borrow',
+					component: Borrow
+				}, {
+					path: 'members',
+					name: 'Members',
+					component: Members
+				}
+			]
 		}
 	]
 })
