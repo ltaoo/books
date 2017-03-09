@@ -13,7 +13,7 @@
 		//创建时间
 		$createTime = date('Y/m/d');
 		//写入数据库
-		$sql = "INSERT INTO `comment`
+		$sql = "INSERT INTO `comments`
 				(`memberId`, `bookIsbn`, `content`, `createTime`) 
 				VALUES 
 				('$memberId', '$bookIsbn', '$content', '$createTime')";
@@ -37,7 +37,7 @@
 	//根据书籍isbn码查询该书籍下的所有评论
 	elseif($action == "list") {
 		$bookIsbn = $_REQUEST['bookIsbn'];
-		$sql = "select * from comment where bookIsbn= '$bookIsbn'";
+		$sql = "select * from comments where bookIsbn= '$bookIsbn'";
 		$results = $mysqli->query($sql);
 		$result = array();
 		if($results === false){
@@ -72,7 +72,7 @@
 	}
 	elseif($action == "fetchById") {
 		$commentId = $_REQUEST['commentId'];
-		$sql = "select * from comment where commentId = '$commentId'";
+		$sql = "select * from comments where commentId = '$commentId'";
 		$results = $mysqli->query($sql);
 		$result = array();
 		if($results === false){

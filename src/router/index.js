@@ -10,7 +10,7 @@ import Index from '@/containers/Index.vue'
 // 真正首页
 import IndexBooks from '@/containers/Books.vue'
 // 商品详情页
-// import Detail from '@/components/Detail.vue'
+import Detail from '@/containers/Detail.vue'
 // 用户登陆页
 import UserLogin from '@/containers/UserLogin.vue'
 // ？
@@ -74,11 +74,11 @@ const router = new Router({
 					name: 'OrderCount',
 					component: Order,
 					meta: { requiresAuth: true }
-				// }, {
-				// 	// 商品详情页
-				// 	path: 'goods/:id',
-				// 	name: 'Detail',
-				// 	component: Detail
+				}, {
+					// 商品详情页
+					path: 'goods/:id',
+					name: 'GoodsDetail',
+					component: Detail
 				}, {
 					// 用户主页
 					path: 'person',

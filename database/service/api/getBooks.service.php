@@ -140,7 +140,7 @@
 		$bookId = $_REQUEST['bookId'];
 		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
 		(select count(*) from records where records.bookId = books.bookId) as borrowTimes,
-		(select count(*) from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as returnTime
+		(select count(*) from records where records.bookId = books.bookId and records.returnTime is NULL) as returnTime
 		from books where bookId = '$bookId'";
 		$results = $mysqli->query($sql);
 		//根据id查询肯定只有一条记录
