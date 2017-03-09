@@ -65,12 +65,13 @@
 		},
 		created () {
 			// 一加载就读取 localStorage
-			this.isLogin = !!localStorage.getItem('adminLogin')
+			this.isLogin = !!localStorage.getItem('userId')
 		},
 		methods: {
 			logout () {
 				localStorage.removeItem('userId')
-				router.push({ path: '/index' })
+				this.isLogin = false
+				router.push({ path: '/books' })
 			}
 		}
 	}

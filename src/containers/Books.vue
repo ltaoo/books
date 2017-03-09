@@ -34,6 +34,7 @@
 				</el-row>
 				<el-button
 					style = "width: 100%;"
+					@click = "order"
 				>{{sumPrice}} - 结算</el-button>
 			</el-col>
 		</el-row>
@@ -51,6 +52,8 @@
 	} from '@/store/cart'
 
 	import { computedPriceByTimes } from '@/utils/index'
+
+	import router from '@/router/index'
 
 	import Goods from '@/components/Goods.vue'
 	import Cart from '@/components/Cart.vue'
@@ -115,17 +118,6 @@
 					sum += parseFloat(price)
 				}
 				return sum
-			},
-			sumNum () {
-				return this.cartList.length
-			},
-			userlogin () {
-				if (localStorage.userid) {
-					// 如果用户id存在，就是已登录
-					this.userlogin = true
-				} else {
-					this.userlogin = false
-				}
 			}
 		},
 		methods: {
@@ -171,6 +163,17 @@
 							message: err
 						})
 					})
+			},
+			order () {
+				// 首先判断用户是否登录
+				if (!localStorage.getItem('userId')) {
+					// this.$message({
+					// 	message: '跳转到登录页'
+					// })
+					router.push('/userLogin')
+				} else {
+					router.push('/order')
+				}
 			}
 		}
 	}

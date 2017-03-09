@@ -12,7 +12,7 @@ import IndexBooks from '@/containers/Books.vue'
 // 商品详情页
 // import Detail from '@/components/Detail.vue'
 // 用户登陆页
-// import Login from '@/components/login.vue'
+import UserLogin from '@/containers/UserLogin.vue'
 // ？
 // import Tips from '@/components/tips.vue'
 // 个人中心首页
@@ -28,7 +28,7 @@ import IndexBooks from '@/containers/Books.vue'
 // 购物车组件
 // import Cart from '@/components/cart/index.vue'
 // 订单页面
-// import Order from '@/components/order/index.vue'
+// import Order from '@/containers/Order.vue'
 /* ----------------
  * 后台
  ----------------- */
@@ -63,6 +63,12 @@ const router = new Router({
 					path: 'books',
 					name: 'IndexBooks',
 					component: IndexBooks
+				// }, {
+				// 	// 订单结算页
+				// 	path: 'order',
+				// 	name: 'OrderCount',
+				// 	component: Order,
+				// 	meta: { requiresAuth: true}
 				}
 			]
 		// }, {
@@ -81,6 +87,10 @@ const router = new Router({
 		// 			component: Info
 		// 		}
 		// 	]
+		}, {
+			path: '/userlogin',
+			name: 'UserLogin',
+			component: UserLogin
 		}, {
 			// 后台根视图
 			path: '/admin',

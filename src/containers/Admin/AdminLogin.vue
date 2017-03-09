@@ -1,38 +1,20 @@
 <template>
-	<div>
-		<el-row :gutter="20">
-			<el-col :span="8" :offset="8">
-				<el-input type="text" placeholder="用户名" v-model="username" />
-			</el-col>
-			<el-col :span="8" :offset="8">
-				<el-input 
-					type="password" 
-					placeholder="密码" 
-					v-model="password"
-				/>	
-			</el-col>
-			<el-col :span="8" :offset="8">
-				<el-button 
-					style = "width: 100%;"
-					type = "primary"
-					@click="login(username, password)"
-				>登录</el-button>
-			</el-col>
-		</el-row>
+	<div class="container">
+		<LoginForm
+			:login = "login"
+		/>
 	</div>
 </template>
 
 <script>
 	import router from '@/router/index'
 	import { adminLogin } from '@/store/auth'
+	import LoginForm from '@/components/LoginForm.vue'
 	export default {
 		// 组件名
 		name: 'AdminLogin',
-		data () {
-			return {
-				username: '',
-				password: ''
-			}
+		components: {
+			LoginForm
 		},
 		methods: {
 			// 点击登陆

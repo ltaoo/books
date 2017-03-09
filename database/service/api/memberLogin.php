@@ -18,6 +18,7 @@
     $result['data'] = $row;
   }else{
     $result['state'] = 'fail';
+    $result['mes'] = '用户不存在';
   }
   $mysqli->close();
   die(json_encode($result));
