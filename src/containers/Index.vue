@@ -8,17 +8,18 @@
 			<el-menu-item index="1">
 				<router-link :to="{ path: '/index' }">惠学图书管理系统</router-link>
 			</el-menu-item>
-			<el-menu-item index="2">
-				<router-link :to="{ path: '/user/info' }">用户主页</router-link>
-			</el-menu-item>
 			<el-menu-item index="3">
-				<a href="https://www.ele.me" target="_blank">订单管理</a>
+				<router-link :to = "{ path: '/person/order' }">订单管理</router-link>
 			</el-menu-item>
 			<el-submenu index="4">
-				<template slot="title">我的工作台</template>
-				<el-menu-item index="2-1">选项1</el-menu-item>
-				<el-menu-item index="2-2">选项2</el-menu-item>
-				<el-menu-item index="2-3">选项3</el-menu-item>
+				<template slot="title">个人中心</template>
+				<el-menu-item index="4-1">
+					<router-link :to="{ path: '/person/info' }">用户主页</router-link>
+				</el-menu-item>
+				<el-menu-item index="4-2">
+					
+				</el-menu-item>
+				<el-menu-item index="4-3">选项3</el-menu-item>
 			</el-submenu>
 			<el-menu-item index="5" v-if ="isLogin">
 				<a @click="logout()">注销</a>
@@ -76,3 +77,8 @@
 		}
 	}
 </script>
+<style scoped>
+	a {
+		text-decoration: none;
+	}
+</style>

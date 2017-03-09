@@ -56,50 +56,16 @@
 				<template scope = "scope">
 					<el-button
 						@click = "confirmOrder(scope.row)"
+						type = "success"
 					>确认订单</el-button>
 					<el-button
 						@click = "cancelOrder(scope.row)"
+						type = "danger"
 					>取消订单</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 		</el-table>
-<!-- 		<table class="table table-hover">
-		<tr>
-        <th></th>
-        <th>订单编号</th>
-        <th>商品信息</th>
-        <th>收货人</th>
-        <th>订单状态</th>
-        <th>操作</th>
-      </tr>
-      <tr v-for = "order in orderlist">
-        <td>{{$index + 1}}</td>
-        <td>{{order.orderId}}</td>
-        <td>
-          <div v-for="book in order.booklist">
-            <p><a v-link = "{ path: '/goods/' + book.bookId}">{{book.bookTitle}}</a></p>
-            <p>书籍编号：<span>{{book.bookId}}</span></p>
-            <p>书籍价格：<span>{{book.bookPrice |sumPriceByBorrowTimes book.borrowTimes}}</span></p>
-          </div>
-        </td>
-        <td>
-          <div>
-            <p>{{order.memberId.memberName}}</p>
-            <p>联系方式：{{order.memberId.memberTel}}</p>
-            <p>收货地址：<span>{{order.memberId.memberAddress}}</span></p>
-          </div>
-        </td>
-        <td>{{order.orderState | orderState}}</td>
-        <td v-if="order.orderState == 0">
-          <a @click="confirmOrder(order)">确认订单</a>|
-          <a @click="cancelOrder(order)">取消订单</a>
-        </td>
-        <td v-else>
-          <a>查看订单</a>
-        </td>
-      </tr>
-    </table> -->
 	</div>
 </template>
 

@@ -16,9 +16,9 @@ import UserLogin from '@/containers/UserLogin.vue'
 // ？
 // import Tips from '@/components/tips.vue'
 // 个人中心首页
-// import Person from '@/components/Person'
+import Person from '@/containers/Person/Index.vue'
 // 个人中心信息页
-// import Info from '@/components/Person/userInfo.vue'
+import Info from '@/containers/Person/Info.vue'
 // 个人中心借阅记录页
 // import Records from '@/components/Person/userRecords.vue'
 // 个人中心订单记录页
@@ -27,7 +27,7 @@ import UserLogin from '@/containers/UserLogin.vue'
 // import Address from '@/components/Person/userAddress.vue'
 // 购物车组件
 // import Cart from '@/components/cart/index.vue'
-// 订单页面
+// 结算页面
 import Order from '@/containers/Order.vue'
 /* ----------------
  * 后台
@@ -50,7 +50,9 @@ import Records from '@/containers/Admin/Records.vue'
 import Orders from '@/containers/Admin/Orders.vue'
 // 管理员登陆页
 import AdminLogin from '@/containers/Admin/AdminLogin.vue'
-
+/* ----------------
+ * 公共页面
+ ----------------- */
 // 404
 import NotFound from '@/containers/NotFound.vue'
 
@@ -63,7 +65,7 @@ const router = new Router({
 			component: Index,
 			children: [
 				{
-					path: 'books',
+					path: 'index',
 					name: 'IndexBooks',
 					component: IndexBooks
 				}, {
@@ -72,24 +74,25 @@ const router = new Router({
 					name: 'OrderCount',
 					component: Order,
 					meta: { requiresAuth: true }
+				// }, {
+				// 	// 商品详情页
+				// 	path: 'goods/:id',
+				// 	name: 'Detail',
+				// 	component: Detail
+				}, {
+					// 用户主页
+					path: 'person',
+					name: 'Person',
+					component: Person,
+					children: [
+						{
+							path: 'info',
+							component: Info
+						}
+					]
+
 				}
 			]
-		// }, {
-		// 	// 商品详情页
-		// 	path: '/goods/:id',
-		// 	name: 'Detail',
-		// 	component: Detail
-		// }, {
-		// 	// 用户主页
-		// 	path: '/person',
-		// 	name: 'Person',
-		// 	component: Person,
-		// 	children: [
-		// 		{
-		// 			path: '/info',
-		// 			component: Info
-		// 		}
-		// 	]
 		}, {
 			path: '/userlogin',
 			name: 'UserLogin',

@@ -125,43 +125,17 @@ export function searchRecordByNum (param) {
 			})
 	})
 }
-// // 通过会员id查询已借书籍
-// adminStore.searchRecordByMemberId = function (param) {
-// 	return new Promise(function(resolve, reject){
-// 		// 判断条件是否存在或者是否合法
-// 		if(param) {
-// 			Vue.http.get('./service/getRecords.service.php?action=searchByMemberId&memberId=' + param).then(res => {
-// 				if(res.data.state == 200){
-// 					resolve(res.data)
-// 				} else {
-// 					reject('empty')
-// 				}
-// 			}).catch(err => {
-// 				reject(err)
-// 			})
-// 		} else {
-// 			reject('param is empty')
-// 		}
-// 	})
-// }
-// // 通过会员id查询已借书籍
-// adminStore.searchAllRecordByMemberId = function (param) {
-// 	return new Promise(function(resolve, reject){
-// 		// 判断条件是否存在或者是否合法
-// 		if(param) {
-// 			Vue.http.get('./service/getRecords.service.php?action=searchRecordByMemberId&memberId=' + param).then(res => {
-// 				console.log(res.data)
-// 				if(res.data.state == 200){
-// 					resolve(res.data)
-// 				} else {
-// 					reject('empty')
-// 				}
-// 			}).catch(err => {
-// 				reject(err)
-// 			})
-// 		} else {
-// 			reject('param is empty')
-// 		}
-// 	})
-// }
-
+// 通过会员id查询已借书籍
+export function searchRecordByMemberId (param) {
+	return new Promise((resolve, reject) => {
+		fetch(`${prefix}/getRecords.service.php?action=searchByMemberId&memberId=${param}`)
+			.then(res => {
+				return res.json()
+			})
+			.then(res => {
+				resolve(res.data)
+			}).catch(err => {
+				reject(err)
+			})
+	})
+}
