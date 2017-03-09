@@ -7,7 +7,9 @@
 	//获取购物车商品信息，get请求获取数据，但是要带参数cartSession，
 	if($action == "list") {
 		$cartSession = $_REQUEST['cartSession'];
-		$sql = "select * from carts where cartSession=" . $cartSession;
+		$sql = "select id, bookId, bookPrice, bookTitle,
+		(select count(*) from records where records.bookId = carts.bookId) as borrowTimes
+		 from carts where cartSession=" . $cartSession;
 		$results = $mysqli->query($sql);
 		/*
 			object(mysqli_result)[2]
@@ -34,7 +36,8 @@
 			    	'cartId' => $row['id'],
 			    	'bookId' => $row['bookId'],
 			    	'bookPrice' => $row['bookPrice'],
-			    	'bookTitle' => $row['bookTitle']
+			    	'bookTitle' => $row['bookTitle'],
+			    	'borrowTimes' => $row['borrowTimes']
 			    );
 			    $cart[] = $temp;
 			}

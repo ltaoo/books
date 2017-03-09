@@ -8,7 +8,7 @@
 			</div>
 			<router-link to = "{ path: '/index' }">返回修改购物车</router-link>
 			<el-table
-				:data="books"
+				:data="cartList"
 				stripe
 				style="width: 100%"
 			>
@@ -24,12 +24,17 @@
 				>
 				</el-table-column>
 			</el-table>
-			<textarea class="form-control" rows="3" placeholder="请留言" v-model="message"></textarea>
-
+			<el-input
+				style = "margin-top: 20px;"
+				type="textarea"
+				:autosize="{ minRows: 2, maxRows: 4}"
+				placeholder="留言"
+				v-model="message">
+			</el-input>
 			<h4>商品数量：<span>{{sumNum}}</span></h4>
 			<h4>总价格：<span>{{countPrice}}</span></h4>
 		</div>
-		<button class="btn btn-default form-control" @click="createOrder()">提交订单</button>
+		<el-button @click="createOrder()">提交订单</el-button>
 	</div>
 </template>
 
@@ -40,12 +45,15 @@
 	import { searchMemberById } from '@/store/admin/member'
 	import { createOrder } from '@/store/admin/order'
 	import { updateBookState } from '@/store/books'
+
+	import { computedPriceByTimes } from '@/utils/index'
 	export default {
 		name: 'Order',
 		data () {
 			return {
 				cartList: [],
-				member: null
+				member: {},
+				message: ''
 			}
 		},
 		created () {
@@ -53,19 +61,21 @@
 			if (!localStorage.getItem('cartSession')) {
 				router.replace({ path: '/books' })
 			}
+			// 购物车列表
 			fetchCartList(localStorage.getItem('cartSession'))
 				.then(res => {
-					if (res.data.length === 0) {
-						router.replace({ path: '/books' })
-					} else {
-						this.cartList = res.data
-					}
-				})
-				.catch(err => {
+					this.cartList = res.data.map(item => {
+						const newPrice = computedPriceByTimes(item.bookPrice, item.borrowTimes)
+						return {
+							...item,
+							newPrice
+						}
+					})
+					console.log(this.cartList)
+				}).catch(err => {
 					this.$message({
 						message: err
 					})
-					router.replace({ path: '/books' })
 				})
 	        // 根据用户id查询用户信息
 			searchMemberById(localStorage.getItem('userId'))
@@ -99,24 +109,22 @@
 			createOrder () {
 				// 生成订单保存到数据库中
 				// 将商品id提取出来
-				var bookList = []
-				this.cartList.forEach(obj => {
-					bookList.push(obj.bookId)
+				let bookIdList = this.cartList.map(obj => {
+					return obj.bookId
 				})
-				var post = {
-					memberId: localStorage.userid,
-					booklist: bookList.join('|'),
-					message: this.message || ''
+				const post = {
+					memberId: localStorage.getItem('userId'),
+					booklist: bookIdList.join('|'),
+					message: this.message
 				}
-				// 保存
+				// 写入数据库
 				createOrder(post)
 					.then(res => {
 						// 生成订单成功，清空购物车
-						emptyCart(localStorage.cartSession)
+						emptyCart(localStorage.getItem('cartSession'))
 							.then(res => {
-								console.log(res)
 								// 更新书籍状态为已出售
-								bookList.forEach(bookId => {
+								bookIdList.forEach(bookId => {
 									updateBookState(bookId, 2)
 										.then(res => {
 											// 跳转地址
@@ -124,14 +132,23 @@
 											localStorage.removeItem('cartSession')
 											router.replace({ path: '/success' })
 										})
+										.catch(err => {
+											this.$message({
+												message: err
+											})
+										})
 								})
 							})
 							.catch(err => {
-								console.log(err)
+								this.$message({
+									message: err
+								})
 							})
 					})
 					.catch(err => {
-						console.log(err)
+						this.$message({
+							message: err
+						})
 					})
 			}
 		}

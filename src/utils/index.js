@@ -62,7 +62,7 @@ export function computedPriceByTimes (price, times) {
 	// 先保存下原价
 	// var orginal = price
 	// 按原价75折作为初始价格
-	const originalPrice = 0.75 * price
+	const originalPrice = 0.75 * parseFloat(price)
 	// 假设每次借阅折损10%
 	var lossPrice = price * 0.1
 	const resultPrice = originalPrice - (times * lossPrice)

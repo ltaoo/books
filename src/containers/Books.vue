@@ -35,7 +35,7 @@
 				<el-button
 					style = "width: 100%;"
 					@click = "order"
-				>{{sumPrice}} - 结算</el-button>
+				>￥{{sumPrice}} - 结算</el-button>
 			</el-col>
 		</el-row>
 	</div>
@@ -92,7 +92,14 @@
 			// 购物车列表
 			fetchCartList(localStorage.getItem('cartSession'))
 				.then(res => {
-					this.cartList = res.data
+					this.cartList = res.data.map(item => {
+						const newPrice = computedPriceByTimes(item.bookPrice, item.borrowTimes)
+						return {
+							...item,
+							newPrice
+						}
+					})
+					console.log(this.cartList)
 				}).catch(err => {
 					this.$message({
 						message: err

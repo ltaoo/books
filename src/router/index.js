@@ -51,6 +51,9 @@ import Orders from '@/containers/Admin/Orders.vue'
 // 管理员登陆页
 import AdminLogin from '@/containers/Admin/AdminLogin.vue'
 
+// 404
+import NotFound from '@/containers/NotFound.vue'
+
 const router = new Router({
 	routes: [
 		{
@@ -147,6 +150,11 @@ const router = new Router({
 			path: '/adminlogin',
 			name: 'AdminLogin',
 			component: AdminLogin
+		}, {
+			// 404
+			path: '*',
+			name: 'NotFound',
+			component: NotFound
 		}
 	]
 })

@@ -16,7 +16,7 @@
 			style="width: 100%"
 		>
 			<el-table-column
-				prop="memberName"
+				prop="orderId"
 				label="订单编号"
 			>
 			</el-table-column>
@@ -25,21 +25,44 @@
 			>
 				<template scope="scope">
 					<div v-for="book in scope.row.booklist" :key = "book.bookId">
-						<p><a v-link = "{ path: '/goods/' + book.bookId}">{{book.bookTitle}}</a></p>
+						<router-link 
+							:to = "{ path: '/goods/' + book.bookId}">{{book.bookTitle}}
+						</router-link>
 						<p>书籍编号：<span>{{book.bookId}}</span></p>
-						<p>书籍价格：<span>{{book.bookPrice |sumPriceByBorrowTimes book.borrowTimes}}</span></p>
+						<p>书籍价格：<span>{{book.bookPrice}}</span></p>
 					</div>
 				</template>
 			</el-table-column>
 			<el-table-column
+				prop = "memberName"
 				label="收货人"
 			>
+				<template
+					scope = "scope"
+				>
+					<p>{{scope.row.member.memberName}}</p>
+					<p>{{scope.row.member.memberTel}}</p>
+					<p>{{scope.row.member.memberAddress}}</p>
+				</template>
 			</el-table-column>
 			<el-table-column
 				prop="orderState"
 				label="订单状态"
 			>
 			</el-table-column>
+			<el-table-column
+				label="操作"
+			>
+				<template scope = "scope">
+					<el-button
+						@click = "confirmOrder(scope.row)"
+					>确认订单</el-button>
+					<el-button
+						@click = "cancelOrder(scope.row)"
+					>取消订单</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
 		</el-table>
 <!-- 		<table class="table table-hover">
 		<tr>
@@ -94,9 +117,11 @@
 		updateBookState
 	} from '@/store/books'
 	export default {
+		name: 'Orders',
 		data () {
 			return {
-				orders: []
+				orders: [],
+				query: ''
 			}
 		},
 		created () {
@@ -109,28 +134,72 @@
 						// 获取到商品id集合
 						let booklist = obj.booklist
 						// 分割成数组
-						booklist = booklist.split('|')
-						var resultlist = []
-						booklist.forEach(id => {
-							searchBookById(id).then(respon => {
-								// 使用过滤器来处理价格显示
-								resultlist.push(respon.data)
-							})
+						const bookIdList = booklist.split('|')
+						const resultlist = bookIdList.map(id => {
+							return searchBookById(id)
+								// .then(respon => {
+								// 	// 使用过滤器来处理价格显示
+								// 	resultlist.push(respon.data)
+								// })
+								// .catch(err => {
+								// 	this.$message({
+								// 		message: err
+								// 	})
+								// })
 						})
-						// resultlist为书籍对象组成的数组
-						obj.booklist = resultlist
+						// Promise.all(resultlist)
+						// 	.then(datas => {
+						// 		// 根据 id 查询书籍成功
+						// 		console.log(datas)
+						// 		// resultlist为书籍对象组成的数组
+						// 		obj.booklist = datas.map(data => {
+						// 			return data.data
+						// 		})
+						// 	})
+						// 	.catch(err => {
+						// 		this.$message({
+						// 			message: err
+						// 		})
+						// 	})
 						// 获取购买者的详细信息
-						var memberId = obj.memberId
-						searchMemberById(memberId)
-							.then(member => {
-								obj.memberId = member.data
+						const memberId = obj.memberId
+						// searchMemberById(memberId)
+						// 	.then(res => {
+						// 		obj.memberName = res.data.memberName
+						// 		obj.memberAddress = res.data.memberAddress
+						// 		obj.memberTel = res.data.memberTel
+						// 	})
+						// 	.carch(err => {
+						// 		this.$message({
+						// 			message: err
+						// 		})
+						// 	})
+						Promise.all([Promise.all(resultlist), searchMemberById(memberId)])
+							.then(res => {
+								console.log(res)
+								obj.booklist = res[0].map(res => {
+									return res.data
+								})
+								const member = res[1].data
+								// obj.memberName = member.memberName
+								// obj.memberTel = member.memberTel
+								// obj.memberAddress = member.memberAddress
+								obj.member = member
+								this.orders.push(obj)
+							})
+							.catch(err => {
+								this.$message({
+									message: err
+								})
 							})
 					})
 					// 循环结束
-					this.orders = res.data
+					// this.orders = res.data
 				})
 				.catch(err => {
-					console.log(err)
+					this.$message({
+						message: err
+					})
 				})
 		},
 		methods: {
@@ -151,18 +220,23 @@
 									})
 								})
 						})
-						alert('订单确认成功')
+						this.$message({
+							message: '订单确认成功'
+						})
 						obj.orderState = 1
 					})
 					.catch(err => {
-						console.log(err)
-						alert('确认失败')
+						this.$message({
+							message: err
+						})
 					})
 			},
 			cancelOrder (obj) {
 				cancelOrder(obj.orderId)
 					.then(res => {
-						alert('取消订单成功')
+						this.$message({
+							message: '订单取消成功'
+						})
 						obj.orderState = 2
 					})
 					.catch(err => {
