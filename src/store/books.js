@@ -104,3 +104,19 @@ export function searchBookByName (param) {
 			})
 	})
 }
+
+// 更新书籍状态
+export function updateBookState (param, state) {
+	return new Promise((resolve, reject) => {
+		fetch(`${prefix}/getBooks.service.php?action=updateState&bookId=${param}&state=${state}`)
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}

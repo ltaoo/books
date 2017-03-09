@@ -20,19 +20,20 @@
 				<el-menu-item index="2-2">选项2</el-menu-item>
 				<el-menu-item index="2-3">选项3</el-menu-item>
 			</el-submenu>
-			<el-menu-item index="5" v-if ="userLogin">
+			<el-menu-item index="5" v-if ="isLogin">
 				<a @click="logout()">注销</a>
 			</el-menu-item>
 		</el-menu>
-		<el-row>
+		<router-view></router-view>
+		<!-- <el-row>
   			<el-col :span="16">
 	  			<div>
 					<input type="text" class="form-control" placeholder="输入图书名称筛选" v-model="query">
-						<!-- <book v-for="book in booksList | filterBy query | fetchNotSale" v-bind:book="book"></book> -->
+						<book v-for="book in booksList | filterBy query | fetchNotSale" v-bind:book="book"></book>
 				</div>
   			</el-col>
 		</el-row>
-<!-- 		<div class="row">
+ --><!-- 		<div class="row">
 			<div class="col-xs-8">
 			<div class="col-xs-4" v-show="cartList.length == 0">
 				<h3>购物车内没有商品</h3>
@@ -54,138 +55,22 @@
 </template>
 
 <script>
-	import store from '../store/index'
-	// 加载组件
-	// import book from './index/book.vue'
-	// import Router from 'vue-router'
+	import router from '@/router/index'
 	export default {
 		name: 'Index',
-		components: {
-			// book
-		},
 		data () {
 			return {
-				// 书籍列表
-				books: [],
-				// 购物车列表
-				cartList: [],
-				// 总价
-				count: false,
-				// 是否重复
-				isChong: false,
-				// 用户是否登录
-				userLogin: true,
-				// 筛选图书条件
-				query: ''
+				isLogin: false
 			}
 		},
-		route: {
-			data ({to}) {
-				store.fetchItems()
-					.then(res => {
-						console.log('books', res)
-						this.booksList = res
-					})
-				// 购物车列表
-				store.cartlist(localStorage.cartSession)
-					.then(res => {
-						console.log(res)
-						if (res.state === 'err') {
-							// 查询失败
-							this.cartList = []
-						} else {
-							this.cartList = res.data
-						}
-					}).catch(err => {
-						console.log(err)
-					})
-				// console.log(localStorage.userid);
-				if (localStorage.userid) {
-					// 如果用户id存在，就是已登录
-					this.userLogin = true
-				} else {
-					this.userLogin = false
-				}
-				console.log('userlogin :' + this.userLogin)
-			}
-		},
-		events: {
-			addCart (obj) {
-				this.isChong = false
-				if (this.count === false) {
-					// some 只要有一个是重复的，就返回true
-					this.isChong = this.cartList.some(book => {
-						return book.bookId === obj.bookId
-					})
-
-					if (this.isChong === false) {
-						// obj.bookPrice = obj.newPrice;
-						this.cartList.push(obj)
-						// 同时还要写入数据库中
-						// 先获取到userid作为查询依据
-						obj.cartsession = localStorage.userid || 123
-						localStorage.cartSession = obj.cartsession
-						// console.log(obj);
-						store.addCart(obj).then(res => {
-							console.log(res)
-						}).catch(err => {
-							console.log(err)
-						})
-					} else {
-						alert('已经在购物车内')
-					}
-				}
-			},
-			createOrder () {
-				// 清空购物车
-				this.cartList = []
-			}
-		},
-		computed: {
-			sumPrice () {
-				// 循环计算购物车内商品总价
-				let sum = 0
-				for (let i = 0, len = this.cartList.length; i < len; i++) {
-					// 获取购买数量
-					let price = this.cartList[i].newPrice
-					sum += parseFloat(price)
-				}
-				console.log(sum)
-				return sum
-			},
-			sumNum () {
-				return this.cartList.length
-			},
-			userlogin () {
-				if (localStorage.userid) {
-					// 如果用户id存在，就是已登录
-					this.userlogin = true
-				} else {
-					this.userlogin = false
-				}
-			}
+		created () {
+			// 一加载就读取 localStorage
+			this.isLogin = !!localStorage.getItem('adminLogin')
 		},
 		methods: {
-			removeBook (obj, index) {
-				obj.cartSession = localStorage.cartSession
-				store.delete(obj).then(res => {
-					console.log(res)
-					if (res.state === 'success') {
-						// 删除成功
-						this.cartList.splice(index, 1)
-					}
-				})
-			},
 			logout () {
-				localStorage.removeItem('userid')
-				if (!localStorage.userid) {
-					// 返回首页
-					// const router = new Router()
-					// router.go({path: '/index
-					location.href = '#!/login?redirect=%252Fuser%252Finfo'
-				} else {
-					console.log(localStorage)
-				}
+				localStorage.removeItem('userId')
+				router.push({ path: '/index' })
 			}
 		}
 	}

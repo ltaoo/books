@@ -52,3 +52,42 @@ export function computedTime (dateOne, dateTwo) {
 	// Date.parse 方法可解析一个日期时间字符串，并返回 1970/1/1 午夜距离该日期时间的毫秒数。86400000毫秒等于1天
 	return (Date.parse(oneMonth + '/' + oneDay + '/' + oneYear) - Date.parse(twoMonth + '/' + twoDay + '/' + twoYear)) / 86400000
 }
+
+/* 根据书籍原价与借阅次数计算出打折后的价格
+ * @param <String> price
+ * @param <Number> times
+ * @param <String>
+ */
+export function computedPriceByTimes (price, times) {
+	// 先保存下原价
+	// var orginal = price
+	// 按原价75折作为初始价格
+	const originalPrice = 0.75 * price
+	// 假设每次借阅折损10%
+	var lossPrice = price * 0.1
+	const resultPrice = originalPrice - (times * lossPrice)
+	// let number = price.toFixed(1)
+	// let nowDate = new Date().toLocaleDateString()
+	// var first = Date.parse(nowDate)
+	// var second = Date.parse(time)
+
+	// //判断时间差，一周内的属于新上架
+	// var day = (first-second)/86400000
+	// //这个地方应该递进，比如上架时间超过60而且借阅次数小于6，上架时间超过90而且借阅次数小于9这样。
+	// for(var i = 1;i < 3; i++) {
+	// 	if(day.toFixed() > 30*i && times < 3*i) {
+	// 		number = orginal*0.3
+	// 		continue
+	// 	}
+	// }
+
+	// number = String.prototype.split.call(number, '.')
+	// if (number[1] > 5) {
+	// 	number[1] = 0
+	// 	number[0] = parseInt(number[0]) + 1
+	// } else {
+	//     number[1] = 5
+	// }
+	// return number.join('.')
+	return resultPrice
+}

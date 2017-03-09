@@ -5,8 +5,10 @@ Vue.use(Router)
 /* ----------------
  * 前台
  ----------------- */
-// 前台首页
+// 前台根视图
 import Index from '@/containers/Index.vue'
+// 真正首页
+import IndexBooks from '@/containers/Books.vue'
 // 商品详情页
 // import Detail from '@/components/Detail.vue'
 // 用户登陆页
@@ -45,7 +47,7 @@ import MemberDetail from '@/containers/Admin/MemberDetail.vue'
 // 借阅记录页
 import Records from '@/containers/Admin/Records.vue'
 // 订单记录页
-// import Orderlist from '@/components/admin/orderlist.vue'
+import Orders from '@/containers/Admin/Orders.vue'
 // 管理员登陆页
 import AdminLogin from '@/containers/Admin/AdminLogin.vue'
 
@@ -55,7 +57,14 @@ const router = new Router({
 			// 主页
 			path: '/',
 			name: 'Index',
-			component: Index
+			component: Index,
+			children: [
+				{
+					path: 'books',
+					name: 'IndexBooks',
+					component: IndexBooks
+				}
+			]
 		// }, {
 		// 	// 商品详情页
 		// 	path: '/goods/:id',
@@ -108,6 +117,12 @@ const router = new Router({
 					path: 'records',
 					name: 'Records',
 					component: Records,
+					meta: { adminAuth: true }
+				}, {
+					// 订单列表页
+					path: 'orders',
+					name: 'Orders',
+					component: Orders,
 					meta: { adminAuth: true }
 				}, {
 					// 会员修改页

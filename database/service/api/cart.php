@@ -25,7 +25,7 @@
 		//var_dump($results->fetch_row());
 		if($results === false){
 			//如果结果集为空
-			$result['state'] = 'err';
+			$result['data'] = array();
 			die(json_encode($result));
 		}else{
 			$cart = array();
