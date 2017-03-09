@@ -22,7 +22,7 @@ import Info from '@/containers/Person/Info.vue'
 // 个人中心借阅记录页
 // import Records from '@/components/Person/userRecords.vue'
 // 个人中心订单记录页
-// import UserOrder from '@/components/Person/userOrder.vue'
+import PersonOrders from '@/containers/Person/Orders.vue'
 // 个人中心设置地址页
 // import Address from '@/components/Person/userAddress.vue'
 // 购物车组件
@@ -86,8 +86,14 @@ const router = new Router({
 					component: Person,
 					children: [
 						{
+							// 用户信息页
 							path: 'info',
 							component: Info
+						}, {
+							// 用户订单列表页
+							path: 'orders',
+							name: 'PersonOrders',
+							component: PersonOrders
 						}
 					]
 

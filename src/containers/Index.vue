@@ -9,7 +9,7 @@
 				<router-link :to="{ path: '/index' }">惠学图书管理系统</router-link>
 			</el-menu-item>
 			<el-menu-item index="3">
-				<router-link :to = "{ path: '/person/order' }">订单管理</router-link>
+				<router-link :to = "{ path: '/person/orders' }">订单管理</router-link>
 			</el-menu-item>
 			<el-submenu index="4">
 				<template slot="title">个人中心</template>
