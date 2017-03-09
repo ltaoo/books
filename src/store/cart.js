@@ -53,3 +53,19 @@ export function removeFromCart (obj) {
 			})
 	})
 }
+
+// 清空购物车
+export function emptyCart (cartSession) {
+	return new Promise((resolve, reject) => {
+		fetch(`${prefix}/cart.php?action=emptyCart&cartSession=` + cartSession)
+			.then(res => {
+				return res.json()
+			})
+			.then(json => {
+				resolve(json)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	})
+}

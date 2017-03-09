@@ -28,7 +28,7 @@ import UserLogin from '@/containers/UserLogin.vue'
 // 购物车组件
 // import Cart from '@/components/cart/index.vue'
 // 订单页面
-// import Order from '@/containers/Order.vue'
+import Order from '@/containers/Order.vue'
 /* ----------------
  * 后台
  ----------------- */
@@ -63,12 +63,12 @@ const router = new Router({
 					path: 'books',
 					name: 'IndexBooks',
 					component: IndexBooks
-				// }, {
-				// 	// 订单结算页
-				// 	path: 'order',
-				// 	name: 'OrderCount',
-				// 	component: Order,
-				// 	meta: { requiresAuth: true}
+				}, {
+					// 订单结算页
+					path: 'order',
+					name: 'OrderCount',
+					component: Order,
+					meta: { requiresAuth: true }
 				}
 			]
 		// }, {

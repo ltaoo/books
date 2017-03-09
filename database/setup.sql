@@ -23,6 +23,15 @@ create table if not exists `books` (bookId INT NOT NULL AUTO_INCREMENT PRIMARY K
 	bookImg TEXT, 
 	bookState INT DEFAULT 0, 
 	createTime DATE);
+insert into books (bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, bookState, createTime) values (
+	'React Native入门与实战',
+	'9787115411914',
+	'79',
+	'本书共4部分，首先简要介绍了React Native的开发基础知识，然后介绍了React Native的API、组件以及Native扩展和组件的封装，接着介绍了App的动态更新和上架过程，最后通过3个案例介绍了如何使用React Native开发原生App。',
+	'https://img1.doubanio.com/mpic/s29105337.jpg',
+	1,
+	'2017-03-08'
+);
 -- drop table if exists `records`;
 create table if not exists `records` (recordId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	memberId INT, 
@@ -39,7 +48,8 @@ create table if not exists `orders` (orderId INT NOT NULL AUTO_INCREMENT PRIMARY
 -- drop table if exists `carts`;
 create table if not exists `carts` (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	bookId INT, 
-	bookPrice INT, 
+	bookPrice TEXT, 
+	bookTitle TEXT,
 	cartSession TEXT);
 -- drop table if exists `comments`;
 create table if not exists `comments` (commentId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 

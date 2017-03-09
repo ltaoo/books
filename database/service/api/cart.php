@@ -7,7 +7,7 @@
 	//获取购物车商品信息，get请求获取数据，但是要带参数cartSession，
 	if($action == "list") {
 		$cartSession = $_REQUEST['cartSession'];
-		$sql = "select * from cart where cartSession=" . $cartSession;
+		$sql = "select * from carts where cartSession=" . $cartSession;
 		$results = $mysqli->query($sql);
 		/*
 			object(mysqli_result)[2]
@@ -58,7 +58,7 @@
 		$bookTitle = $_POST["bookTitle"];
 		$bookPrice = $_POST['bookPrice'];
 		//写入数据库
-		$sql = "INSERT INTO `cart`
+		$sql = "INSERT INTO `carts`
 				(`bookTitle`, `bookId`, `bookPrice`, `cartSession`) 
 				VALUES 
 				('$bookTitle', '$bookId', '$bookPrice', '$cartSession')";
@@ -84,7 +84,7 @@
 		$cartSession = $_REQUEST['cartSession'];
 		$bookId = $_REQUEST['bookId'];
 		//写入数据库
-		$sql = "DELETE FROM `cart` WHERE `cartSession`='$cartSession' and `bookId` = '$bookId'";
+		$sql = "DELETE FROM `carts` WHERE `cartSession`='$cartSession' and `bookId` = '$bookId'";
 		$results = $mysqli->query($sql);
 		if($results){
 		    //print 'Success! record updated / deleted'; 
@@ -101,7 +101,7 @@
 	if($action == "emptyCart"){
 		$cartSession = $_REQUEST['cartSession'];
 		//写入数据库
-		$sql = 'DELETE FROM `cart` WHERE `cartSession` =' . $cartSession;
+		$sql = 'DELETE FROM `carts` WHERE `cartSession` =' . $cartSession;
 		$results = $mysqli->query($sql);
 		if($results){
 		    //print 'Success! record updated / deleted'; 
@@ -119,7 +119,7 @@
 		var_dump($_POST);
 		$id = $_POST['cartId'];
 		$goodsNum = $_POST['cartNum'];
-		$sql = "UPDATE cart SET goodsNum=" . $goodsNum ." WHERE id= " .$id;
+		$sql = "UPDATE carts SET goodsNum=" . $goodsNum ." WHERE id= " .$id;
 		$results = $mysqli->query($sql);
 
 		//MySqli Delete Query
@@ -141,7 +141,7 @@
 	//根据商品名称查询购物车对应记录id
 	if($action == 'find') {
 		$goodsName = $_REQUEST['goodsName'];
-		$sql = "select id, goodsNum from cart where goodsName='" . $goodsName . "'";
+		$sql = "select id, goodsNum from carts where goodsName='" . $goodsName . "'";
 		$results = $mysqli->query($sql);
 		if($results === false){
 			//如果结果集为空
