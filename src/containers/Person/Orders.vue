@@ -1,5 +1,5 @@
 <template>
-	<div class="row">
+	<div>
 		<el-table
 			:data="orderlist"
 			stripe

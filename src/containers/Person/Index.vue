@@ -6,9 +6,15 @@
 					default-active="2" 
 					class="el-menu-vertical-demo" 
 				>
-					<el-menu-item index="1">导航一</el-menu-item>
-					<el-menu-item index="2">导航二</el-menu-item>
-					<el-menu-item index="3">导航三</el-menu-item>
+					<el-menu-item index="1">
+						<router-link :to="{ path: '/person/info' }">用户主页</router-link>
+					</el-menu-item>
+					<el-menu-item index="2">
+						<router-link :to="{ path: '/person/records' }">借阅记录</router-link>
+					</el-menu-item>
+					<el-menu-item index="3">
+						<router-link :to = "{ path: '/person/orders' }">订单管理</router-link>
+					</el-menu-item>
 				</el-menu>
 			</el-col>
 			<el-col :span = "18">

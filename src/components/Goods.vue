@@ -2,7 +2,9 @@
 	<el-card :body-style="{ padding: '0px' }">
 		<img :src="item.bookImg" style = "float: left;">
 		<div style="float: left; padding: 10px;">
-			<span>{{item.title || item.bookTitle}}</span>
+			<router-link 
+				:to = "{ path: '/goods/' + item.bookId }"
+			>{{item.title || item.bookTitle}}</router-link>
 			<div class="bottom clearfix">
 				<time class="time">{{item.createTime}}</time>
 				<el-button 

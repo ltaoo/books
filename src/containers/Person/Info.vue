@@ -11,12 +11,14 @@
 		</el-card>
 		<div class="row">
 			<h4>正在借阅的书籍</h4>
-			<template v-if="borrowBook == false">
-				<p>没有借阅书籍</p>
+			<template v-if = "books.length === 0">
+				<p>没有借阅</p>
 			</template>
 			<template v-else>
-				<h3>{{book.bookTitle}}</h3>
-				<p>借阅时间：<span>{{book.borrowTime}}</span></p>
+				<div v-for = "book in books" :key = "book.bookId">
+					<h3>{{book.bookTitle}}</h3>
+					<p>借阅时间：<span>{{book.borrowTime}}</span></p>
+				</div>
 			</template>
 		</div>
 	</div>
@@ -31,7 +33,7 @@
 			return {
 				member: {},
 				borrowBook: false,
-				book: {}
+				books: []
 			}
 		},
 		created () {
@@ -49,8 +51,7 @@
 			// 查询借阅记录
 			searchRecordByMemberId(localStorage.getItem('userId'))
 				.then(res => {
-					this.borrowBook = true
-					this.book = res.data
+					this.books = res
 				})
 				.catch(err => {
 					this.$message({

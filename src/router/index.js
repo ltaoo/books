@@ -20,7 +20,7 @@ import Person from '@/containers/Person/Index.vue'
 // 个人中心信息页
 import Info from '@/containers/Person/Info.vue'
 // 个人中心借阅记录页
-// import Records from '@/components/Person/userRecords.vue'
+import PersonRecords from '@/containers/Person/Records.vue'
 // 个人中心订单记录页
 import PersonOrders from '@/containers/Person/Orders.vue'
 // 个人中心设置地址页
@@ -94,6 +94,11 @@ const router = new Router({
 							path: 'orders',
 							name: 'PersonOrders',
 							component: PersonOrders
+						}, {
+							// 用户借阅记录页
+							path: 'records',
+							name: 'PersonRecords',
+							component: PersonRecords
 						}
 					]
 

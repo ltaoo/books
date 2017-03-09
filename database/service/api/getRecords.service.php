@@ -270,7 +270,7 @@
 			$result['data'] = $record;
 		}else{
 			//没有正在借阅的借阅记录
-			$result['mes'] = "empty";
+			$result['data'] = array();
 		}
 		/*while($row = $results->fetch_assoc()){
 			var_dump($row);

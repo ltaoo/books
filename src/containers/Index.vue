@@ -17,9 +17,8 @@
 					<router-link :to="{ path: '/person/info' }">用户主页</router-link>
 				</el-menu-item>
 				<el-menu-item index="4-2">
-					
+					<router-link :to="{ path: '/person/records' }">借阅记录</router-link>
 				</el-menu-item>
-				<el-menu-item index="4-3">选项3</el-menu-item>
 			</el-submenu>
 			<el-menu-item index="5" v-if ="isLogin">
 				<a @click="logout()">注销</a>

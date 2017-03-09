@@ -99,7 +99,6 @@
 							newPrice
 						}
 					})
-					console.log(this.cartList)
 				}).catch(err => {
 					this.$message({
 						message: err
@@ -120,7 +119,6 @@
 				const carts = this.cartList
 				for (let i = 0, len = carts.length; i < len; i++) {
 					// 获取购买数量
-					console.log(carts[i].newPrice)
 					let price = this.cartList[i].newPrice
 					sum += parseFloat(price)
 				}
@@ -129,7 +127,6 @@
 		},
 		methods: {
 			addCart (obj) {
-				console.log(this)
 				// some 只要有一个是重复的，就返回true
 				this.isChong = this.cartList.some(book => {
 					return book.bookId === obj.bookId
