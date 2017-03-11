@@ -36,6 +36,18 @@ export function rank (rank) {
 	}
 	return rankTable[rank]
 }
+/* 根据书籍状态返回中文说明
+ * @param <String> state
+ * @return <String>
+ */
+export function bookState (state) {
+	const bookStateTable = {
+		0: '正常',
+		1: '正在借阅',
+		2: '已出售'
+	}
+	return bookStateTable[state]
+}
 /* 获取两个时间的时间差
  * @param <Date> first
  * @param <Date> second

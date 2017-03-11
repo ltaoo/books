@@ -1,7 +1,7 @@
 <template>
 	<div class = "container">
 		<el-row :gutter="20">
-			<el-col :span="18">
+			<el-col :span="20">
 				<el-input
 						placeholder="请输入会员姓名或学号查询"
 						icon="search"
@@ -9,8 +9,10 @@
 					>
 				</el-input>
 			</el-col>
-			<el-col :span="6">
-				<el-button type="primary" @click="dialogVisible = true">添加新会员</el-button>
+			<el-col :span="4">
+				<el-button
+					style = "width: 100%;"
+					type="primary" @click="dialogVisible = true">添加新会员</el-button>
 			</el-col>
 		</el-row>
 		<el-table

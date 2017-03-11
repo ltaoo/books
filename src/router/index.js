@@ -119,10 +119,11 @@ const router = new Router({
 			name: 'Admin',
 			component: Admin,
 			meta: { adminAuth: true },
+			redirect: '/admin/index',
 			children: [
 				{
 					// 借书页
-					path: 'borrow',
+					path: 'index',
 					name: 'Borrow',
 					component: Borrow,
 					meta: { adminAuth: true }

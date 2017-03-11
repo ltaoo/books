@@ -1,7 +1,7 @@
 <template>
 	<div class = "container">
 		<el-row :gutter="20">
-			<el-col :span="18">
+			<el-col :span="20">
 				<el-input
 						placeholder="请输入书籍名或ISBN码查询"
 						icon="search"
@@ -9,15 +9,47 @@
 					>
 				</el-input>
 			</el-col>
-			<el-col :span="6">
-				<el-button type="primary" @click="dialogVisible = true">添加新书籍</el-button>
+			<el-col :span="4">
+				<el-button 
+					style = "width: 100%;"
+					type="primary" @click="dialogVisible = true">添加新书籍</el-button>
 			</el-col>
 		</el-row>
 		<el-table
-			:data="books"
+			:data="_books"
 			stripe
 			style="width: 100%"
 		>
+			<el-table-column type="expand">
+				<template scope="props">
+					<el-form label-position="left" inline class="demo-table-expand">
+						<el-form-item label="id">
+							<span>{{ props.row.bookId }}</span>
+						</el-form-item>
+						<el-form-item label="书籍名">
+							<span>{{ props.row.bookTitle }}</span>
+						</el-form-item>
+						<el-form-item label="ISBN 码">
+							<span>{{ props.row.bookIsbn }}</span>
+						</el-form-item>
+						<el-form-item label="借阅次数">
+							<span>{{ props.row.borrowTimes }}</span>
+						</el-form-item>
+						<el-form-item label="当前状态">
+							<span>{{ props.row.bookState }}</span>
+						</el-form-item>
+						<el-form-item label="书籍价格">
+							<span>￥{{ props.row.bookPrice }}</span>
+						</el-form-item>
+						<el-form-item label="封面">
+							<span>{{ props.row.bookImg }}</span>
+						</el-form-item>
+						<el-form-item label="上架时间">
+							<span>{{ props.row.createTime }}</span>
+						</el-form-item>
+					</el-form>
+				</template>
+			</el-table-column>
 			<el-table-column
 				prop="bookTitle"
 				label="书籍名"
@@ -29,25 +61,24 @@
 			>
 			</el-table-column>
 			<el-table-column
-				prop="bookPrice"
-				label="书籍价格"
-			>
-			</el-table-column>
-			<el-table-column
-				prop="borrowTimes"
-				label="借阅次数"			
-			>
-			</el-table-column>
-			<el-table-column
 				prop="bookState"
 				label="书籍状态"
 			>
 			</el-table-column>			
-			</el-table-column>
-			<el-table-column
-				prop="bookImg"
-				label="书籍封面"
+						<el-table-column
+				label="操作"
 			>
+				<template scope="scope">
+					<el-button
+						size="small"
+						type="text"
+						@click="editBook(scope.row.bookId, scope.$index)">编辑</el-button>
+					<el-button
+						size="small"
+						type="text"
+						:disabled="scope.row.bookState !== '正常'"
+						@click="deleteBook(scope.row.bookId, scope.$index)">删除</el-button>
+				</template>
 			</el-table-column>
 		</el-table>
 		<el-dialog title="新增图书" v-model="dialogVisible" size="small">
@@ -57,11 +88,12 @@
 				:on-icon-click="searchByDouban.bind(this, searchQuery)"
 			>
 			</el-input>
-			<BookList 
-				:books="resultList" 
-				:choose = "addBook"
-				:Child = "Book"
-			/>		
+			<el-col :span = "24" v-for = "book in resultList" :key = "book.id">
+				<Douban
+					:book = "book"
+					:choose = "addBook"
+				/>
+			</el-col>
 		</el-dialog>	
 	</div>
 </template>
@@ -73,8 +105,9 @@
 		createBook,
 		searchBookById
 	} from '@/store/books'
-	import BookList from '@/components/BookList.vue'
-	import Book from '@/components/Book.vue'
+	import Douban from '@/components/Douban.vue'
+	import { bookState } from '@/utils/index'
+
 	export default {
 		name: 'Members',
 		data () {
@@ -89,13 +122,11 @@
 				// 查询豆瓣得到的结果
 				resultList: [],
 				// 保存填写新会员的信息
-				book: {},
-				// 传给 booklist 的子组件
-				Book
+				book: {}
 			}
 		},
 		components: {
-			BookList
+			Douban
 		},
 		created () {
 			fetchBooks()
@@ -158,8 +189,8 @@
 						})
 					})
 			},
-			deleteBook (memberId, index) {
-				// Admin.deleteMember(memberId)
+			deleteBook (bookId, index) {
+				// deleteMember(memberId)
 				// 	.then(res=> {
 				// 		// 这里判断是否成功，如果成功就页面上也同步删除该记录，或者刷新页面。
 				// 		// console.log(data);
@@ -171,6 +202,19 @@
 				// 			alert('删除失败,请重试')
 				// 		}
 				// 	})
+			},
+			editBook (bookId, index) {
+				// hello
+			}
+		},
+		computed: {
+			_books () {
+				return this.books.map(book => {
+					return {
+						...book,
+						bookState: bookState(book.bookState)
+					}
+				})
 			}
 		}
 	}
