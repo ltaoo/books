@@ -91,3 +91,10 @@ export function computedPriceByTimes (price, times) {
 	// return number.join('.')
 	return resultPrice
 }
+/* 重置指定组件内的指定表单
+ * @param <Component> component
+ * @param <String> form
+ */
+export function resetForm (component, form) {
+	component.$refs[form].resetFields()
+}
