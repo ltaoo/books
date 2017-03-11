@@ -34,15 +34,14 @@
 		$result = array();
 		$memberNum = $_REQUEST['memberNum'];
 		//模糊查询学号
-		$sql = "select memberId, memberName, memberNum,memberTel, memberAddress, memberRank, memberCreateTime, 
-		(select count(*) from records where records.memberId = members.memberId and returnTime is NULL) as borrowNum,
-		(select count(*) from records where records.memberId = members.memberId and returnTimeis not NULL) as borrowTimes
-		 from members where memberNum like '%" . $memberNum . "%'";
+		$sql = "select memberId, memberName, memberNum,memberTel, memberAddress, memberRank, memberCreateTime
+		 from members where memberNum = '" . $memberNum . "'";
+		// $sql = "select * from members where memberNum = '1218040201'";
 		$results = $mysqli->query($sql);
 		$members = array();
 		if($results === false){
 			//如果结果集为空
-			$result['state'] = 500;
+			// var_dump($results);
 		}else{
 			while($row = $results->fetch_assoc()) {
 			    $temp = array(

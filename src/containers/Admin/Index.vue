@@ -27,6 +27,12 @@
 				<a @click="dialogVisible = true">注销</a>
 			</el-menu-item>
 		</el-menu>
+		<!-- <el-breadcrumb style = "margin-top: 20px;margin-left: 20px;" separator="/">
+			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+			<el-breadcrumb-item>活动管理</el-breadcrumb-item>
+			<el-breadcrumb-item>活动列表</el-breadcrumb-item>
+			<el-breadcrumb-item>活动详情</el-breadcrumb-item>
+		</el-breadcrumb> -->
 		<router-view></router-view>
 		<el-dialog title="提示" v-model="dialogVisible" size="tiny">
 			<span>确定要退出登录吗？</span>

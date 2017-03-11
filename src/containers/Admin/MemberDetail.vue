@@ -1,55 +1,32 @@
 <template>	
 	<div class="container">
-		<el-row :gutter="20">
-			<el-col :span="8" :offset="8">
-				<el-input placeholder="请输入会员名" v-model="member.memberName" />
-			</el-col>
-			<el-col :span="8" :offset="8">
-				<el-input placeholder="请输入会员学号" v-model="member.memberNum" />
-			</el-col>
-			<el-col :span="8" :offset="8">
-				<el-input placeholder="请输入联系方式" v-model="member.memberTel" />
-			</el-col>
-			<el-col :span="8" :offset="8">
-				<el-input placeholder="请输入地址" v-model="member.memberAddress" />
-			</el-col>
-			<el-col :span="8" :offset="8">
-				<el-radio-group v-model="member.memberRank">
-					<el-radio-button :label="0">周卡</el-radio-button>
-					<el-radio-button :label="1">月卡</el-radio-button>
-					<el-radio-button :label="2">期卡</el-radio-button>
-				</el-radio-group>
-			</el-col>
-			<el-col :span="8" :offset="8">
-				<el-button 
-					style = "width: 100%;"
-					type = "primary"
-					@click="update(member)"
-				>确定</el-button>
-			</el-col>
-		</el-row>
+		<MemberForm
+			:member = "member"
+			:confirm = "update"
+			:cancel = "reset"
+			:update = "true"
+		/>
 	</div>
 </template>
 
 <script>
-	import {
-		searchMemberById,
-		updateMember
-	} from '@/store/admin/member'
+	import { searchMemberById, updateMember } from '@/store/admin/member'
 	import router from '@/router/index'
+	import MemberForm from '@/containers/Admin/MemberForm'
 
 	export default {
-		name: 'memberdetail',
+		name: 'MemberDetail',
 		data () {
 			return {
 				member: {}
 			}
 		},
+		components: {
+			MemberForm
+		},
 		created () {
 			searchMemberById(this.$route.params.id)
 				.then(res => {
-					// 可以回调成功后才展现数据
-					this.show = true
 					console.log(res.data)
 					this.member = res.data
 				})
@@ -77,6 +54,9 @@
 							message: err
 						})
 					})
+			},
+			reset () {
+				console.log('重置')
 			}
 		}
 	}

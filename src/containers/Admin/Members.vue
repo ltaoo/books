@@ -77,61 +77,33 @@
 				label="操作"
 			>
 				<template scope="scope">
-					<router-link :to = "{path: '/admin/member/' + scope.row.memberId}">编辑</router-link>
 					<el-button
 						size="small"
-						type="danger"
+						type="text"
+						@click="editMember(scope.row.memberId, scope.$index)">编辑</el-button>
+					<el-button
+						size="small"
+						type="text"
 						:disabled="scope.row.borrowNum !== '0'"
 						@click="deleteMember(scope.row.memberId, scope.$index)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 		<el-dialog title="新增会员" v-model="dialogVisible" size="small">
-			<el-form ref="form" :model="member" :rules="rules" label-width="80px">
-				<el-form-item label="会员名" prop="memberName">
-					<el-input placeholder="请输入会员名" v-model="member.memberName">
-					</el-input>
-				</el-form-item>
-				<el-form-item label="学号" prop = "memberNum">
-					<el-input placeholder="请输入学号" v-model="member.memberNum">
-					</el-input>
-				</el-form-item>
-				<el-form-item label="联系方式" prop = "memberTel">
-					<el-input placeholder="请输入联系方式" v-model="member.memberTel">
-					</el-input>
-				</el-form-item>
-				<el-form-item label="地址" prop = "memberAddress">
-					<el-input placeholder="请输入地址" v-model="member.memberAddress">
-					</el-input>
-				</el-form-item>
-				<!-- <el-form-item label="活动时间">
-					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-					</el-col>
-					<el-col class="line" :span="2">-</el-col>
-					<el-col :span="11">
-						<el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-					</el-col>
-				</el-form-item> -->
-				<el-form-item label="会员类型">
-					<el-radio-group v-model="member.memberRank">
-						<el-radio :label="0">周卡</el-radio>
-						<el-radio :label="1">月卡</el-radio>
-						<el-radio :label="2">期卡</el-radio>
-					</el-radio-group>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="addMember(member)">确 定</el-button>
-					<el-button @click="resetForm('form')">取 消</el-button>
-				</el-form-item>
-			</el-form>
+			<MemberForm
+				:member = "member"
+				:confirm = "addMember"
+				:cancel = "resetForm"
+			/>
 		</el-dialog>	
 	</div>
 </template>
 
 <script>
+	import router from '@/router/index'
 	import { fetchMembers, createMember, searchMemberById, deleteMember } from '@/store/admin/member'
 	import { rank, resetForm } from '@/utils/index'
+	import MemberForm from '@/containers/Admin/MemberForm.vue'
 	export default {
 		name: 'Members',
 		data () {
@@ -147,47 +119,11 @@
 					memberTel: '',
 					memberAddress: '',
 					memberRank: 0
-				},
-				rules: {
-					memberName: [{
-						required: true,
-						message: '请输入活动名称',
-						trigger: 'blur'
-					}, {
-						max: 5,
-						message: '长度在不能超过 5 个字符',
-						trigger: 'blur'
-					}],
-					memberNum: [{
-						required: true,
-						message: '请输入学号',
-						trigger: 'blur'
-					}, {
-						max: 12,
-						message: '长度不能超过 12 个字符',
-						trigger: 'blur'
-					}],
-					memberTel: [{
-						required: true,
-						message: '请输入联系方式',
-						trigger: 'blur'
-					}, {
-						max: 11,
-						message: '长度不能超过 11 个字符',
-						trigger: 'blur'
-					}],
-					memberAddress: [{
-						required: true,
-						message: '请输入地址',
-						trigger: 'blur'
-					}],
-					memberRank: [{
-						required: true,
-						message: '请选择会员类型',
-						trigger: 'blur'
-					}]
 				}
 			}
+		},
+		components: {
+			MemberForm
 		},
 		created () {
 			fetchMembers()
@@ -248,6 +184,9 @@
 						return false
 					}
 				})
+			},
+			editMember (memberId) {
+				router.push(`/admin/member/${memberId}`)
 			},
 			deleteMember (memberId, index) {
 				deleteMember(memberId)
