@@ -13,8 +13,8 @@ import IndexBooks from '@/containers/Books.vue'
 import Detail from '@/containers/Detail.vue'
 // 用户登陆页
 import UserLogin from '@/containers/UserLogin.vue'
-// ？
-// import Tips from '@/components/tips.vue'
+// 购买成功提示页
+import Success from '@/containers/Success.vue'
 // 个人中心首页
 import Person from '@/containers/Person/Index.vue'
 // 个人中心信息页
@@ -113,6 +113,10 @@ const router = new Router({
 			path: '/userlogin',
 			name: 'UserLogin',
 			component: UserLogin
+		}, {
+			path: '/success',
+			name: 'Success',
+			component: Success
 		}, {
 			// 后台根视图
 			path: '/admin',

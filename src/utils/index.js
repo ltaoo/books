@@ -48,6 +48,19 @@ export function bookState (state) {
 	}
 	return bookStateTable[state]
 }
+/* 根据订单状态返回中文说明
+ * @param <String> state
+ * @return <String>
+ */
+export function orderState (state) {
+	const orderStateTable = {
+		0: '未确认',
+		1: '订单已完成',
+		2: '订单已取消'
+	}
+
+	return orderStateTable[state]
+}
 /* 获取两个时间的时间差
  * @param <Date> first
  * @param <Date> second

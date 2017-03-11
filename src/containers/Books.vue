@@ -34,6 +34,7 @@
 				</el-row>
 				<el-button
 					style = "width: 100%;"
+					type = "success"
 					@click = "order"
 				>￥{{sumPrice}} - 结算</el-button>
 			</el-col>

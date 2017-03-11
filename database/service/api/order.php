@@ -52,7 +52,8 @@
 			    	'memberId' => $row['memberId'],
 			    	'booklist' => $row['booklist'],
 			    	'message' => $row['message'],
-			    	'orderState' => $row['orderState']
+			    	'orderState' => $row['orderState'],
+			    	'createTime' => $row['createTime']
 			    );
 			    $orders[] = $temp;
 			}

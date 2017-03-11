@@ -144,7 +144,7 @@ export function searchRecordByNum (param) {
 // 通过会员id查询已借书籍
 export function searchRecordByMemberId (param) {
 	return new Promise((resolve, reject) => {
-		fetch(`${prefix}/getRecords.service.php?action=searchByMemberId&memberId=${param}`)
+		fetch(`${prefix}/getRecords.service.php?action=searchRecordsByMemberId&memberId=${param}`)
 			.then(res => {
 				return res.json()
 			})

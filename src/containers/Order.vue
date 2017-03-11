@@ -1,11 +1,11 @@
 <template>
 	<div class="container">
 		<div>
-			<div class="consignee">
-				<h4>{{member.memberName}}</h4>
+			<el-card>
+				<h4>收货人：{{member.memberName}}</h4>
 				<p>联系方式：<span>{{member.memberTel}}</span></p>
 				<p>收货地址：<span>{{member.memberAddress}}</span></p>
-			</div>
+			</el-card>
 			<router-link to = "{ path: '/index' }">返回修改购物车</router-link>
 			<el-table
 				:data="cartList"

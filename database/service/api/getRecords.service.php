@@ -196,7 +196,7 @@
 		$result['data'] = $records;
 		$mysqli->close();
 		die(json_encode($result));
-	}elseif($action == 'searchRecordByMemberId'){
+	}elseif($action == 'searchRecordsByMemberId'){
 		$result = array();
 		//根据会员学号查询记录
 		$memberId = $_REQUEST['memberId'];
@@ -205,7 +205,7 @@
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){
-			die(json_encode($result['state']=500));
+			$result['data'] = array();
 		}
 		$records = array();
 		while($row = $results->fetch_assoc()){

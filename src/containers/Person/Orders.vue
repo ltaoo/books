@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-table
-			:data="orderlist"
+			:data="_orders"
 			stripe
 			style="width: 100%"
 		>
@@ -31,6 +31,12 @@
 			>
 			</el-table-column>
 			<el-table-column
+				prop="createTime"
+				label="下单时间"
+			>
+			</el-table-column>
+			<el-table-column
+			<el-table-column
 				label="操作"			
 			>
 				<template scope = "scope">
@@ -47,10 +53,12 @@
 <script>
 	import { searchBookById, updateBookState } from '@/store/books'
 	import { cancelOrder, fetchOrdersByMemberId } from '@/store/admin/order'
+
+	import { orderState } from '@/utils/index'
 	export default {
 		data () {
 			return {
-				orderlist: []
+				orders: []
 			}
 		},
 		created () {
@@ -78,7 +86,7 @@
 						// resultlist为书籍对象组成的数组
 						obj.booklist = resultlist
 					})
-					this.orderlist = res.data
+					this.orders = res.data
 				})
 				.catch(err => {
 					this.$message({
@@ -109,6 +117,16 @@
 							message: err
 						})
 					})
+			}
+		},
+		computed: {
+			_orders () {
+				return this.orders.map(order => {
+					return {
+						...order,
+						orderState: orderState(order.orderState)
+					}
+				})
 			}
 		}
 	}
