@@ -5,10 +5,13 @@
 			<span>{{book.title || book.bookTitle}}</span>
 			<div class="bottom clearfix">
 				<time class="time">{{book.pubdate || book.createTime}}</time>
+				<p v-if = "book.bookState !== '0'">该书无法借阅</p>
 				<el-button 
+					v-else
 					class="button"
+					type = "primary"
 					@click = "choose(book)"
-				>选择</el-button>
+				>借阅</el-button>
 			</div>
 		</div>
 	</el-card>

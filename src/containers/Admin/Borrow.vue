@@ -29,8 +29,7 @@
 			</el-col>
 		</el-row>
 		<el-dialog title="请确认以下信息" v-model="dialogVisible" size="small">
-			<span>{{choosedMember.memberName}}</span> 借阅
-			<span>{{choosedBook.bookTitle}}</span>
+			<p><span>{{choosedMember.memberName}}</span> 借阅 <span>{{choosedBook.bookTitle}}</span></p>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
 				<el-button type="primary" @click="borrow(choosedMember, choosedBook)">确 定</el-button>
@@ -181,12 +180,17 @@
 						if (res.recordId) {
 							// 借阅成功后需要将所有的数据清空，恢复到初始状态，理论上来说当然是直接刷新页面方便
 							this.dialogVisible = false
-							this.bookList = []
-							this.memberList = []
+							this.books = []
+							this.members = []
 							this.choosedMember = {}
 							this.choosedBook = {}
 							this.memberQuery = ''
 							this.bookQuery = ''
+							this.$notify({
+								type: 'success',
+								title: '成功',
+								message: '书籍借阅成功'
+							})
 						} else {
 							// 借阅失败
 							this.$message({

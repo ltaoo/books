@@ -1,6 +1,6 @@
 <template>
 	<el-row :gutter="20">
-		<el-col :span="24/(number || 8)" v-for="book in books" :key="book.bookId || book.id">
+		<el-col :span="8" v-for="book in books" :key="book.bookId || book.id">
 			<Book 
 				:book = "book"
 				:choose = "choose"
@@ -13,7 +13,7 @@
 	import Book from '@/components/Book'
 	export default {
 		name: 'BookList',
-		props: ['books', 'number', 'choose'],
+		props: ['books', 'choose'],
 		components: {
 			Book
 		}

@@ -34,7 +34,8 @@
 		die(json_encode($books));
 	}elseif($action == 'index'){
 		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, 
-		(select count(*) from records where records.bookId = books.bookId) as borrowTimes 
+		(select count(*) from records where records.bookId = books.bookId) as borrowTimes,
+		(select count(*) from records where records.bookId = books.bookId and returnTime is NULL) as bookState
 		from books order by borrowTimes desc";
 		$results = $mysqli->query($sql);
 		$books = array();
@@ -46,7 +47,8 @@
 				'bookPrice' => $row['bookPrice'],
 				'borrowTimes' => $row['borrowTimes'],
 				'bookSummary' => $row['bookSummary'],
-				'bookImg' => $row['bookImg']
+				'bookImg' => $row['bookImg'],
+				'bookState' => $row['bookState']
 			);
 			$books[] = $book;
 		}
@@ -58,7 +60,8 @@
 		$books = array();
 		$bookIsbn = $_REQUEST['bookIsbn'];
 		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
-		(select borrowTime from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as borrowTime
+		(select borrowTime from records where records.bookId = books.bookId and records.returnTime = 0000-00-00) as borrowTime,
+		(select count(*) from records where records.bookId = books.bookId and returnTime is NULL) as bookState
 		from books where books.bookIsbn =" . $bookIsbn;
 		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
@@ -77,7 +80,8 @@
 					'borrowTime' => $row['borrowTime'],
 					'bookSummary' => $row['bookSummary'],
 					'bookImg' => $row['bookImg'],
-					'createTime' => $row['createTime']
+					'createTime' => $row['createTime'],
+					'bookState' => $row['bookState']
 				);
 				$books[] = $a;
 			}
@@ -101,7 +105,8 @@
 			die(json_encode($result));
 		}
 		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
-		(select borrowTime from records where records.bookId = books.bookId and records.returnTime is NULL) as borrowTime
+		(select borrowTime from records where records.bookId = books.bookId and records.returnTime is NULL) as borrowTime,
+		(select count(*) from records where records.bookId = books.bookId and returnTime is NULL) as bookState
 		from books where bookState = 0 and bookTitle like '%" . $bookName . "%'";
 		$results = $mysqli->query($sql);
 		//如果查询错误则返回相应信息
@@ -120,7 +125,8 @@
 					'borrowTime' => $row['borrowTime'],
 					'bookSummary' => $row['bookSummary'],
 					'bookImg' => $row['bookImg'],
-					'createTime' => $row['createTime']
+					'createTime' => $row['createTime'],
+					'bookState' => $row['bookState']
 				);
 				$books[] = $a;
 			}
@@ -140,7 +146,8 @@
 		$bookId = $_REQUEST['bookId'];
 		$sql = "select bookId, bookTitle, bookIsbn, bookPrice, bookSummary, bookImg, createTime,
 		(select count(*) from records where records.bookId = books.bookId) as borrowTimes,
-		(select count(*) from records where records.bookId = books.bookId and records.returnTime is NULL) as returnTime
+		(select count(*) from records where records.bookId = books.bookId and records.returnTime is NULL) as returnTime,
+		(select count(*) from records where records.bookId = books.bookId and returnTime is NULL) as bookState
 		from books where bookId = '$bookId'";
 		$results = $mysqli->query($sql);
 		//根据id查询肯定只有一条记录
@@ -162,7 +169,8 @@
 			'bookSummary' => $row['bookSummary'],
 			'bookImg' => $row['bookImg'],
 			'createTime' => $row['createTime'],
-			'returnTime' => $row['returnTime']
+			'returnTime' => $row['returnTime'],
+			'bookState' => $row['bookState']
 		);
 		$result['state'] = 200;
 		$result['data'] = $book;

@@ -6,7 +6,7 @@
 			mode="horizontal" 
 		>
 			<el-menu-item index="1">
-				<router-link :to="{ path: '/admin/borrow' }">租书</router-link>
+				<router-link :to="{ path: '/admin/index' }">租书</router-link>
 			</el-menu-item>
 			<el-menu-item index="2">
 				<router-link :to="{ path: '/admin/return' }">还书</router-link>

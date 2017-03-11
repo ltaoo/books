@@ -39,7 +39,7 @@
 							// 给localstroage添加登录
 							localStorage.setItem('adminLogin', res.data[1])
 							router.push({
-								path: '/admin/borrow'
+								path: '/admin/index'
 							})
 						} else {
 							this.$message({

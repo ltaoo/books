@@ -12,6 +12,7 @@
 				<el-button
 					v-else
 					class="button"
+					type = "primary"
 					@click = "choose(member)"
 				>选择</el-button>
 			</div>

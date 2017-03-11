@@ -42,7 +42,7 @@
 							<span>￥{{ props.row.bookPrice }}</span>
 						</el-form-item>
 						<el-form-item label="封面">
-							<span>{{ props.row.bookImg }}</span>
+							<img :src = "props.row.bookImg" :alt = "props.row.bookTitle">
 						</el-form-item>
 						<el-form-item label="上架时间">
 							<span>{{ props.row.createTime }}</span>
@@ -69,10 +69,10 @@
 				label="操作"
 			>
 				<template scope="scope">
-					<el-button
+					<!-- <el-button
 						size="small"
 						type="text"
-						@click="editBook(scope.row.bookId, scope.$index)">编辑</el-button>
+						@click="editBook(scope.row.bookId, scope.$index)">编辑</el-button> -->
 					<el-button
 						size="small"
 						type="text"
@@ -143,7 +143,13 @@
 			searchByDouban (param) {
 				searchByDouban(param)
 					.then(res => {
-						this.resultList = res.books
+						if (res.books.length === 0) {
+							this.$message({
+								message: '没有查询到相关记录'
+							})
+						} else {
+							this.resultList = res.books
+						}
 					})
 					.catch(err => {
 						this.$message({
