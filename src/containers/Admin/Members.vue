@@ -14,10 +14,40 @@
 			</el-col>
 		</el-row>
 		<el-table
-			:data="members"
+			:data="_members"
 			stripe
 			style="width: 100%"
 		>
+			<el-table-column type="expand">
+				<template scope="props">
+					<el-form label-position="left" inline class="demo-table-expand">
+						<el-form-item label="会员名">
+							<span>{{ props.row.memberName }}</span>
+						</el-form-item>
+						<el-form-item label="学号">
+							<span>{{ props.row.memberNum }}</span>
+						</el-form-item>
+						<el-form-item label="联系方式">
+							<span>{{ props.row.memberTel }}</span>
+						</el-form-item>
+						<el-form-item label="地址">
+							<span>{{ props.row.memberAddress }}</span>
+						</el-form-item>
+						<el-form-item label="已借阅量">
+							<span>{{ props.row.borrowNum }}</span>
+						</el-form-item>
+						<el-form-item label="累计借阅量">
+							<span>{{ props.row.borrowTimes }}</span>
+						</el-form-item>
+						<el-form-item label="会员类型">
+							<span>{{ props.row.memberRank }}</span>
+						</el-form-item>
+						<el-form-item label="创建时间">
+							<span>{{ props.row.memberCreateTime }}</span>
+						</el-form-item>
+					</el-form>
+				</template>
+			</el-table-column>
 			<el-table-column
 				prop="memberName"
 				label="姓名"
@@ -34,24 +64,8 @@
 			>
 			</el-table-column>
 			<el-table-column
-				prop="memberAddress"
-				label="地址"
-				width="180"
-			>
-			</el-table-column>
-			<el-table-column
-				prop="borrowNum"
-				label="已借书数"
-			>
-			</el-table-column>
-			<el-table-column
-				prop="borrowTimes"
-				label="累计借阅量"
-			>
-			</el-table-column>
-			<el-table-column
 				prop="memberRank"
-				label="会员等级"
+				label="会员类型"
 			>
 			</el-table-column>
 			<el-table-column
@@ -101,7 +115,7 @@
 
 <script>
 	import { fetchMembers, createMember, searchMemberById, deleteMember } from '@/store/admin/member'
-	// import { rank } from '@/utils/index'
+	import { rank } from '@/utils/index'
 	export default {
 		name: 'Members',
 		data () {
@@ -180,11 +194,31 @@
 			}
 		},
 		computed: {
-			rank () {
-				return 'rank()'
+			_members () {
+				return this.members.map(member => {
+					return {
+						...member,
+						memberRank: rank(member.memberRank)
+					}
+				})
 			}
 		}
 	}
 </script>
 <style>
+	.el-form-item__label {
+		padding-top: 0;
+	}
+	.demo-table-expand {
+		font-size: 0;
+	}
+	.demo-table-expand label {
+		width: 90px;
+		color: #99a9bf;
+	}
+	.demo-table-expand .el-form-item {
+		margin-right: 0;
+		margin-bottom: 0;
+		width: 50%;
+	}
 </style>

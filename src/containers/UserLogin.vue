@@ -28,9 +28,10 @@
 				login(user)
 					.then(res => {
 						// 获取到redirect
-						// const url = decodeURIComponent(this.$route.query.redirect)
+						const url = decodeURIComponent(this.$route.query.redirect)
+						console.log(url)
 						localStorage.setItem('userId', res.data[0])
-						router.push({ path: '/books' })
+						router.push({ path: url })
 					})
 					.catch(() => {
 						this.$message({

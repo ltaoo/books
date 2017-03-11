@@ -63,6 +63,7 @@ const router = new Router({
 			path: '/',
 			name: 'Index',
 			component: Index,
+			redirect: '/index',
 			children: [
 				{
 					path: 'index',
@@ -84,21 +85,25 @@ const router = new Router({
 					path: 'person',
 					name: 'Person',
 					component: Person,
+					meta: { requiresAuth: true },
 					children: [
 						{
 							// 用户信息页
 							path: 'info',
-							component: Info
+							component: Info,
+							meta: { requiresAuth: true }
 						}, {
 							// 用户订单列表页
 							path: 'orders',
 							name: 'PersonOrders',
-							component: PersonOrders
+							component: PersonOrders,
+							meta: { requiresAuth: true }
 						}, {
 							// 用户借阅记录页
 							path: 'records',
 							name: 'PersonRecords',
-							component: PersonRecords
+							component: PersonRecords,
+							meta: { requiresAuth: true }
 						}
 					]
 
@@ -181,7 +186,7 @@ router.beforeEach((to, from, next) => {
 			next()
 		} else {
 			next({
-				path: '/login',
+				path: '/userlogin',
 				query: {
 					redirect: to.fullPath
 				}
