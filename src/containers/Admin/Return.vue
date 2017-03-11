@@ -8,7 +8,7 @@
 		>
 		</el-input>
 		<el-row :gutter = "10">
-			<el-col :span = "8" v-for = "record in records" :key = "record.recordId">
+			<el-col :span = "12" v-for = "record in records" :key = "record.recordId">
 				<Record
 					:record = "record"
 					:choose = "returnBook"
@@ -49,47 +49,52 @@
 				} else {
 					searchRecordByIsbn(param)
 						.then(res => {
-							// 这里是处理查询到的情况，就直接赋值
-							if (res.data.length === 0) {
-								// 这里是处理没有查询到的情况         这里就直接传给Name查询了？
-								return searchRecordByTitle(param)
-							} else {
-								console.log('根据isbn')
-								this.reocrds = res.data
-							}
-						})
-						.then(res => {
-							// 这里处理的应该是根据标题查询的结果
-							if (res.data.length === 0) {
-								return searchRecordByName(param)
-							} else {
-								console.log(res.data)
-								console.log('根据title')
-								this.records = res.data
-							}
-						})
-						.then(res => {
-							if (res.data.length === 0) {
-								return searchRecordByNum(param)
-							} else {
-								console.log('根据name')
-								this.records = res.data
-							}
-						})
-						.then(res => {
-							if (res.data.length === 0) {
-								this.$message({
-									message: '没有查询到记录'
-								})
-							} else {
-								console.log('根据num')
-								this.records = res.data
-							}
+							// console.log('根据isbn')
+							this.records = res.data
+							return Promise.reject('break')
 						})
 						.catch(err => {
-							this.$message({
-								message: err
-							})
+							if (err !== 'break') {
+								return searchRecordByTitle(param)
+							} else {
+								return Promise.reject('break')
+							}
+						})
+						.then(res => {
+							// console.log('根据title')
+							this.records = res.data
+							return Promise.reject('break')
+						})
+						.catch(err => {
+							if (err !== 'break') {
+								return searchRecordByName(param)
+							} else {
+								return Promise.reject('break')
+							}
+						})
+						.then(res => {
+							// console.log('根据name')
+							this.records = res.data
+							return Promise.reject('break')
+						})
+						.catch(err => {
+							if (err !== 'break') {
+								return searchRecordByNum(param)
+							} else {
+								return Promise.reject('break')
+							}
+						})
+						.then(res => {
+							// console.log('根据num')
+							this.records = res.data
+							return Promise.reject('break')
+						})
+						.catch(err => {
+							if (err !== 'break') {
+								this.$message({
+									message: err
+								})
+							}
 						})
 				}
 			},

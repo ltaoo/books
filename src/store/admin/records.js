@@ -70,7 +70,11 @@ export function searchRecordByIsbn (param) {
 				return res.json()
 			})
 			.then(json => {
-				resolve(json)
+				if (json.data.length === 0) {
+					reject('没有查询到记录')
+				} else {
+					resolve(json)
+				}
 			})
 			.catch(err => {
 				reject(err)
@@ -86,7 +90,11 @@ export function searchRecordByTitle (param) {
 				return res.json()
 			})
 			.then(json => {
-				resolve(json)
+				if (json.data.length === 0) {
+					reject('没有查询到记录')
+				} else {
+					resolve(json)
+				}
 			})
 			.catch(err => {
 				reject(err)
@@ -102,7 +110,11 @@ export function searchRecordByName (param) {
 				return res.json()
 			})
 			.then(json => {
-				resolve(json)
+				if (json.data.length === 0) {
+					reject('没有查询到记录')
+				} else {
+					resolve(json)
+				}
 			})
 			.catch(err => {
 				reject(err)
@@ -118,7 +130,11 @@ export function searchRecordByNum (param) {
 				return res.json()
 			})
 			.then(json => {
-				resolve(json)
+				if (json.data.length === 0) {
+					reject('没有查询到记录')
+				} else {
+					resolve(json)
+				}
 			})
 			.catch(err => {
 				reject(err)

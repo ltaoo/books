@@ -141,7 +141,7 @@
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){
-			die(json_encode($result['state']=500));
+			$result['data'] = array();
 		}
 		$records = array();
 		while($row = $results->fetch_assoc()){
@@ -173,7 +173,7 @@
 		$results = $mysqli->query($sql);
 		//如果查询执行不正确则返回false
 		if(!$results){
-			die(json_encode($result['state']=500));
+			$result['data'] = array();
 		}
 		$records = array();
 		while($row = $results->fetch_assoc()){
