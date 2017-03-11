@@ -7,7 +7,7 @@
 		>
 		</el-input>
 		<el-table
-			:data="recordlist"
+			:data="records"
 			stripe
 			style="width: 100%"
 		>
@@ -41,19 +41,19 @@
 		name: 'PersonRecords',
 		data () {
 			return {
-				recordlist: [],
-				hasRecord: false,
+				records: [],
 				query: ''
 			}
 		},
 		created () {
 			searchRecordByMemberId(localStorage.getItem('userId'))
 				.then(res => {
-					this.hasRecord = true
-					this.recordlist = res.data
+					this.records = res
 				})
 				.catch(err => {
-					console.log(err)
+					this.$message({
+						message: err
+					})
 				})
 		}
 	}
