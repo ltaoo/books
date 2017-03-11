@@ -21,6 +21,8 @@
 				'memberId' => $row['memberId'],
 				'memberNum' => $row['memberNum'],
 				'memberName' => $row['memberName'],
+				'memberTel' => $row['memberTel'],
+				'memberAddress' => $row['memberAddress'],
 				'memberRank' => $row['memberRank'],
 				'memberCreateTime' => $row['memberCreateTime'],
 				'bookId' => $row['bookId'],

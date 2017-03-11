@@ -64,6 +64,25 @@ export function computedTime (dateOne, dateTwo) {
 	// Date.parse 方法可解析一个日期时间字符串，并返回 1970/1/1 午夜距离该日期时间的毫秒数。86400000毫秒等于1天
 	return (Date.parse(oneMonth + '/' + oneDay + '/' + oneYear) - Date.parse(twoMonth + '/' + twoDay + '/' + twoYear)) / 86400000
 }
+/* 计算指定时间 num 天后的时间
+ * @param <Date> data 指定时间
+ * @param <Number>
+ */
+export function afterNumDay (date, num) {
+	// date为借阅时间
+	// parse的参数为1993/08/19格式
+	const month = date.substring(5, date.lastIndexOf('-'))
+	const day = date.substring(date.length, date.lastIndexOf('-') + 1)
+	const year = date.substring(0, date.indexOf('-'))
+	// 分别拿到年月日
+	// 获取到num至
+	const yinghuan = new Date(Date.parse(month + '/' + day + '/' + year) + (86400000 * num))
+	const year1 = yinghuan.getFullYear()
+	const month1 = yinghuan.getMonth() + 1
+	const date1 = yinghuan.getDate()
+	// 当前时间
+	return year1 + '-' + month1 + '-' + date1
+}
 
 /* 根据书籍原价与借阅次数计算出打折后的价格
  * @param <String> price
@@ -109,4 +128,45 @@ export function computedPriceByTimes (price, times) {
  */
 export function resetForm (component, form) {
 	component.$refs[form].resetFields()
+}
+/* 根据借阅时间和会员等级计算归还时间
+ * @param <Date> returnTime
+ * @param <Date> borrowTime
+ * @param <String> rank
+ * @return <Number> 0 超期、1 已还、2 未还
+ */
+export function returnTime (returnTime, borrowTime, rank) {
+	if (returnTime) {
+		// 如果 returnTime 不是 null 表示已还
+		return '已还'
+	}
+	// 借阅时间
+	const dateTwo = borrowTime
+	// 获取当前时间
+	const myDate = new Date()
+	const year = myDate.getFullYear()
+	const month = myDate.getMonth() + 1
+	const date = myDate.getDate()
+	// 当前时间
+	const dateOne = year + '-' + month + '-' + date
+	// 获取时间差
+	const cha = computedTime(dateOne, dateTwo)
+	if (rank === '0') {
+		// 如果是周卡会员而且超期了，就显示超期
+		if (cha > 7) {
+			return '超期'
+		} else {
+			return '未还'
+		}
+	} else if (rank === '1') {
+		// 如果是月卡会员而且超期了，就显示超期
+		if (cha > 30) {
+			return '超期'
+		} else {
+			return '未还'
+		}
+	} else {
+		// 这里的都是期卡
+		return '未还'
+	}
 }
