@@ -79,7 +79,8 @@
     "fetch-jsonp": "^1.0.6",
     "isomorphic-fetch": "^2.2.1",
     "vue": "^2.2.1",
-    "vue-router": "^2.3.0"
+    "vue-router": "^2.3.0",
+    "vuex": "^2.2.1"
   },
   "engines": {
     "node": ">= 4.0.0",

@@ -25,7 +25,7 @@
 				>
 				</el-input>
 				<el-row>
-					<el-col :span = "24" v-for = "item in cartList" :key = "item.bookId">
+					<el-col :span = "24" v-for = "item in carts" :key = "item.bookId">
 						<Cart
 							:item = "item"
 							:remove = "removeFromCart"
@@ -68,12 +68,8 @@
 			return {
 				// 书籍列表
 				books: [],
-				// 购物车列表
-				cartList: [],
 				// 总价
 				count: false,
-				// 是否重复
-				isChong: false,
 				// 用户是否登录
 				userLogin: true,
 				// 筛选图书条件
@@ -114,13 +110,17 @@
 			}
 		},
 		computed: {
+			// 购物车列表，从 vuex 中获取
+			carts () {
+				return this.$store.state.carts
+			},
 			sumPrice () {
 				// 循环计算购物车内商品总价
 				let sum = 0
-				const carts = this.cartList
+				const carts = this.carts
 				for (let i = 0, len = carts.length; i < len; i++) {
 					// 获取购买数量
-					let price = this.cartList[i].newPrice
+					let price = carts[i].newPrice
 					sum += parseFloat(price)
 				}
 				return sum
@@ -128,18 +128,18 @@
 		},
 		methods: {
 			addCart (obj) {
-				// some 只要有一个是重复的，就返回true
-				this.isChong = this.cartList.some(book => {
+				const carts = this.carts
+				// 要添加的这个商品是否已经存在购物车中了
+				const isChong = carts.some(book => {
 					return book.bookId === obj.bookId
 				})
 
-				if (this.isChong === false) {
-					// console.log(obj);
-					// obj.bookPrice = obj.newPrice;
+				if (isChong === false) {
 					obj.newPrice = computedPriceByTimes(obj.bookPrice, obj.borrowTimes)
-					this.cartList.push(obj)
-					// 同时还要写入数据库中
-					// 先获取到userid作为查询依据
+					// 将商品加入购物车
+					this.$store.commit('ADD_TO_CART', obj)
+					// // 同时还要写入数据库中
+					// // 先获取到userid作为查询依据
 					obj.cartsession = localStorage.getItem('userId') || 123
 					localStorage.setItem('cartSession', obj.cartsession)
 					// 加入购物车成功不做任何处理
@@ -149,7 +149,7 @@
 								message: err
 							})
 							// 如果写入数据库失败，还要从购物车移除，因为是已经加入到购物车中了
-							this.cartList.splice(this.cartList.indexOf(obj), 1)
+							carts.splice(carts.indexOf(obj), 1)
 						})
 				} else {
 					this.$message({
@@ -160,7 +160,7 @@
 			removeFromCart (obj, index) {
 				removeFromCart(obj)
 					.then(res => {
-						this.cartList.splice(index, 1)
+						this.carts.splice(index, 1)
 						obj.cartSession = localStorage.getItem('cartSession')
 					})
 					.catch(err => {
