@@ -4,10 +4,15 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
+	member: {},
 	carts: []
 }
 
 const mutations = {
+	// 登录
+	LOGIN (state, payload) {
+		state.member = payload
+	},
 	// 初始化购物车
 	INIT_CART (state, payload) {
 		state.carts = payload

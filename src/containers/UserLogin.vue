@@ -28,9 +28,10 @@
 				login(user)
 					.then(res => {
 						// 获取到redirect
-						const url = decodeURIComponent(this.$route.query.redirect)
-						console.log(url)
+						const url = decodeURIComponent(this.$route.query.redirect) || '/'
 						localStorage.setItem('userId', res.data[0])
+						// 登录成功后获取到的信息就是用户的完整信息，将其保存至 store
+						this.$store.commit('LOGIN', res)
 						router.push({ path: url })
 					})
 					.catch(() => {

@@ -41,17 +41,15 @@
 <script>
 	import router from '@/router/index'
 
-	import { fetchCartList, emptyCart } from '@/store/cart'
+	import { emptyCart } from '@/store/cart'
 	import { searchMemberById } from '@/store/admin/member'
 	import { createOrder } from '@/store/admin/order'
 	import { updateBookState } from '@/store/books'
 
-	import { computedPriceByTimes } from '@/utils/index'
 	export default {
 		name: 'Order',
 		data () {
 			return {
-				cartList: [],
 				member: {},
 				message: ''
 			}
@@ -61,22 +59,6 @@
 			if (!localStorage.getItem('cartSession')) {
 				router.replace({ path: '/books' })
 			}
-			// 购物车列表
-			fetchCartList(localStorage.getItem('cartSession'))
-				.then(res => {
-					this.cartList = res.data.map(item => {
-						const newPrice = computedPriceByTimes(item.bookPrice, item.borrowTimes)
-						return {
-							...item,
-							newPrice
-						}
-					})
-					console.log(this.cartList)
-				}).catch(err => {
-					this.$message({
-						message: err
-					})
-				})
 	        // 根据用户id查询用户信息
 			searchMemberById(localStorage.getItem('userId'))
 				.then(res => {
@@ -90,16 +72,11 @@
 				})
 		},
 		computed: {
+			cartList () {
+				return this.$store.state.carts
+			},
 			countPrice () {
-				// 循环计算购物车内商品总价
-				let sum = 0
-				for (let i = 0, len = this.cartList.length; i < len; i++) {
-					// 获取购买数量
-					let price = this.cartList[i].newPrice
-					sum += parseFloat(price)
-				}
-				// console.log(sum);
-				return sum
+				return this.$store.getters.count
 			},
 			sumNum () {
 				return this.cartList.length
