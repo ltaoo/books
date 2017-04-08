@@ -40,17 +40,10 @@
 
 <script>
 	import router from '@/router/index'
-
-	import { emptyCart } from '@/store/cart'
-	import { searchMemberById } from '@/store/admin/member'
-	import { createOrder } from '@/store/admin/order'
-	import { updateBookState } from '@/store/books'
-
 	export default {
 		name: 'Order',
 		data () {
 			return {
-				member: {},
 				message: ''
 			}
 		},
@@ -59,17 +52,6 @@
 			if (!localStorage.getItem('cartSession')) {
 				router.replace({ path: '/books' })
 			}
-	        // 根据用户id查询用户信息
-			searchMemberById(localStorage.getItem('userId'))
-				.then(res => {
-					this.member = res.data
-				})
-				.catch(err => {
-					this.$message({
-						message: err
-					})
-					router.replace({ path: '/books' })
-				})
 		},
 		computed: {
 			member () {
@@ -87,47 +69,13 @@
 		},
 		methods: {
 			createOrder () {
-				// 生成订单保存到数据库中
-				// 将商品id提取出来
-				let bookIdList = this.cartList.map(obj => {
-					return obj.bookId
-				})
-				const post = {
-					memberId: localStorage.getItem('userId'),
-					booklist: bookIdList.join('|'),
-					message: this.message
-				}
-				// 写入数据库
-				createOrder(post)
-					.then(res => {
-						// 生成订单成功，清空购物车
-						emptyCart(localStorage.getItem('cartSession'))
-							.then(res => {
-								// 更新书籍状态为已出售
-								bookIdList.forEach(bookId => {
-									updateBookState(bookId, 2)
-										.then(res => {
-											// 跳转地址
-											// 移除localStorage
-											localStorage.removeItem('cartSession')
-											router.replace({ path: '/success' })
-										})
-										.catch(err => {
-											this.$message({
-												message: err
-											})
-										})
-								})
-							})
-							.catch(err => {
-								this.$message({
-									message: err
-								})
-							})
+				this.$store.dispatch('CREATE_ORDER', this.message)
+					.then(() => {
+						router.replace({ path: '/success' })
 					})
-					.catch(err => {
+					.catch(() => {
 						this.$message({
-							message: err
+							message: '结算失败'
 						})
 					})
 			}
