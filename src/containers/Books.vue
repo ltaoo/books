@@ -68,8 +68,6 @@
 			return {
 				// 书籍列表
 				books: [],
-				// 总价
-				count: false,
 				// 用户是否登录
 				userLogin: true,
 				// 筛选图书条件
@@ -86,16 +84,18 @@
 						message: err
 					})
 				})
-			// 购物车列表
+			// 初始化购物车列表
 			fetchCartList(localStorage.getItem('cartSession'))
 				.then(res => {
-					this.cartList = res.data.map(item => {
+					// 获取到保存在数据库中的购物车列表
+					const list = res.data.map(item => {
 						const newPrice = computedPriceByTimes(item.bookPrice, item.borrowTimes)
-						return {
-							...item,
+						return Object.assign(item, {
 							newPrice
-						}
+						})
 					})
+					// 将数据保存到 store 中
+					this.$store.commit('INIT_CART', list)
 				}).catch(err => {
 					this.$message({
 						message: err
@@ -115,15 +115,7 @@
 				return this.$store.state.carts
 			},
 			sumPrice () {
-				// 循环计算购物车内商品总价
-				let sum = 0
-				const carts = this.carts
-				for (let i = 0, len = carts.length; i < len; i++) {
-					// 获取购买数量
-					let price = carts[i].newPrice
-					sum += parseFloat(price)
-				}
-				return sum
+				return this.$store.getters.count
 			}
 		},
 		methods: {
@@ -157,11 +149,12 @@
 					})
 				}
 			},
-			removeFromCart (obj, index) {
+			removeFromCart (obj) {
+				const carts = this.carts
+				obj.cartSession = localStorage.getItem('cartSession')
 				removeFromCart(obj)
 					.then(res => {
-						this.carts.splice(index, 1)
-						obj.cartSession = localStorage.getItem('cartSession')
+						carts.splice(carts.indexOf(obj), 1)
 					})
 					.catch(err => {
 						this.$message({
