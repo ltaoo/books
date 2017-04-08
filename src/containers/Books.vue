@@ -47,11 +47,10 @@
 		fetchBooks
 	} from '@/store/books'
 	import {
-		fetchCartList,
 		removeFromCart,
 		addToCart
 	} from '@/store/cart'
-
+	
 	import { computedPriceByTimes } from '@/utils/index'
 
 	import router from '@/router/index'
@@ -80,23 +79,6 @@
 					this.books = res
 				})
 				.catch(err => {
-					this.$message({
-						message: err
-					})
-				})
-			// 初始化购物车列表
-			fetchCartList(localStorage.getItem('cartSession'))
-				.then(res => {
-					// 获取到保存在数据库中的购物车列表
-					const list = res.data.map(item => {
-						const newPrice = computedPriceByTimes(item.bookPrice, item.borrowTimes)
-						return Object.assign(item, {
-							newPrice
-						})
-					})
-					// 将数据保存到 store 中
-					this.$store.commit('INIT_CART', list)
-				}).catch(err => {
 					this.$message({
 						message: err
 					})

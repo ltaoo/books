@@ -25,7 +25,14 @@
 </template>
 
 <script>
+	import router from '@/router/index'
+
 	export default {
-		name: 'PersonRoot'
+		name: 'PersonRoot',
+		created () {
+			if (!this.$store.state.memberLogin) {
+				router.replace({ path: '/' })
+			}
+		}
 	}
 </script>

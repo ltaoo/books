@@ -32,32 +32,6 @@
 			</el-menu-item>
 		</el-menu>
 		<router-view></router-view>
-		<!-- <el-row>
-  			<el-col :span="16">
-	  			<div>
-					<input type="text" class="form-control" placeholder="输入图书名称筛选" v-model="query">
-						<book v-for="book in booksList | filterBy query | fetchNotSale" v-bind:book="book"></book>
-				</div>
-  			</el-col>
-		</el-row>
- --><!-- 		<div class="row">
-			<div class="col-xs-8">
-			<div class="col-xs-4" v-show="cartList.length == 0">
-				<h3>购物车内没有商品</h3>
-			</div>
-			<div class="col-xs-4" v-show="cartList.length !== 0 && count == false">
-				<h3>购物车</h3>
-				<hr>
-				<div v-for="book in cartList" track-by="$index">
-					<h3>{{book.bookTitle}}</h3>
-					<p></p><p>单价：<span>{{book.newPrice}}</span></p><p @click="removeBook(book, $index)">删除</p>
-				</div>
-				<hr>
-				<p>商品数量：<span>{{sumNum}}</span></p>
-				<p>总价：<span>{{sumPrice}}</span></p>
-				<a class="btn btn-default form-control" v-link="{ path: '/order' }">结算</a>
-			</div>
-		</div> -->
 	</div>
 </template>
 
@@ -65,19 +39,14 @@
 	import router from '@/router/index'
 	export default {
 		name: 'Index',
-		data () {
-			return {
-				isLogin: false
+		computed: {
+			isLogin () {
+				return this.$store.state.memberLogin
 			}
-		},
-		created () {
-			// 一加载就读取 localStorage
-			this.isLogin = !!localStorage.getItem('userId')
 		},
 		methods: {
 			logout () {
-				localStorage.removeItem('userId')
-				this.isLogin = false
+				this.$store.commit('LOGOUT')
 				router.push({ path: '/index' })
 			}
 		}

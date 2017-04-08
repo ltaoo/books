@@ -72,6 +72,9 @@
 				})
 		},
 		computed: {
+			member () {
+				return this.$store.state.member
+			},
 			cartList () {
 				return this.$store.state.carts
 			},
