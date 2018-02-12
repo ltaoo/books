@@ -1,35 +1,23 @@
-第一个在github上的项目，也是我的毕业设计，一个图书管理、借阅、销售网站。使用`vue-router`作为路由管理，`vuex`管理全局状态，`isomorphic-fetch`请求接口，`element-ui`作为样式库。后端使用`php`+`mysql`，并配置好了`sh`脚本方便直接部署在服务器上。
+一个图书管理、借阅、销售网站。
 
-> 该项目从 2016-3 开始，那个时候还是`vue 1.0`而且还没有`element-ui`，所以现在是正在将代码迁移到`vue2.0`，暂时只完成了部分。
+前端使用`vue`，后端原先是`PHP`，准备用`Python`、`Kotlin`等后端语言重写后端部分（为了学习），所以从该仓库移除后端代码，只保留前端代码。
 
 ## 使用
 
-先将代码下载
+先开启后端服务，参考[后端服务 Python 版](https://github.com/ltaoo/books_server_python)
+
+后端启动后，就可以跑前端代码了。
+
+`clone`代码后安装依赖并运行即可
+
 ```bash
 git clone https://github.com/ltaoo/books.git
+cd books
+yarn
 ```
 
-会在当前目录生成`books`文件夹，进入该文件夹安装依赖
-```bash
-npm i
-```
+依赖安装好后就可以运行前端开发服务器了
 
-安装依赖完成后需要使用 docker 运行 php 容器和 mysql 容器提供接口，进入`books/database`文件夹，首先是构建镜像：
-```bash
-docker build -t bookshop .
-```
-
-运行数据库容器与 php 容器：
-```bash
-./start.sh
-```
-
-开启名为`books`的`php`容器和名为`books_db`的`mysql`容器，再初始化数据表
-```bash
-docker exec -i books_db mysql -uroot -p123 bookshop < setup.sql
-```
-
-然后就可以运行前端开发服务器了
 ```bash
 npm run dev
 ```
@@ -106,8 +94,3 @@ npm run dev
 ##### 订单列表
 
 ![订单列表](http://upload-images.jianshu.io/upload_images/3531509-4a96838525d7915c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-## todo
-
-- 交互优化
-- 布局样式优化
