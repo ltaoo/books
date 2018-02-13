@@ -93,11 +93,12 @@
 		</el-table>
 		<el-dialog title="新增会员" v-model="dialogVisible" size="small">
 			<MemberForm
+				ref="form"
 				:member = "member"
 				:confirm = "addMember"
 				:cancel = "resetForm"
 			/>
-		</el-dialog>	
+		</el-dialog>
 	</div>
 </template>
 
@@ -140,8 +141,9 @@
 		},
 		methods: {
 			addMember (member) {
+				console.log(this.$refs.form)
 				// 表单校验
-				this.$refs['form'].validate((valid) => {
+				this.$refs['form'].$refs.form.validate((valid) => {
 					if (valid) {
 						createMember(member)
 							.then(res => {

@@ -17,20 +17,11 @@
 				<el-input placeholder="请输入地址" v-model="_member.memberAddress">
 				</el-input>
 			</el-form-item>
-			<!-- <el-form-item label="活动时间">
-				<el-col :span="11">
-					<el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-				</el-col>
-				<el-col class="line" :span="2">-</el-col>
-				<el-col :span="11">
-					<el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-				</el-col>
-			</el-form-item> -->
 			<el-form-item label="会员类型">
 				<el-radio-group v-model="_member.memberRank">
-					<el-radio :label="'0'">周卡</el-radio>
-					<el-radio :label="'1'">月卡</el-radio>
-					<el-radio :label="'2'">期卡</el-radio>
+					<el-radio :label="0">周卡</el-radio>
+					<el-radio :label="1">月卡</el-radio>
+					<el-radio :label="2">期卡</el-radio>
 				</el-radio-group>
 			</el-form-item>
 			<el-form-item>
@@ -74,14 +65,6 @@
 					})
 			}
 			return {
-				// 保存填写新会员的信息
-				// member: {
-				// 	memberName: '',
-				// 	memberNum: '',
-				// 	memberTel: '',
-				// 	memberAddress: '',
-				// 	memberRank: 0
-				// },
 				rules: {
 					memberName: [{
 						required: true,
@@ -120,7 +103,9 @@
 		},
 		computed: {
 			_member () {
-				return Object.assign({}, this.member)
+				console.log(this.member)
+				// return Object.assign({}, this.member)
+				return this.member
 			}
 		}
 	}
