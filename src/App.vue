@@ -1,19 +1,14 @@
 <template>
-	<router-view>
-	</router-view>
+  <basic-layout />
 </template>
+<script>
+import BasicLayout from '@/Layout/BasicLayout';
 
-<style>
-	body {
-		margin: 0;
-	}
-	.container {
-		padding: 20px;
-	}
-	.el-row {
-		margin-bottom: 20px;
-	}
-	.el-card {
-		margin-top: 20px;
-	}
-</style>
+export default {
+  name: 'App',
+  components: {
+    BasicLayout,
+  },
+};
+</script>
+

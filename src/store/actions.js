@@ -1,3 +1,3 @@
-export const addToCart = ({dispatch}) {
-    dispatch('ADD_TO_CART')
-}
+export const addToCart = ({ dispatch, }) => {
+  dispatch('ADD_TO_CART');
+};

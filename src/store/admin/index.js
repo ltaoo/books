@@ -1,7 +1,11 @@
-import { searchMemberById, searchMemberByNum, searchMemberByName } from '@/store/admin/member'
+import {
+  searchMemberById,
+  searchMemberByNum,
+  searchMemberByName,
+} from '@/store/admin/member';
 
 export default {
-	searchMemberById,
-	searchMemberByNum,
-	searchMemberByName
-}
+  searchMemberById,
+  searchMemberByNum,
+  searchMemberByName,
+};
