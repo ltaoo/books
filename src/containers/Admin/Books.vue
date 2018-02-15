@@ -72,7 +72,7 @@ import {
   searchByDouban,
   createBook,
   searchBookById,
-} from '@/store/books';
+} from '@/api/books';
 import Douban from '@/components/Douban.vue';
 import {
   bookState,

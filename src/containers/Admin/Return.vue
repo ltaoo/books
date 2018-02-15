@@ -19,7 +19,7 @@ import {
   searchRecordByTitle,
   searchRecordByName,
   searchRecordByNum,
-} from '@/store/admin/records';
+} from '@/api/admin/records';
 export default {
   name: 'Return',
   components: {

@@ -1,46 +1,47 @@
-import fetch from 'isomorphic-fetch';
+/**
+ * @file 身份相关的 module
+ * @author ltaoo<litaowork@aliyun.com>
+ */
 
 import {
-  prefix,
-} from '@/config/index';
-import {
-  convert,
-} from '@/utils/index';
+  fetchBooks,
+} from '@/api/auth';
 
-// 用户登录
-export function login (post) {
-  return new Promise((resolve, reject) => {
-    fetch(`${prefix}/memberLogin.php`, {
-      method: 'POST',
-      body: convert(post),
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-}
+// state
+const state = {
+  data: [],
+};
+// actions
+const actions = {
+  fetchBooks ({
+    commit,
+  }) {
+    fetchBooks(books => {
+      commit('fetchBooks', books);
+    });
+  },
+};
+// mutations
+const mutations = {
+  setData (state, books) {
+    state.data = books;
+  },
+  // 登录
+  LOGIN (state, payload) {
+    state.member = payload;
+    localStorage.setItem('userid', payload.memberId);
+    state.memberLogin = payload.memberId;
+  },
+  // 登出
+  LOGOUT (state) {
+    localStorage.removeItem('userid');
+    state.member = null;
+    state.memberLogin = null;
+  },
+};
 
-// 管理员登录
-export function adminLogin (post) {
-  return new Promise((resolve, reject) => {
-    fetch(`${prefix}/login.php`, {
-      method: 'POST',
-      body: convert(post),
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-}
+export default {
+  state,
+  actions,
+  mutations,
+};

@@ -75,6 +75,7 @@
     "webpack-merge": "^2.6.1"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "^1.15.2",
     "element-ui": "^1.2.3",
     "fetch-jsonp": "^1.0.6",

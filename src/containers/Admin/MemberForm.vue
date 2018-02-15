@@ -35,7 +35,7 @@
 <script>
 import {
   searchMemberByNum,
-} from '@/store/admin/member';
+} from '@/api/admin/member';
 
 export default {
   name: 'MemberForm',

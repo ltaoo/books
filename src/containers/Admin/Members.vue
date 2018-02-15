@@ -70,7 +70,7 @@ import {
   createMember,
   searchMemberById,
   deleteMember,
-} from '@/store/admin/member';
+} from '@/api/admin/member';
 import {
   rank,
   resetForm,

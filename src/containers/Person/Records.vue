@@ -18,7 +18,7 @@
 <script>
 import {
   searchRecordByMemberId,
-} from '@/store/admin/records';
+} from '@/api/admin/records';
 export default {
   name: 'PersonRecords',
   data () {

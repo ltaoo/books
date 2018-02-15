@@ -65,7 +65,7 @@
 <script>
 import {
   fetchRecords,
-} from '@/store/admin/records';
+} from '@/api/admin/records';
 import {
   returnTime,
   rank,

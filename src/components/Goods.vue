@@ -18,6 +18,9 @@
 </template>
 
 <script>
+/**
+ * 商品卡片
+ */
 import {
   computedPriceByTimes,
 } from '@/utils/index';
@@ -32,8 +35,10 @@ export default {
   ],
   computed: {
     _item () {
-      const originPrice = this.item.bookPrice;
-      const times = this.item.borrowTimes;
+      const {
+        originPrice,
+        times,
+      } = this.item;
       const newPrice = computedPriceByTimes(originPrice, times);
       return Object.assign({}, this.item, {
         newPrice,

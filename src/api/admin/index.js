@@ -2,7 +2,7 @@ import {
   searchMemberById,
   searchMemberByNum,
   searchMemberByName,
-} from '@/store/admin/member';
+} from '@/api/admin/member';
 
 export default {
   searchMemberById,

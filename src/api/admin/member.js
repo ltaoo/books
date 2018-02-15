@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from '@/utils/fetch';
 // url 用来返回地址，省得拼接字符串
 import {
   prefix,

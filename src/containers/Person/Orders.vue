@@ -29,14 +29,15 @@
 </template>
 
 <script>
+/* eslint-disable */
 import {
   searchBookById,
   updateBookState,
-} from '@/store/books';
+} from '@/api/books';
 import {
   cancelOrder,
   fetchOrdersByMemberId,
-} from '@/store/admin/order';
+} from '@/api/admin/order';
 import {
   orderState,
 } from '@/utils/index';

@@ -33,14 +33,14 @@ import BookList from '@/components/BookList.vue';
 import {
   searchMemberByName,
   searchMemberByNum,
-} from '@/store/admin/member';
+} from '@/api/admin/member';
 import {
   searchBookByName,
   searchBookByIsbn,
-} from '@/store/books';
+} from '@/api/books';
 import {
   borrow,
-} from '@/store/admin/records';
+} from '@/api/admin/records';
 
 export default {
   // 组件名

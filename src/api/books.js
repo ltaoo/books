@@ -1,6 +1,8 @@
-import fetch from 'isomorphic-fetch';
+/**
+ * @file 和书籍相关的 api
+ * @author ltaoo<litaowork@aliyun.com>
+ */
 import fetchJsonp from 'fetch-jsonp';
-
 import {
   prefix,
   doubanApi,
@@ -8,22 +10,15 @@ import {
 import {
   url,
 } from '@/utils/index';
+import fetch from '@/utils/fetch';
 
 const bookapi = `${prefix}/getBooks.service.php?`;
-// 获取所有书籍
+
+/**
+ * 获取所有书籍
+ */
 export function fetchBooks () {
-  return new Promise((resolve, reject) => {
-    fetch(url(bookapi, 'getBookList'))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+  return fetch('/api/books');
 }
 // 从豆瓣 api 查询书籍
 export function searchByDouban (param) {

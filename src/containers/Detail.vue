@@ -37,17 +37,18 @@
 </template>
 
 <script>
+/* eslint-disable */
 import {
   searchBookById,
-} from '@/store/books';
+} from '@/api/books';
 import {
   searchMemberById,
-} from '@/store/admin/member';
+} from '@/api/admin/member';
 import {
   fetchComments,
   addComment,
   searchCommentById,
-} from '@/store/comment';
+} from '@/api/comment';
 
 export default {
   name: 'GoodsDetail',

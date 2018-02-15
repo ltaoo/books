@@ -47,14 +47,14 @@ import {
   fetchOrders,
   confirmOrder,
   cancelOrder,
-} from '@/store/admin/order';
+} from '@/api/admin/order';
 import {
   searchMemberById,
-} from '@/store/admin/member';
+} from '@/api/admin/member';
 import {
   searchBookById,
   updateBookState,
-} from '@/store/books';
+} from '@/api/books';
 
 export default {
   name: 'Orders',

@@ -8,7 +8,7 @@
 import {
   searchMemberById,
   updateMember,
-} from '@/store/admin/member';
+} from '@/api/admin/member';
 import router from '@/router';
 import MemberForm from '@/containers/Admin/MemberForm';
 
