@@ -9,7 +9,7 @@ import {
   searchMemberById,
   updateMember,
 } from '@/store/admin/member';
-import router from '@/router/index';
+import router from '@/router';
 import MemberForm from '@/containers/Admin/MemberForm';
 
 export default {

@@ -2,7 +2,11 @@
   <div class="container">
     <el-row :gutter="20">
       <el-col :span="18">
-        <el-input placeholder="请输入书籍名或ISBN码查询" icon="search" v-model="query">
+        <el-input
+          placeholder="请输入书籍名或ISBN码查询"
+          icon="search"
+          v-model="query"
+        >
         </el-input>
         <el-row :gutter="20">
           <el-col :span="12" v-for="book in books" :key="book.bookId">
@@ -11,7 +15,11 @@
         </el-row>
       </el-col>
       <el-col :span="6">
-        <el-input placeholder="请输入书籍名或ISBN码查询" icon="search" v-model="query">
+        <el-input
+          placeholder="请输入书籍名或ISBN码查询"
+          icon="search"
+          v-model="query"
+        >
         </el-input>
         <el-row>
           <el-col :span="24" v-for="item in carts" :key="item.bookId">
@@ -44,7 +52,7 @@ import Goods from '@/components/Goods.vue';
 import Cart from '@/components/Cart.vue';
 
 export default {
-  name: 'Index',
+  name: 'index',
   components: {
     Goods,
     Cart,

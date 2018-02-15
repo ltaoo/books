@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import router from '@/router/index';
+import router from '@/router';
 import {
   adminLogin,
 } from '@/store/auth';

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import router from '@/router/index';
+import router from '@/router';
 
 export default {
   name: 'Index',

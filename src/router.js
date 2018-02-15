@@ -1,14 +1,17 @@
-// 路由配置
+/**
+ * @file 路由配置
+ * @author ltaoo<litaowork@aliyun.com>
+ */
+
 import Vue from 'vue';
 import Router from 'vue-router';
-Vue.use(Router);
+
+import BasicLayout from '@/Layout/BasicLayout';
 /* ----------------
  * 前台
  ----------------- */
-// 前台根视图
-import Index from '@/containers/Index.vue';
-// 真正首页
-import IndexBooks from '@/containers/Books.vue';
+// 首页
+import Index from './routes/Index/index.vue';
 // 商品详情页
 import Detail from '@/containers/Detail.vue';
 // 用户登陆页
@@ -29,6 +32,7 @@ import PersonOrders from '@/containers/Person/Orders.vue';
 // import Cart from '@/components/cart/index.vue'
 // 结算页面
 import Order from '@/containers/Order.vue';
+
 /* ----------------
  * 后台
  ----------------- */
@@ -56,19 +60,21 @@ import AdminLogin from '@/containers/Admin/AdminLogin.vue';
 // 404
 import NotFound from '@/containers/NotFound.vue';
 
+Vue.use(Router);
+
 const router = new Router({
   routes: [
     {
-      // 主页
+      // 根路径
       path: '/',
-      name: 'Index',
-      component: Index,
+      name: 'root',
+      component: BasicLayout,
       redirect: '/index',
       children: [
         {
           path: 'index',
-          name: 'IndexBooks',
-          component: IndexBooks,
+          name: '首页',
+          component: Index,
         },
         {
           // 订单结算页

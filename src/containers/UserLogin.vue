@@ -9,7 +9,7 @@ import LoginForm from '@/components/LoginForm.vue';
 import {
   login,
 } from '@/store/auth';
-import router from '@/router/index';
+import router from '@/router';
 import {
   rank,
 } from '@/utils/index';

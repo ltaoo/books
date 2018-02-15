@@ -1,6 +1,8 @@
 <template>
   <div class="page">
-    <div class="nav"></div>
+    <div class="nav">
+      <Navbar />
+    </div>
     <div class="content"><router-view></router-view></div>
   </div>
 </template>
@@ -10,8 +12,13 @@
  * @file 基础布局
  * @author ltaoo
  */
+import Navbar from '@/components/Nav';
+
 export default {
   name: 'BasicLayout',
+  components: {
+    Navbar,
+  },
 };
 </script>
 
