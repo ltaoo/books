@@ -28,14 +28,42 @@ const getters = {
 };
 // actions
 const actions = {
+  /**
+   * 搜索图书
+   */
   [FETCH_BOOKS] ({
     commit,
-  }) {
-    fetchBooks()
+  }, params) {
+    // 先以 ISBN 码作为条件查询
+    let pathParams = null;
+    if (params) {
+      pathParams = {
+        isbn: params,
+      };
+    }
+    fetchBooks(pathParams)
       .then((res) => {
         commit('setData', res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (params) {
+          pathParams = {
+            title: params,
+          };
+        }
+        return fetchBooks(pathParams);
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   },
+  /**
+   * 豆瓣搜索
+   */
   [SEARCH_DOUBAN] ({
     commit,
   }, params) {

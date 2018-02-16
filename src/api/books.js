@@ -15,10 +15,19 @@ import fetch from '@/utils/fetch';
 const bookapi = `${prefix}/getBooks.service.php?`;
 
 /**
- * 获取所有书籍
+ * 搜索书籍
+ * @param {Object} params - path parameter
+ * @param {number} page - 页码
+ * @param {number} size - 每页数量
  */
-export function fetchBooks () {
-  return fetch('/api/books');
+export function fetchBooks (params, page = 1, size = 20) {
+  return fetch('/api/books', {
+    params: {
+      ...params,
+      page,
+      size,
+    },
+  });
 }
 /**
  * 从豆瓣 api 查询书籍
@@ -49,36 +58,6 @@ export function createBook (params) {
 export function searchBookById (id) {
   return new Promise((resolve, reject) => {
     fetch(url(bookapi, 'searchById', 'bookId', id))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-}
-// 通过书籍ISBN码查询书籍
-export function searchBookByIsbn (param) {
-  return new Promise((resolve, reject) => {
-    fetch(url(bookapi, 'searchByIsbn', 'bookIsbn', param))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-}
-// 通过书籍名查询书籍
-export function searchBookByName (param) {
-  return new Promise((resolve, reject) => {
-    fetch(url(bookapi, 'searchByName', 'bookName', param))
       .then(res => {
         return res.json();
       })

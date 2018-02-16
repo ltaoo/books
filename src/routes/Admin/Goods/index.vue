@@ -2,7 +2,12 @@
   <div class="container">
     <el-row :gutter="20">
       <el-col :span="20">
-        <el-input placeholder="请输入书籍名或ISBN码查询" icon="search" v-model="query">
+        <el-input
+          placeholder="请输入书籍名或ISBN码查询"
+          icon="search"
+          v-model="query"
+          @click="searchBooks"
+        >
         </el-input>
       </el-col>
       <el-col :span="4">
@@ -105,6 +110,13 @@ export default {
   },
   methods: {
     /**
+     * 搜索图书
+     */
+    searchBooks () {
+      const params = this.query;
+      this.$store.dispatch(FETCH_BOOKS, params);
+    },
+    /**
      * 从豆瓣搜索图书
      * @param {string} params - 任意搜索关键字
      */
@@ -130,6 +142,11 @@ export default {
         },
       });
     },
+    /**
+     * 删除指定图书
+     * @param {number} bookId - 书籍 id
+     * @param {number} index - 在列表中的下标
+     */
     deleteBook (bookId, index) {
       // deleteMember(memberId)
       // 	.then(res=> {
@@ -143,9 +160,6 @@ export default {
       // 			alert('删除失败,请重试')
       // 		}
       // 	})
-    },
-    editBook (bookId, index) {
-      // hello
     },
   },
 };
