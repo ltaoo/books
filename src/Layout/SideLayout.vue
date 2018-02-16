@@ -31,7 +31,9 @@
           :routes="[]"
           :user="user"
         />
-        <router-view></router-view>
+        <div class="container__content">
+          <router-view></router-view>
+        </div>
       </el-col>
     </el-row>
     <el-dialog title="提示" v-model="dialogVisible" size="tiny">
@@ -91,5 +93,8 @@ export default {
 .sidenav {
   width: 100%;
   height: 100vh;
+}
+.container__content {
+  padding: 10px;
 }
 </style>

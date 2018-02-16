@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="header">
     <div class="user">{{user && user.username}}</div>
   </div>
 </template>
@@ -22,5 +22,7 @@ export default {
 </script>
 
 <style>
-
+.header {
+  min-height: 46px;
+}
 </style>

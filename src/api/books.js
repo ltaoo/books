@@ -20,7 +20,9 @@ const bookapi = `${prefix}/getBooks.service.php?`;
 export function fetchBooks () {
   return fetch('/api/books');
 }
-// 从豆瓣 api 查询书籍
+/**
+ * 从豆瓣 api 查询书籍
+ */
 export function searchByDouban (param) {
   return new Promise((resolve, reject) => {
     fetchJsonp(`${doubanApi}q=${param}&count=10`, {
@@ -37,27 +39,11 @@ export function searchByDouban (param) {
       });
   });
 }
-// 添加书籍到数据库
-export function createBook (book) {
-  let formData = new FormData();
-  for (let key in book) {
-    formData.append(key, book[key]);
-  }
-  return new Promise((resolve, reject) => {
-    fetch(`${prefix}/addBook.service.php`, {
-      method: 'POST',
-      body: formData,
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+/**
+ * 添加书籍到数据库
+ */
+export function createBook (params) {
+  return fetch.post('/api/books', params);
 }
 // 根据 id 查询书籍
 export function searchBookById (id) {
