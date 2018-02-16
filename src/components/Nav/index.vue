@@ -3,9 +3,9 @@
     <el-menu-item index="1">
       <router-link :to="{ path: '/index' }">惠学图书管理系统</router-link>
     </el-menu-item>
-    <template v-if="isLogin">
+    <template v-if="user">
       <el-submenu index="2">
-        <template slot="title">个人中心</template>
+        <template slot="title">{{user.username}}</template>
         <el-menu-item index="2-1">
           <router-link :to="{ path: '/person/info' }">用户主页</router-link>
         </el-menu-item>
@@ -19,7 +19,7 @@
     </template>
     <template v-else>
       <el-menu-item index="2">
-        <router-link :to="{ path: '/userlogin' }">登录</router-link>
+        <router-link :to="{ path: USER_LOGIN }">登录</router-link>
       </el-menu-item>
     </template>
     <el-menu-item index="3" v-if="isLogin">
@@ -33,8 +33,20 @@
  * @file 导航栏
  * @author ltaoo<litaowork@aliyun.com>
  */
+import {
+  USER_LOGIN,
+} from '@/common/path';
+
 export default {
   name: 'navbar',
+  props: [
+    'user',
+  ],
+  data () {
+    return {
+      USER_LOGIN,
+    };
+  },
   computed: {
     isLogin () {
       return this.$store.state.memberLogin;

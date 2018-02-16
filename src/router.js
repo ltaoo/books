@@ -7,6 +7,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import BasicLayout from '@/Layout/BasicLayout';
+
+import {
+  USER_LOGIN,
+} from '@/common/path';
 /* ----------------
  * 前台
  ----------------- */
@@ -15,7 +19,7 @@ import Index from './routes/Index/index.vue';
 // 商品详情页
 import Detail from '@/containers/Detail.vue';
 // 用户登陆页
-import UserLogin from '@/containers/UserLogin.vue';
+import UserLogin from '@/routes/Login/index.vue';
 // 购买成功提示页
 import Success from '@/containers/Success.vue';
 // 个人中心首页
@@ -121,8 +125,8 @@ const router = new Router({
       ],
     },
     {
-      path: '/userlogin',
-      name: 'UserLogin',
+      path: USER_LOGIN,
+      name: '登录',
       component: UserLogin,
     },
     {

@@ -3,11 +3,8 @@
  * @author ltaoo<litaowork@aliyun.com>
  */
 import {
-  FETCH_BOOKS,
+  INIT,
 } from '@/common/constants';
-import {
-  fetchBooks,
-} from '@/api/books';
 
 // state
 const state = {
@@ -21,13 +18,12 @@ const getters = {
 };
 // actions
 const actions = {
-  [FETCH_BOOKS] ({
+  [INIT] ({
     commit,
   }) {
-    fetchBooks()
-      .then((res) => {
-        commit('setData', res.data);
-      });
+    // 从 localStorage 读信息写入 state
+    const userInfo = localStorage.getItem('user');
+    console.log(userInfo);
   },
 };
 // mutations

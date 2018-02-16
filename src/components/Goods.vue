@@ -1,6 +1,6 @@
 <template>
   <el-card :body-style="{ padding: '0px' }">
-    <img :src="_item.bookImg" style="float: left;">
+    <img class="goods__img" :src="_item.bookImg" style="float: left;">
     <div style="float: left; padding: 10px;">
       <router-link class="goods__link" :to="{ path: '/goods/' + _item.bookId }">{{_item.bookTitle}}</router-link>
       <p class="goods__price">
@@ -56,5 +56,8 @@ export default {
 }
 .goods__link:visited {
   color: #000;
+}
+.goods__img {
+  height: 180px;
 }
 </style>

@@ -1,13 +1,17 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <el-col :span="8" :offset="8">
+    <el-row>
+      <el-col :span="8">
         <el-input type="text" placeholder="用户名" v-model="username" />
       </el-col>
-      <el-col :span="8" :offset="8">
+    </el-row>
+    <el-row>
+      <el-col :span="8">
         <el-input type="password" placeholder="密码" v-model="password" />
       </el-col>
-      <el-col :span="8" :offset="8">
+    </el-row>
+    <el-row>
+      <el-col :span="8">
         <el-button style="width: 100%;" type="primary" @click="login(username, password)">登录</el-button>
       </el-col>
     </el-row>

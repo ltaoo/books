@@ -8,7 +8,7 @@
 import router from '@/router';
 import {
   adminLogin,
-} from '@/store/auth';
+} from '@/store/modules/auth';
 import LoginForm from '@/components/LoginForm.vue';
 
 export default {
