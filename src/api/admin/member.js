@@ -11,21 +11,20 @@ import {
  * 会员信息接口
  --------------- */
 const memberapi = `${prefix}/getMembers.service.php?`;
-// 获取所有用户
-export function fetchMembers () {
-  return new Promise((resolve, reject) => {
-    fetch(url(memberapi, 'getMemberList'))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
+
+/**
+ * 搜索会员
+ */
+export function fetchMembers (params, page = 1, size = 20) {
+  return fetch('/api/members', {
+    params: {
+      ...params,
+      page,
+      size,
+    },
   });
 }
+
 // 根据用户Id获取信息
 export function searchMemberById (param) {
   return new Promise((resolve, reject) => {

@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import global from '@/store/modules/global';
 import books from '@/store/modules/books';
 import auth from '@/store/modules/auth';
+import member from '@/store/modules/member';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     global,
     auth,
     books,
+    member,
   },
   strict: debug,
 });

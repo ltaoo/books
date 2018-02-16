@@ -48,7 +48,7 @@ import Return from '@/containers/Admin/Return.vue';
 // 书籍列表页
 import Books from '@/routes/Admin/Goods/index.vue';
 // 会员列表页
-import Members from '@/containers/Admin/Members.vue';
+import Members from '@/routes/Admin/Member/index.vue';
 // 会员详情页
 import MemberDetail from '@/containers/Admin/MemberDetail.vue';
 // 借阅记录页

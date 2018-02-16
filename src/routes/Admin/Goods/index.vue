@@ -14,7 +14,7 @@
         <el-button style="width: 100%;" type="primary" @click="dialogVisible = true">添加新书籍</el-button>
       </el-col>
     </el-row>
-    <el-table :data="books" stripe style="width: 100%">
+    <el-table :data="books" stripe style="margin-top: 20px; width: 100%">
       <el-table-column type="expand">
         <template scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
