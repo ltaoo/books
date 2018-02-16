@@ -8,11 +8,24 @@ import {
 } from '@/common/constants';
 import {
   HOME,
+  ADMIN_HOME,
 } from '@/common/path';
 import {
   login,
 } from '@/api/auth';
 import router from '@/router';
+
+const mapUrl = (function () {
+  const URL_MAP = [
+    // 读者
+    HOME,
+    // 管理员
+    ADMIN_HOME,
+  ];
+  return function mapUrl (type) {
+    return URL_MAP[type] || HOME;
+  };
+})();
 
 // state
 const state = {
@@ -27,8 +40,9 @@ const actions = {
       .then(res => {
         // 获取到redirect
         commit('LOGIN', res);
+        // 根据权限跳转不同的首页
         router.push({
-          path: HOME,
+          path: mapUrl(res.role),
         });
       }, (err) => {
         alert(err);

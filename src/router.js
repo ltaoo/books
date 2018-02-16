@@ -7,6 +7,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import BasicLayout from '@/Layout/BasicLayout';
+import SideLayout from '@/Layout/SideLayout';
 
 import {
   USER_LOGIN,
@@ -40,8 +41,6 @@ import Order from '@/containers/Order.vue';
 /* ----------------
  * 后台
  ----------------- */
-// 后台根视图
-import Admin from '@/containers/Admin/Index.vue';
 // 后台主页也就是借书页
 import Borrow from '@/containers/Admin/Borrow.vue';
 // 还书页
@@ -57,7 +56,7 @@ import Records from '@/containers/Admin/Records.vue';
 // 订单记录页
 import Orders from '@/containers/Admin/Orders.vue';
 // 管理员登陆页
-import AdminLogin from '@/containers/Admin/AdminLogin.vue';
+import AdminLogin from '@/routes/Admin/Login/index.vue';
 /* ----------------
  * 公共页面
  ----------------- */
@@ -137,8 +136,8 @@ const router = new Router({
     {
       // 后台根视图
       path: '/admin',
-      name: 'Admin',
-      component: Admin,
+      name: '首页',
+      component: SideLayout,
       meta: { adminAuth: true, },
       redirect: '/admin/index',
       children: [
@@ -195,8 +194,8 @@ const router = new Router({
     },
     {
       // 管理员登录
-      path: '/adminlogin',
-      name: 'AdminLogin',
+      path: '/admin/login',
+      name: '管理员登录',
       component: AdminLogin,
     },
     {
@@ -223,16 +222,17 @@ router.beforeEach((to, from, next) => {
       });
     }
   } else if (to.matched.some(record => record.meta.adminAuth)) {
-    if (localStorage.getItem('adminLogin')) {
-      next();
-    } else {
-      next({
-        path: '/adminlogin',
-        query: {
-          redirect: to.fullPath,
-        },
-      });
-    }
+    next();
+    // if (localStorage.getItem('adminLogin')) {
+    //   next();
+    // } else {
+    //   next({
+    //     path: '/adminlogin',
+    //     query: {
+    //       redirect: to.fullPath,
+    //     },
+    //   });
+    // }
   } else {
     next();
   }
