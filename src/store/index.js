@@ -6,6 +6,7 @@ import books from '@/store/modules/books';
 import auth from '@/store/modules/auth';
 import member from '@/store/modules/member';
 import record from '@/store/modules/record';
+import order from '@/store/modules/order';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     books,
     member,
     record,
+    order,
   },
   strict: debug,
 });

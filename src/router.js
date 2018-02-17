@@ -52,7 +52,7 @@ import Members from '@/routes/Admin/Member/index.vue';
 // 借阅记录页
 import Records from '@/routes/Admin/Record/index.vue';
 // 订单记录页
-import Orders from '@/containers/Admin/Orders.vue';
+import Orders from '@/routes/Admin/Order/index.vue';
 // 管理员登陆页
 import AdminLogin from '@/routes/Admin/Login/index.vue';
 /* ----------------

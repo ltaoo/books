@@ -7,12 +7,7 @@ import {
   prefix,
   doubanApi,
 } from '@/config/index';
-import {
-  url,
-} from '@/utils/index';
 import fetch from '@/utils/fetch';
-
-const bookapi = `${prefix}/getBooks.service.php?`;
 
 /**
  * 搜索书籍
@@ -54,20 +49,12 @@ export function searchByDouban (param) {
 export function createBook (params) {
   return fetch.post('/api/books', params);
 }
-// 根据 id 查询书籍
+/**
+ * 根据 id 查询书籍
+ * @param {number} id - 书籍 id
+ */
 export function searchBookById (id) {
-  return new Promise((resolve, reject) => {
-    fetch(url(bookapi, 'searchById', 'bookId', id))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+  return fetch(`/api/books/${id}`);
 }
 
 // 更新书籍状态
