@@ -32,14 +32,7 @@ const actions = {
   [FETCH_RECORDS] ({
     commit,
   }, params) {
-    // 先以 ISBN 码作为条件查询
-    let pathParams = null;
-    if (params) {
-      pathParams = {
-        isbn: params,
-      };
-    }
-    fetchRecords(pathParams)
+    fetchRecords(params)
       .then((res) => {
         const records = res.data.map(record => {
           // const tagtable = {
@@ -61,20 +54,6 @@ const actions = {
           };
         });
         commit('setData', records);
-      })
-      .catch(() => {
-        if (params) {
-          pathParams = {
-            title: params,
-          };
-        }
-        return fetchRecords(pathParams);
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
       });
   },
 };

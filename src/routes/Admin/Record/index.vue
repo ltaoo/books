@@ -2,7 +2,12 @@
   <div class="container">
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-input placeholder="请输入会员姓名或学号查询" icon="search" v-model="query">
+        <el-input
+          placeholder="请输入会员姓名或学号查询"
+          icon="search"
+          v-model="query"
+          @click="searchRecords"
+        >
         </el-input>
       </el-col>
       <el-col :span="6">
@@ -88,6 +93,12 @@ export default {
     this.$store.dispatch(FETCH_RECORDS);
   },
   methods: {
+    searchRecords () {
+      const params = {
+        name: this.query,
+      };
+      this.$store.dispatch(FETCH_RECORDS, params);
+    },
     filterReturn (value, row) {
       return row.tag === value;
     },
