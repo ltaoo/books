@@ -67,13 +67,12 @@
 import router from '@/router';
 import {
   FETCH_MEMBER,
+  ADD_MEMBER,
 } from '@/common/constants';
 import {
   mapGetters,
 } from 'vuex';
 import {
-  createMember,
-  searchMemberById,
   deleteMember,
 } from '@/api/admin/member';
 import {
@@ -105,7 +104,7 @@ export default {
     'members',
   ]),
   mounted () {
-    this.$store.dispatch(FETCH_MEMBER);
+    this.$store.dispatch(FETCH_MEMBER, {});
   },
   methods: {
     /**
@@ -119,48 +118,16 @@ export default {
      * @param {Object} member - 会员信息
      */
     addMember (member) {
-      // 表单校验
-      this.$refs['form'].$refs.form.validate(valid => {
+      console.log('add member');
+      this.$refs.form.$refs.form.validate(valid => {
         if (valid) {
-          createMember(member)
-            .then(res => {
-              if (res.memberId) {
-                searchMemberById(res.memberId)
-                  .then(res => {
-                    this.members.push(res.data);
-                  })
-                  .catch(err => {
-                    this.$message({
-                      message: err,
-                      type: 'info',
-                    });
-                  });
-                this.$notify({
-                  title: '成功',
-                  message: '新建用户成功',
-                  type: 'success',
-                });
-                this.dialogVisible = false;
-                this.member = {
-                  memberNum: '',
-                  memberName: '',
-                  memberRank: 0,
-                  memberTel: '',
-                  memberAddress: '',
-                };
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: res,
-                });
-              }
-            })
-            .catch(err => {
-              this.$message({
-                type: 'info',
-                message: err,
-              });
-            });
+          this.$store.dispatch(ADD_MEMBER, {
+            params: member,
+            cb: () => {
+              this.dialogVisible = false;
+              this.$refs.form.$refs.form.resetFields();
+            },
+          });
         } else {
           return false;
         }

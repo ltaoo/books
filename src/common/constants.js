@@ -7,3 +7,5 @@ export const SEARCH_DOUBAN = 'SEARCH_DOUBAN';
 export const ADD_BOOK = 'ADD_BOOK';
 
 export const FETCH_MEMBER = 'FETCH_MEMBER';
+export const SEARCH_MEMBER = 'SEARCH_MEMBER';
+export const ADD_MEMBER = 'ADD_MEMBER';

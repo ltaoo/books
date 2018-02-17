@@ -70,23 +70,13 @@ export function searchMemberByName (param) {
       });
   });
 }
-// 添加会员到数据库
-export function createMember (member) {
-  return new Promise((resolve, reject) => {
-    fetch(`${prefix}/addMember.service.php`, {
-      method: 'POST',
-      body: convert(member),
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+
+/**
+ * 添加会员到数据库
+ * @param {Object} member - 会员信息
+ */
+export function createMember (params) {
+  return fetch.post('/api/members', params);
 }
 // 更新会员信息
 export function updateMember (member) {
