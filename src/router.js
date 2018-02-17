@@ -136,7 +136,7 @@ const router = new Router({
     {
       // 后台根视图
       path: '/admin',
-      name: '首页',
+      name: '后台首页',
       component: SideLayout,
       meta: { adminAuth: true, },
       redirect: '/admin/index',

@@ -1,31 +1,32 @@
 <template>
   <div class="container">
-    <el-form ref="form" :model="member" :rules="rules" label-width="80px">
+    {{editedMember}}
+    <el-form ref="form" :model="editedMember" :rules="rules" label-width="80px">
       <el-form-item label="会员名" prop="memberName">
-        <el-input placeholder="请输入会员名" v-model="member.memberName">
+        <el-input placeholder="请输入会员名" v-model="editedMember.memberName">
         </el-input>
       </el-form-item>
       <el-form-item label="学号" prop="memberNum">
-        <el-input placeholder="请输入学号" v-model="member.memberNum">
+        <el-input placeholder="请输入学号" v-model="editedMember.memberNum">
         </el-input>
       </el-form-item>
       <el-form-item label="联系方式" prop="memberTel">
-        <el-input placeholder="请输入联系方式" v-model="member.memberTel">
+        <el-input placeholder="请输入联系方式" v-model="editedMember.memberTel">
         </el-input>
       </el-form-item>
       <el-form-item label="地址" prop="memberAddress">
-        <el-input placeholder="请输入地址" v-model="member.memberAddress">
+        <el-input placeholder="请输入地址" v-model="editedMember.memberAddress">
         </el-input>
       </el-form-item>
       <el-form-item label="会员类型">
-        <el-radio-group v-model="member.memberRank">
+        <el-radio-group v-model="editedMember.memberRank">
           <el-radio :label="0">周卡</el-radio>
           <el-radio :label="1">月卡</el-radio>
           <el-radio :label="2">期卡</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="confirm(member)">确 定</el-button>
+        <el-button type="primary" @click="confirm(editedMember)">确 定</el-button>
         <el-button @click="cancel('form')">取 消</el-button>
       </el-form-item>
     </el-form>
@@ -34,7 +35,7 @@
 
 <script>
 /**
- * @file 新增会员表单
+ * @file 新增/编辑会员表单
  * @author ltaoo<litaowork@aliyun.com>
  */
 import {
@@ -125,19 +126,12 @@ export default {
       },
     };
   },
+  computed: {
+    editedMember () {
+      return {
+        ...this.member,
+      };
+    },
+  },
 };
 </script>
-<style>
-.demo-table-expand {
-  font-size: 0;
-}
-.demo-table-expand label {
-  width: 90px;
-  color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 50%;
-}
-</style>

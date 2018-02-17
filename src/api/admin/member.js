@@ -5,7 +5,6 @@ import {
 } from '@/config';
 import {
   url,
-  convert,
 } from '@/utils';
 /* --------------
  * 会员信息接口
@@ -48,23 +47,13 @@ export function searchMemberById (param) {
 export function createMember (params) {
   return fetch.post('/api/members', params);
 }
-// 更新会员信息
-export function updateMember (member) {
-  return new Promise((resolve, reject) => {
-    fetch(`${prefix}/getMembers.service.php?action=update`, {
-      method: 'POST',
-      body: convert(member),
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+/**
+ * 更新会员信息
+ * @param {number} id - 会员 id
+ * @param {Object} params - 更新后的完整会员信息
+ */
+export function updateMember (id, params) {
+  return fetch.put(`/api/members/${id}`, params);
 }
 
 // 删除会员

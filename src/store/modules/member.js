@@ -6,16 +6,20 @@ import {
   FETCH_MEMBER,
   SEARCH_MEMBER,
   ADD_MEMBER,
+  SELECT_MEMBER,
+  UPDATE_MEMBER,
 } from '@/common/constants';
 import {
   fetchMembers,
   createMember,
+  updateMember,
 } from '@/api/admin/member';
 
 // state
 const state = {
   data: [],
   res: [],
+  currentMember: {},
 };
 // getters
 const getters = {
@@ -23,6 +27,7 @@ const getters = {
     return state.data;
   },
   res: state => state.res,
+  currentMember: state => state.currentMember,
 };
 // actions
 const actions = {
@@ -78,6 +83,28 @@ const actions = {
         console.log(err);
       });
   },
+  [SELECT_MEMBER] ({
+    commit,
+  }, payload) {
+    commit('select_member', Object.assign({}, payload, {
+      memberRank: parseInt(payload.memberRank, 10),
+    }));
+  },
+  [UPDATE_MEMBER] ({
+    commit,
+  }, {
+    id,
+    member,
+    cb,
+  }) {
+    updateMember(id, member)
+      .then((res) => {
+        alert('更新成功');
+        if (cb) {
+          cb();
+        }
+      });
+  },
 };
 // mutations
 const mutations = {
@@ -91,6 +118,9 @@ const mutations = {
     // 直接 push，而不是给一个新数组，这里和 react 不太一样，因为
     // vue 对数组做了监听，所以可以直接改变原数组，react 是单纯的 diff
     state.data.push(payload);
+  },
+  select_member (state, payload) {
+    state.currentMember = payload;
   },
 };
 

@@ -57,7 +57,8 @@
       </el-table-column>
       <el-table-column label="操作">
         <template scope="scope">
-          <el-button size="small" type="text" @click="editMember(scope.row.memberId, scope.$index)">编辑</el-button>
+          <el-button
+          size="small" type="text" @click="showEditMemberModal(scope.row, scope.$index)">编辑</el-button>
           <el-button size="small" type="text" :disabled="scope.row.borrowNum !== '0'" @click="deleteMember(scope.row.memberId, scope.$index)">删除</el-button>
         </template>
       </el-table-column>
@@ -65,24 +66,29 @@
     <el-dialog title="新增会员" v-model="dialogVisible" size="small">
       <MemberForm ref="form" :member="member" :confirm="addMember" :cancel="resetForm" />
     </el-dialog>
+    <el-dialog title="编辑会员信息" v-model="editMemberModalVisible" size="small">
+      <MemberForm ref="editForm" :member="currentMember" :confirm="editMember" :cancel="resetForm" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import router from '@/router';
-import {
-  FETCH_MEMBER,
-  ADD_MEMBER,
-} from '@/common/constants';
+/**
+ * @file 会员列表页
+ * @author ltaoo<litaowork@aliyun.com>
+ */
 import {
   mapGetters,
 } from 'vuex';
 import {
+  FETCH_MEMBER,
+  ADD_MEMBER,
+  SELECT_MEMBER,
+  UPDATE_MEMBER,
+} from '@/common/constants';
+import {
   deleteMember,
 } from '@/api/admin/member';
-import {
-  resetForm,
-} from '@/utils/index';
 import MemberForm from '@/containers/Admin/MemberForm.vue';
 
 export default {
@@ -95,6 +101,8 @@ export default {
       query: null,
       // 新增会员的对话框是否可见
       dialogVisible: false,
+      // 编辑会员模态框
+      editMemberModalVisible: false,
       // 保存填写新会员的信息
       member: {
         memberName: '',
@@ -107,6 +115,7 @@ export default {
   },
   computed: mapGetters([
     'members',
+    'currentMember',
   ]),
   mounted () {
     this.$store.dispatch(FETCH_MEMBER, {});
@@ -150,12 +159,25 @@ export default {
       });
     },
     /**
-     * 编辑会员信息
+     *
      * @param {number} memberId - 会员 id
      */
-    editMember (memberId) {
+    showEditMemberModal (member) {
       // 弹出模态框会更好些
-      router.push(`/admin/member/${memberId}`);
+      this.editMemberModalVisible = true;
+      this.$store.dispatch(SELECT_MEMBER, member);
+    },
+    /**
+     * 编辑会员信息
+     */
+    editMember (member) {
+      this.$store.dispatch(UPDATE_MEMBER, {
+        id: member.memberId,
+        params: member,
+        cb: () => {
+          this.editMemberModalVisible = false;
+        },
+      });
     },
     /**
      * 删除指定会员
@@ -179,24 +201,9 @@ export default {
     /**
      * 重置表单
      */
-    resetForm (formName) {
-      this.dialogVisible = false;
-      resetForm(this, formName);
+    resetForm () {
+      this.$refs.form.$refs.form.resetFields();
     },
   },
 };
 </script>
-<style>
-.demo-table-expand {
-  font-size: 0;
-}
-.demo-table-expand label {
-  width: 90px;
-  color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 50%;
-}
-</style>
