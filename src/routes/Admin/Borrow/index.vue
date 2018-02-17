@@ -9,7 +9,7 @@
           :on-icon-click="searchMember.bind(this, memberQuery)"
         >
         </el-input>
-        <MemberList :members="members" :choose="chooseMember" />
+        <MemberList :members="memberRes" :choose="chooseMember" />
       </el-col>
       <el-col :span="12">
         <el-input
@@ -19,7 +19,7 @@
           :on-icon-click="searchBook.bind(this, bookQuery)"
         >
         </el-input>
-        <BookList :books="books" :choose="chooseBook" />
+        <BookList :books="bookRes" :choose="chooseBook" />
       </el-col>
     </el-row>
     <el-dialog title="请确认以下信息" v-model="dialogVisible" size="small">
@@ -48,8 +48,8 @@ import {
 import MemberList from '@/components/MemberList.vue';
 import BookList from '@/components/BookList.vue';
 import {
-  FETCH_MEMBER,
-  FETCH_BOOKS,
+  SEARCH_MEMBER,
+  SEARCH_BOOKS,
   CREATE_RECORD,
 } from '@/common/constants';
 
@@ -73,8 +73,8 @@ export default {
     };
   },
   computed: mapGetters([
-    'books',
-    'members',
+    'bookRes',
+    'memberRes',
   ]),
   methods: {
     /**
@@ -90,7 +90,7 @@ export default {
         });
         return;
       }
-      this.$store.dispatch(FETCH_MEMBER, {
+      this.$store.dispatch(SEARCH_MEMBER, {
         params: {
           num: this.memberQuery,
         },
@@ -107,7 +107,7 @@ export default {
         });
         return false;
       }
-      this.$store.dispatch(FETCH_BOOKS, {
+      this.$store.dispatch(SEARCH_BOOKS, {
         params: {
           title: this.bookQuery,
         },

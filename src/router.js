@@ -142,42 +142,42 @@ const router = new Router({
         {
           // 借书页
           path: 'index',
-          name: 'Borrow',
+          name: '借阅',
           component: Borrow,
           meta: { adminAuth: true, },
         },
         {
           // 还书页
           path: 'return',
-          name: 'Return',
+          name: '还书',
           component: Return,
           meta: { adminAuth: true, },
         },
         {
           // 会员列表页
           path: 'members',
-          name: 'Members',
+          name: '会员列表',
           component: Members,
           meta: { adminAuth: true, },
         },
         {
           // 书籍列表页
           path: 'books',
-          name: 'Books',
+          name: '书籍列表',
           component: Books,
           meta: { adminAuth: true, },
         },
         {
           // 借阅记录列表页
           path: 'records',
-          name: '借阅记录',
+          name: '借阅记录列表',
           component: Records,
           meta: { adminAuth: true, },
         },
         {
           // 订单列表页
           path: 'orders',
-          name: 'Orders',
+          name: '订单列表',
           component: Orders,
           meta: { adminAuth: true, },
         },

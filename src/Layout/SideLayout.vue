@@ -94,6 +94,12 @@ export default {
   width: 100%;
   height: 100vh;
 }
+.sidenav a {
+  text-decoration: unset;
+}
+.sidenav a:visited {
+  color: unset;
+}
 .container__content {
   padding: 10px;
 }

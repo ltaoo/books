@@ -3,6 +3,7 @@ export const INIT_ADMIN = 'INIT_ADMIN';
 export const LOGIN = 'LOGIN';
 
 export const FETCH_BOOKS = 'FETCH_BOOKS';
+export const SEARCH_BOOKS = 'SEARCH_BOOKS';
 export const SEARCH_DOUBAN = 'SEARCH_DOUBAN';
 export const ADD_BOOK = 'ADD_BOOK';
 
@@ -14,6 +15,7 @@ export const UPDATE_MEMBER = 'UPDATE_MEMBER';
 export const DELETE_MEMBER = 'DELETE_MEMBER';
 
 export const FETCH_RECORDS = 'FETCH_RECORDS';
+export const SEARCH_RECORDS = 'SEARCH_RECORDS';
 export const CREATE_RECORD = 'CREATE_RECORD';
 export const UPDATE_RECORD = 'UPDATE_RECORD';
 

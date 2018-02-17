@@ -23,7 +23,7 @@ import {
 // state
 const state = {
   data: [],
-  res: [],
+  memberRes: [],
   currentMember: {},
 };
 // getters
@@ -31,7 +31,7 @@ const getters = {
   members: state => {
     return state.data;
   },
-  res: state => state.res,
+  memberRes: state => state.memberRes,
   currentMember: state => state.currentMember,
 };
 // actions
@@ -125,7 +125,7 @@ const mutations = {
     state.data = books;
   },
   set_result (state, payload) {
-    state.res = payload;
+    state.memberRes = payload;
   },
   add_member (state, payload) {
     // 直接 push，而不是给一个新数组，这里和 react 不太一样，因为

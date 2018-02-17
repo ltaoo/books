@@ -3,7 +3,7 @@
     <el-input placeholder="请输入会员姓名或学号查询" icon="search" v-model="query" :on-icon-click="search.bind(this, query)">
     </el-input>
     <el-row :gutter="10">
-      <el-col :span="12" v-for="record in records" :key="record.recordId">
+      <el-col :span="12" v-for="record in recordRes" :key="record.recordId">
         <Record :record="record" :choose="returnBook" />
       </el-col>
     </el-row>
@@ -20,7 +20,7 @@ import {
 } from 'vuex';
 
 import {
-  FETCH_RECORDS,
+  SEARCH_RECORDS,
   UPDATE_RECORD,
 } from '@/common/constants';
 import Record from '@/components/Record.vue';
@@ -36,11 +36,11 @@ export default {
     };
   },
   computed: mapGetters([
-    'records',
+    'recordRes',
   ]),
   methods: {
     /**
-     * 搜索图书
+     * 搜索借阅记录
      */
     search (param) {
       if (!param || !param.trim()) {
@@ -48,7 +48,7 @@ export default {
           message: '请输入查询条件',
         });
       } else {
-        this.$store.dispatch(FETCH_RECORDS, {
+        this.$store.dispatch(SEARCH_RECORDS, {
           params: {
             title: param,
           },

@@ -7,6 +7,7 @@ import {
 } from 'element-ui';
 import {
   FETCH_RECORDS,
+  SEARCH_RECORDS,
   CREATE_RECORD,
   UPDATE_RECORD,
 } from '@/common/constants';
@@ -24,17 +25,19 @@ import {
 // state
 const state = {
   data: [],
+  recordRes: [],
 };
 // getters
 const getters = {
   records: state => {
     return state.data;
   },
+  recordRes: state => state.recordRes,
 };
 // actions
 const actions = {
   /**
-   * 搜索借阅记录
+   * 借阅记录列表
    */
   [FETCH_RECORDS] ({
     commit,
@@ -61,6 +64,36 @@ const actions = {
           };
         });
         commit('save_records', records);
+      });
+  },
+  /**
+   * 搜索借阅记录
+   */
+  [SEARCH_RECORDS] ({
+    commit,
+  }, params) {
+    fetchRecords(params)
+      .then((res) => {
+        const records = res.data.map(record => {
+          // const tagtable = {
+          // 	0: '超期',
+          // 	1: '已还',
+          // 	2: '未还'
+          // }
+          const flag = returnTime(
+            record.returnTime,
+            record.borrowTime,
+            record.memberRank,
+          );
+          return {
+            ...record,
+            memberRank: rank(record.memberRank),
+            // returnTime: returnTime(record.borrowTime, record.memberRank),
+            // 是否归还、超期的标志
+            tag: flag,
+          };
+        });
+        commit('save_res', records);
       });
   },
   [CREATE_RECORD] (store, {
@@ -97,6 +130,9 @@ const actions = {
 const mutations = {
   save_records (state, books) {
     state.data = books;
+  },
+  save_res (state, payload) {
+    state.recordRes = payload;
   },
 };
 
