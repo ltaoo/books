@@ -85,10 +85,8 @@ import {
   ADD_MEMBER,
   SELECT_MEMBER,
   UPDATE_MEMBER,
+  DELETE_MEMBER,
 } from '@/common/constants';
-import {
-  deleteMember,
-} from '@/api/admin/member';
 import MemberForm from '@/containers/Admin/MemberForm.vue';
 
 export default {
@@ -185,18 +183,7 @@ export default {
      * @param {number} index - 该会员在列表中的下标
      */
     deleteMember (memberId, index) {
-      deleteMember(memberId)
-        .then(res => {
-          this.$message({
-            message: '删除会员成功',
-          });
-          this.members.splice(index, 1);
-        })
-        .catch(err => {
-          this.$message({
-            message: err,
-          });
-        });
+      this.$store.dispatch(DELETE_MEMBER, memberId, index);
     },
     /**
      * 重置表单

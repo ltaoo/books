@@ -3,16 +3,21 @@
  * @author ltaoo<litaowork@aliyun.com>
  */
 import {
+  Message,
+} from 'element-ui';
+import {
   FETCH_MEMBER,
   SEARCH_MEMBER,
   ADD_MEMBER,
   SELECT_MEMBER,
   UPDATE_MEMBER,
+  DELETE_MEMBER,
 } from '@/common/constants';
 import {
   fetchMembers,
   createMember,
   updateMember,
+  deleteMember,
 } from '@/api/admin/member';
 
 // state
@@ -105,6 +110,15 @@ const actions = {
         }
       });
   },
+  [DELETE_MEMBER] ({
+    commit,
+  }, id, index) {
+    deleteMember(id)
+      .then((res) => {
+        Message.success('移除成功');
+        commit('delete_member', index);
+      });
+  },
 };
 // mutations
 const mutations = {
@@ -121,6 +135,9 @@ const mutations = {
   },
   select_member (state, payload) {
     state.currentMember = payload;
+  },
+  delete_member (state, index) {
+    state.data.splice(index, 1);
   },
 };
 

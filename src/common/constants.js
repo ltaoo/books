@@ -11,3 +11,4 @@ export const SEARCH_MEMBER = 'SEARCH_MEMBER';
 export const ADD_MEMBER = 'ADD_MEMBER';
 export const SELECT_MEMBER = 'SELECT_MEMBER';
 export const UPDATE_MEMBER = 'UPDATE_MEMBER';
+export const DELETE_MEMBER = 'DELETE_MEMBER';
