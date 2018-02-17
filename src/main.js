@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
-import store from './store';
-import './index.css';
+import store from '@/store';
+import '@/index.css';
 import App from '@/App.vue';
 import router from '@/router';
 

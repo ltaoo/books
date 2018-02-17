@@ -5,10 +5,13 @@
 
 import {
   LOGIN,
+  LOGOUT,
+  FETCH_USER,
 } from '@/common/constants';
 import {
   HOME,
   ADMIN_HOME,
+  USER_LOGIN,
 } from '@/common/path';
 import {
   login,
@@ -31,6 +34,13 @@ const mapUrl = (function () {
 const state = {
   data: null,
 };
+// getter
+const getters = {
+  user: state => state.data,
+  login: state => !!state.data,
+  isAdmin: state => state.data && state.data.role === 1,
+};
+
 // actions
 const actions = {
   [LOGIN] ({
@@ -40,7 +50,9 @@ const actions = {
       .then(res => {
         // 获取到redirect
         commit('LOGIN', res);
+        localStorage.setItem('user', JSON.stringify(res));
         // 根据权限跳转不同的首页
+        console.log(res.role, mapUrl(res.role));
         router.push({
           path: mapUrl(res.role),
         });
@@ -48,23 +60,41 @@ const actions = {
         alert(err);
       });
   },
+  [LOGOUT] ({
+    commit,
+  }) {
+    localStorage.removeItem('user');
+    router.push({
+      path: USER_LOGIN,
+    });
+    commit('LOGOUT');
+    commit('CLEAR');
+  },
+  [FETCH_USER] ({
+    commit,
+  }) {
+    const userInfo = localStorage.getItem('user');
+    commit('FETCH_USER', userInfo ? JSON.parse(userInfo) : null);
+  },
 };
 // mutations
 const mutations = {
   // 登录
   LOGIN (state, payload) {
     state.data = payload;
-    localStorage.setItem('userid', JSON.stringify(payload));
   },
   // 登出
   LOGOUT (state) {
-    localStorage.removeItem('userid');
     state.data = null;
+  },
+  FETCH_USER (state, payload) {
+    state.data = payload;
   },
 };
 
 export default {
   state,
+  getters,
   actions,
   mutations,
 };

@@ -48,20 +48,13 @@ const actions = {
       .then((res) => {
         commit('save_books', res.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         if (params) {
           pathParams = {
             title: params,
           };
         }
         return fetchBooks(pathParams);
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
       });
   },
   /**

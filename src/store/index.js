@@ -8,11 +8,16 @@ import member from '@/store/modules/member';
 import record from '@/store/modules/record';
 import order from '@/store/modules/order';
 
+import {
+  INIT,
+  FETCH_USER,
+} from '@/common/constants';
+
 Vue.use(Vuex);
 
 const debug = process.env.NODE_ENV !== 'production';
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   modules: {
     global,
     auth,
@@ -23,3 +28,8 @@ export default new Vuex.Store({
   },
   strict: debug,
 });
+
+store.dispatch(INIT);
+store.dispatch(FETCH_USER);
+
+export default store;

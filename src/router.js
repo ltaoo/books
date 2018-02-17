@@ -6,6 +6,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import store from '@/store';
+
 import BasicLayout from '@/Layout/BasicLayout';
 import SideLayout from '@/Layout/SideLayout';
 
@@ -60,6 +62,7 @@ import AdminLogin from '@/routes/Admin/Login/index.vue';
  ----------------- */
 // 404
 import NotFound from '@/containers/NotFound.vue';
+import NoPermission from '@/routes/NoPermission.vue';
 
 Vue.use(Router);
 
@@ -190,6 +193,10 @@ const router = new Router({
       component: AdminLogin,
     },
     {
+      path: '/no_permission',
+      component: NoPermission,
+    },
+    {
       // 404
       path: '*',
       name: 'NotFound',
@@ -202,28 +209,37 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // 用户登录验证
-    if (localStorage.getItem('userId')) {
+    if (localStorage.getItem('user')) {
       next();
     } else {
       next({
-        path: '/userlogin',
+        path: '/login',
         query: {
           redirect: to.fullPath,
         },
       });
     }
   } else if (to.matched.some(record => record.meta.adminAuth)) {
+    console.log(to.matched);
+    // 从 store 中读取
+    const user = store.state.global.data;
+    if (!user) {
+      next({
+        path: '/login',
+      });
+      return;
+    }
+    const {
+      role,
+    } = user;
+    console.log('role', role);
+    if (role !== 1) {
+      next({
+        path: '/no_permission',
+      });
+      return;
+    }
     next();
-    // if (localStorage.getItem('adminLogin')) {
-    //   next();
-    // } else {
-    //   next({
-    //     path: '/adminlogin',
-    //     query: {
-    //       redirect: to.fullPath,
-    //     },
-    //   });
-    // }
   } else {
     next();
   }

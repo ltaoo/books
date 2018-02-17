@@ -1,6 +1,8 @@
 export const INIT = 'INIT';
 export const INIT_ADMIN = 'INIT_ADMIN';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const FETCH_USER = 'FETCH_USER';
 
 export const FETCH_BOOKS = 'FETCH_BOOKS';
 export const SEARCH_BOOKS = 'SEARCH_BOOKS';
