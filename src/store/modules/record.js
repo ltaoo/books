@@ -8,10 +8,12 @@ import {
 import {
   FETCH_RECORDS,
   CREATE_RECORD,
+  UPDATE_RECORD,
 } from '@/common/constants';
 import {
   fetchRecords,
   createRecord,
+  updateRecord,
 } from '@/api/admin/records';
 
 import {
@@ -77,6 +79,17 @@ const actions = {
           cb();
         }
         Message.success('借阅成功');
+      });
+  },
+  [UPDATE_RECORD] ({
+    commit,
+  }, {
+    id,
+    params,
+  }) {
+    updateRecord(id, params)
+      .then((res) => {
+        Message.success('归还成功');
       });
   },
 };

@@ -52,7 +52,7 @@ import {
 } from 'vuex';
 import {
   FETCH_ORDERS,
-  UPDARE_ORDER,
+  UPDATE_ORDER,
 } from '@/common/constants';
 
 export default {
@@ -73,7 +73,7 @@ export default {
      * 更新订单状态为已确认
      */
     confirmOrder (obj) {
-      this.$store.dispatch(UPDARE_ORDER, {
+      this.$store.dispatch(UPDATE_ORDER, {
         id: obj.orderId,
         params: {
           orderState: 1,
@@ -84,7 +84,7 @@ export default {
      * 更新订单状态为取消
      */
     cancelOrder (obj) {
-      this.$store.dispatch(UPDARE_ORDER, {
+      this.$store.dispatch(UPDATE_ORDER, {
         id: obj.orderId,
         params: {
           orderState: 2,

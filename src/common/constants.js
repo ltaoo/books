@@ -15,6 +15,7 @@ export const DELETE_MEMBER = 'DELETE_MEMBER';
 
 export const FETCH_RECORDS = 'FETCH_RECORDS';
 export const CREATE_RECORD = 'CREATE_RECORD';
+export const UPDATE_RECORD = 'UPDATE_RECORD';
 
 export const FETCH_ORDERS = 'FETCH_ORDERS';
-export const UPDARE_ORDER = 'UPDARE_ORDER';
+export const UPDATE_ORDER = 'UPDATE_ORDER';

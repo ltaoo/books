@@ -25,9 +25,9 @@ export function createRecord (params) {
  * @param {number} id - 借阅记录 id
  * @param {*} param - 更新后的完整信息
  */
-export function returnBook (id, params) {
+export function updateRecord (id, params) {
     // 判断条件是否存在或者是否合法
-  return fetch(`/api/records/${id}`, params);
+  return fetch.put(`/api/records/${id}`, params);
 }
 
 /**

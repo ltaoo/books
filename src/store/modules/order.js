@@ -7,7 +7,7 @@ import {
 } from 'element-ui';
 import {
   FETCH_ORDERS,
-  UPDARE_ORDER,
+  UPDATE_ORDER,
 } from '@/common/constants';
 import {
   fetchOrders,
@@ -65,7 +65,7 @@ const actions = {
         });
       });
   },
-  [UPDARE_ORDER] ({
+  [UPDATE_ORDER] ({
     commit,
   }, {
     id,
