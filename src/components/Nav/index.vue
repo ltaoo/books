@@ -7,13 +7,13 @@
       <el-submenu index="2">
         <template slot="title">{{user.username}}</template>
         <el-menu-item index="2-1">
-          <router-link :to="{ path: '/person/info' }">用户主页</router-link>
+          <router-link :to="{ path: PERSON_HOME }">用户主页</router-link>
         </el-menu-item>
         <el-menu-item index="2-2">
-          <router-link :to="{ path: '/person/records' }">借阅记录</router-link>
+          <router-link :to="{ path: PERSON_RECORDS }">借阅记录</router-link>
         </el-menu-item>
         <el-menu-item index="2-3">
-          <router-link :to="{ path: '/person/orders' }">订单管理</router-link>
+          <router-link :to="{ path: PERSON_ORDERS }">订单管理</router-link>
         </el-menu-item>
       </el-submenu>
     </template>
@@ -39,12 +39,18 @@ import {
 
 import {
   USER_LOGIN,
+  PERSON_HOME,
+  PERSON_RECORDS,
+  PERSON_ORDERS,
 } from '@/common/path';
 
 export default {
   name: 'navbar',
   data () {
     return {
+      PERSON_HOME,
+      PERSON_RECORDS,
+      PERSON_ORDERS,
       USER_LOGIN,
     };
   },

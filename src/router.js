@@ -21,14 +21,12 @@ import {
 import Index from './routes/Index/index.vue';
 // 商品详情页
 import Detail from '@/containers/Detail.vue';
-// 用户登陆页
-import UserLogin from '@/routes/Login/index.vue';
 // 购买成功提示页
 import Success from '@/containers/Success.vue';
 // 个人中心首页
-import Person from '@/containers/Person/Index.vue';
+import Person from '@/routes/Person/index.vue';
 // 个人中心信息页
-import Info from '@/containers/Person/Info.vue';
+import Info from '@/routes/Person/Detail/index.vue';
 // 个人中心借阅记录页
 import PersonRecords from '@/containers/Person/Records.vue';
 // 个人中心订单记录页
@@ -55,11 +53,11 @@ import Members from '@/routes/Admin/Member/index.vue';
 import Records from '@/routes/Admin/Record/index.vue';
 // 订单记录页
 import Orders from '@/routes/Admin/Order/index.vue';
-// 管理员登陆页
-import AdminLogin from '@/routes/Admin/Login/index.vue';
 /* ----------------
  * 公共页面
  ----------------- */
+// 登陆
+import Login from '@/routes/Login/index.vue';
 // 404
 import NotFound from '@/containers/NotFound.vue';
 import NoPermission from '@/routes/NoPermission.vue';
@@ -102,7 +100,7 @@ const router = new Router({
           children: [
             {
               // 用户信息页
-              path: 'info',
+              path: 'detail',
               component: Info,
               meta: { requiresAuth: true, },
             },
@@ -127,7 +125,7 @@ const router = new Router({
     {
       path: USER_LOGIN,
       name: '登录',
-      component: UserLogin,
+      component: Login,
     },
     {
       path: '/success',
@@ -185,12 +183,6 @@ const router = new Router({
           meta: { adminAuth: true, },
         },
       ],
-    },
-    {
-      // 管理员登录
-      path: '/admin/login',
-      name: '管理员登录',
-      component: AdminLogin,
     },
     {
       path: '/no_permission',
