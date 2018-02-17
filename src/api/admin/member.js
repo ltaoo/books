@@ -40,36 +40,6 @@ export function searchMemberById (param) {
       });
   });
 }
-// 根据会员学号查询会员
-export function searchMemberByNum (param) {
-  return new Promise((resolve, reject) => {
-    fetch(url(memberapi, 'searchByNum', 'memberNum', param))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-}
-// 根据会员姓名查询
-export function searchMemberByName (param) {
-  return new Promise((resolve, reject) => {
-    fetch(url(memberapi, 'searchByName', 'memberName', param))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-}
 
 /**
  * 添加会员到数据库

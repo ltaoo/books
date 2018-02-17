@@ -2,7 +2,12 @@
   <div class="container">
     <el-row :gutter="20">
       <el-col :span="20">
-        <el-input placeholder="请输入会员姓名或学号查询" icon="search" v-model="query">
+        <el-input
+          placeholder="请输入会员姓名或学号查询"
+          icon="search"
+          v-model="query"
+          @click="searchMember"
+        >
         </el-input>
       </el-col>
       <el-col :span="4">
@@ -112,6 +117,17 @@ export default {
      */
     fetchMembers () {
       this.$store.dispatch(FETCH_MEMBER);
+    },
+    /**
+     * 搜索会员
+     */
+    searchMember () {
+      const params = {
+        name: this.query,
+      };
+      this.$store.dispatch(FETCH_MEMBER, {
+        params,
+      });
     },
     /**
      * 添加会员

@@ -35,6 +35,7 @@ const actions = {
     params,
     cb,
   }) {
+    console.log(params);
     fetchMembers(params)
       .then(res => {
         if (cb) {
