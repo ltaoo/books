@@ -42,7 +42,7 @@ import Order from '@/containers/Order.vue';
  * 后台
  ----------------- */
 // 后台主页也就是借书页
-import Borrow from '@/containers/Admin/Borrow.vue';
+import Borrow from '@/routes/Admin/Borrow/index.vue';
 // 还书页
 import Return from '@/containers/Admin/Return.vue';
 // 书籍列表页

@@ -45,13 +45,12 @@ const actions = {
     params,
     cb,
   }) {
-    console.log(params);
     fetchMembers(params)
       .then(res => {
         if (cb) {
           cb(res);
         }
-        commit('setData', res.data);
+        commit('save_members', res.data);
       });
   },
   /**
@@ -122,7 +121,7 @@ const actions = {
 };
 // mutations
 const mutations = {
-  setData (state, books) {
+  save_members (state, books) {
     state.data = books;
   },
   set_result (state, payload) {

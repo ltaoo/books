@@ -43,7 +43,7 @@ const actions = {
     }
     fetchBooks(pathParams)
       .then((res) => {
-        commit('setData', res.data);
+        commit('save_books', res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -97,7 +97,7 @@ const actions = {
 };
 // mutations
 const mutations = {
-  setData (state, books) {
+  save_books (state, books) {
     state.data = books;
   },
   setDouban (state, books) {

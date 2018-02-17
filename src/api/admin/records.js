@@ -1,5 +1,8 @@
+/**
+ * @file 借阅记录相关 API
+ * @author ltaoo<litaowork@aliyun.com>
+ */
 import fetch from '@/utils/fetch';
-
 import {
   prefix,
 } from '@/config/index';
@@ -8,46 +11,23 @@ import {
 } from '@/utils/index';
 
 const api = `${prefix}/getRecords.service.php?`;
-/* --------------
- * 借阅记录接口
- --------------- */
-// 借阅成功，将借阅记录写入数据库。
-export function borrow (data) {
-  let formData = new FormData();
-  for (let key in data) {
-    formData.append(key, data[key]);
-  }
-  return new Promise((resolve, reject) => {
-    fetch(`${prefix}/addRecords.service.php`, {
-      method: 'POST',
-      body: formData,
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+
+/**
+ * 新增借阅记录
+ * @param {Object} params
+ */
+export function createRecord (params) {
+  return fetch.post('/api/records', params);
 }
-// 还书，更新records的returnTime字段
-export function returnBook (param) {
-  return new Promise((resolve, reject) => {
+
+/**
+ * 更新指定借阅记录
+ * @param {number} id - 借阅记录 id
+ * @param {*} param - 更新后的完整信息
+ */
+export function returnBook (id, params) {
     // 判断条件是否存在或者是否合法
-    fetch(url(api, 'update', 'recordId', param))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+  return fetch(`/api/records/${id}`, params);
 }
 
 /**

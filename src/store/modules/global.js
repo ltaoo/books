@@ -1,9 +1,10 @@
 /**
- * @file book 对应的 module
+ * @file 一些全局用 state
  * @author ltaoo<litaowork@aliyun.com>
  */
 import {
   INIT,
+  INIT_ADMIN,
 } from '@/common/constants';
 
 // state
@@ -12,9 +13,6 @@ const state = {
 };
 // getters
 const getters = {
-  books: state => {
-    return state.data;
-  },
 };
 // actions
 const actions = {
@@ -24,6 +22,11 @@ const actions = {
     // 从 localStorage 读信息写入 state
     const userInfo = localStorage.getItem('user');
     console.log(userInfo);
+  },
+  [INIT_ADMIN] ({
+    commit,
+  }) {
+
   },
 };
 // mutations
