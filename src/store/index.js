@@ -5,6 +5,7 @@ import global from '@/store/modules/global';
 import books from '@/store/modules/books';
 import auth from '@/store/modules/auth';
 import member from '@/store/modules/member';
+import record from '@/store/modules/record';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     auth,
     books,
     member,
+    record,
   },
   strict: debug,
 });

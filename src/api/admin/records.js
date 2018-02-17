@@ -50,21 +50,22 @@ export function returnBook (param) {
   });
 }
 
-// 获取所有借阅记录
-export function fetchRecords () {
-  return new Promise((resolve, reject) => {
-    fetch(url(api, 'recordsList'))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
+/**
+ * 获取借阅记录
+ * @param {Object} params - 查询条件
+ * @param {number} page - 页码
+ * @param {number} size - 每页数量
+ */
+export function fetchRecords (params, page = 1, size = 20) {
+  return fetch('/api/records', {
+    params: {
+      ...params,
+      page,
+      size,
+    },
   });
 }
+
 // 通过书籍isbn码查询已借书籍
 export function searchRecordByIsbn (param) {
   return new Promise((resolve, reject) => {

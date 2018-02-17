@@ -49,10 +49,8 @@ import Return from '@/containers/Admin/Return.vue';
 import Books from '@/routes/Admin/Goods/index.vue';
 // 会员列表页
 import Members from '@/routes/Admin/Member/index.vue';
-// 会员详情页
-import MemberDetail from '@/containers/Admin/MemberDetail.vue';
 // 借阅记录页
-import Records from '@/containers/Admin/Records.vue';
+import Records from '@/routes/Admin/Record/index.vue';
 // 订单记录页
 import Orders from '@/containers/Admin/Orders.vue';
 // 管理员登陆页
@@ -172,7 +170,7 @@ const router = new Router({
         {
           // 借阅记录列表页
           path: 'records',
-          name: 'Records',
+          name: '借阅记录',
           component: Records,
           meta: { adminAuth: true, },
         },
@@ -181,13 +179,6 @@ const router = new Router({
           path: 'orders',
           name: 'Orders',
           component: Orders,
-          meta: { adminAuth: true, },
-        },
-        {
-          // 会员修改页
-          path: 'member/:id',
-          name: 'MemberDetail',
-          component: MemberDetail,
           meta: { adminAuth: true, },
         },
       ],
