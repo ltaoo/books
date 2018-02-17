@@ -34,20 +34,24 @@
  * @author ltaoo<litaowork@aliyun.com>
  */
 import {
+  mapGetters,
+} from 'vuex';
+
+import {
   USER_LOGIN,
 } from '@/common/path';
 
 export default {
   name: 'navbar',
-  props: [
-    'user',
-  ],
   data () {
     return {
       USER_LOGIN,
     };
   },
   computed: {
+    ...mapGetters([
+      'user',
+    ]),
     isLogin () {
       return this.$store.state.memberLogin;
     },

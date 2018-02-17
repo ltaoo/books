@@ -208,17 +208,18 @@ const router = new Router({
 // 认证钩子
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // 用户登录验证
-    if (localStorage.getItem('user')) {
-      next();
-    } else {
-      next({
-        path: '/login',
-        query: {
-          redirect: to.fullPath,
-        },
-      });
-    }
+    // // 用户登录验证
+    // if (localStorage.getItem('user')) {
+    //   next();
+    // } else {
+    //   next({
+    //     path: '/login',
+    //     query: {
+    //       redirect: to.fullPath,
+    //     },
+    //   });
+    // }
+    next();
   } else if (to.matched.some(record => record.meta.adminAuth)) {
     console.log(to.matched);
     // 从 store 中读取

@@ -87,7 +87,7 @@ import {
   UPDATE_MEMBER,
   DELETE_MEMBER,
 } from '@/common/constants';
-import MemberForm from '@/containers/Admin/MemberForm.vue';
+import MemberForm from '@/components/MemberForm.vue';
 
 export default {
   name: 'Members',
