@@ -3,10 +3,15 @@
  * @author ltaoo<litaowork@aliyun.com>
  */
 import {
+  Message,
+} from 'element-ui';
+import {
   FETCH_ORDERS,
+  UPDARE_ORDER,
 } from '@/common/constants';
 import {
   fetchOrders,
+  confirmOrder,
 } from '@/api/admin/order';
 import {
   searchBookById,
@@ -57,6 +62,20 @@ const actions = {
               obj.member = member;
               commit('save_data', obj);
             });
+        });
+      });
+  },
+  [UPDARE_ORDER] ({
+    commit,
+  }, {
+    id,
+    params,
+  }) {
+    console.log(params);
+    confirmOrder(id, params)
+      .then(res => {
+        Message({
+          message: params.orderState === 1 ? '订单确认成功' : '订单取消成功',
         });
       });
   },

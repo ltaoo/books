@@ -52,11 +52,8 @@ import {
 } from 'vuex';
 import {
   FETCH_ORDERS,
+  UPDARE_ORDER,
 } from '@/common/constants';
-import {
-  // confirmOrder,
-  cancelOrder,
-} from '@/api/admin/order';
 
 export default {
   name: 'Orders',
@@ -72,47 +69,27 @@ export default {
     this.$store.dispatch(FETCH_ORDERS);
   },
   methods: {
+    /**
+     * 更新订单状态为已确认
+     */
     confirmOrder (obj) {
-      // 更新订单状态为已确认
-      // confirmOrder(obj.orderId)
-      //   .then(res => {
-      //     // 更新书籍状态为已售出
-      //     obj.booklist.forEach(obj => {
-      //       console.log(obj.bookId);
-      //       updateBookState(obj.bookId, 1)
-      //         .then(res => {
-      //           console.log('更新状态成功');
-      //         })
-      //         .catch(err => {
-      //           this.$message({
-      //             message: err,
-      //           });
-      //         });
-      //     });
-      //     this.$message({
-      //       message: '订单确认成功',
-      //     });
-      //     obj.orderState = 1;
-      //   })
-      //   .catch(err => {
-      //     this.$message({
-      //       message: err,
-      //     });
-      //   });
+      this.$store.dispatch(UPDARE_ORDER, {
+        id: obj.orderId,
+        params: {
+          orderState: 1,
+        },
+      });
     },
+    /**
+     * 更新订单状态为取消
+     */
     cancelOrder (obj) {
-      cancelOrder(obj.orderId)
-        .then(res => {
-          this.$message({
-            message: '订单取消成功',
-          });
-          obj.orderState = 2;
-        })
-        .catch(err => {
-          this.$message({
-            message: err,
-          });
-        });
+      this.$store.dispatch(UPDARE_ORDER, {
+        id: obj.orderId,
+        params: {
+          orderState: 2,
+        },
+      });
     },
   },
 };

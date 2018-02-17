@@ -1,14 +1,14 @@
+/**
+ * @file 订单相关 API
+ * @author ltaoo<litaowork@aliyun.com>
+ */
 import fetch from '@/utils/fetch';
-
 import {
   prefix,
 } from '@/config/index';
 import {
-  url,
   convert,
 } from '@/utils/index';
-
-const api = `${prefix}/order.php?`;
 
 /**
  * 获取所有订单
@@ -25,6 +25,7 @@ export function fetchOrders (params, page = 1, size = 20) {
     },
   });
 }
+
 // 生成订单
 export function createOrder (post) {
   return new Promise((resolve, reject) => {
@@ -44,35 +45,21 @@ export function createOrder (post) {
   });
 }
 
-// 确认订单
-export function confirmOrder (orderId) {
-  return new Promise((resolve, reject) => {
-    fetch(url(api, 'confirmOrder', 'orderId', orderId))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+/**
+ * 更新订单
+ * @param {number} id - 订单 id
+ * @param {Object} params - 新订单信息
+ */
+export function confirmOrder (id, params) {
+  return fetch.put(`/api/orders/${id}`, params);
 }
-// 取消订单
-export function cancelOrder (orderId) {
-  return new Promise((resolve, reject) => {
-    fetch(url(api, 'cancelOrder', 'orderId', orderId))
-      .then(res => {
-        return res.json();
-      })
-      .then(json => {
-        resolve(json);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+
+/**
+ * 取消订单
+ * @param {number} id - 订单 id
+ */
+export function cancelOrder (id, params) {
+  return fetch(`/api/orders/${id}`, params);
 }
 
 // 根据会员id查询订单列表
