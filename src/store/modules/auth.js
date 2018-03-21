@@ -52,7 +52,6 @@ const actions = {
         commit('LOGIN', res);
         localStorage.setItem('user', JSON.stringify(res));
         // 根据权限跳转不同的首页
-        console.log(res.role, mapUrl(res.role));
         router.push({
           path: mapUrl(res.role),
         });

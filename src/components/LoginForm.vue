@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="8">
-        <el-input type="text" placeholder="用户名" v-model="username" />
+        <el-input type="text" placeholder="用户名" v-model="email" />
       </el-col>
     </el-row>
     <el-row>
@@ -12,7 +12,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-button style="width: 100%;" type="primary" @click="login(username, password)">登录</el-button>
+        <el-button style="width: 100%;" type="primary" @click="login(email, password)">登录</el-button>
       </el-col>
     </el-row>
   </div>
@@ -27,7 +27,7 @@ export default {
   ],
   data () {
     return {
-      username: null,
+      email: null,
       password: null,
     };
   },

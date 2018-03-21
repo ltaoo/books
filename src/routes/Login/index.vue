@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     // 点击登陆
-    login (username, password) {
-      if (!username.trim() || !password.trim()) {
+    login (email, password) {
+      if (!email.trim() || !password.trim()) {
         this.$message({
           message: '请输入用户名或密码',
         });
@@ -32,7 +32,7 @@ export default {
       }
       // 用户登录
       const user = {
-        username,
+        email,
         password,
       };
       this.$store.dispatch(LOGIN, user);

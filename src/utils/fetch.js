@@ -8,7 +8,8 @@
 import Axios from 'axios';
 
 const FETCH_FAIL = '请求失败，请刷新重试';
-const baseUrl = localStorage.getItem('url') || 'https://easy-mock.com/mock/5a8573cd6fc6e91bdeab4b8b/bookstore';
+// const baseUrl = localStorage.getItem('url') || 'https://easy-mock.com/mock/5a8573cd6fc6e91bdeab4b8b/bookstore';
+const baseUrl = '/';
 /**
  * 请求失败处理
  */
