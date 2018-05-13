@@ -15,6 +15,7 @@ import {
 } from '@/common/constants';
 import {
   fetchMembers,
+  searchMember,
   createMember,
   updateMember,
   deleteMember,
@@ -62,12 +63,12 @@ const actions = {
     params,
     cb,
   }) {
-    fetchMembers(params)
+    searchMember(params)
       .then(res => {
         if (cb) {
-          cb(res.data);
+          cb(res);
         }
-        commit('set_result', res.data);
+        commit('set_result', res);
       });
   },
   [ADD_MEMBER] ({

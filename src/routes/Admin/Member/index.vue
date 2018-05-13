@@ -100,11 +100,11 @@ export default {
       editMemberModalVisible: false,
       // 保存填写新会员的信息
       member: {
-        memberName: '',
-        memberNum: '',
-        memberTel: '',
-        memberAddress: '',
-        memberRank: 0,
+        username: '',
+        email: '',
+        tel: '',
+        address: '',
+        rank: 0,
       },
     };
   },

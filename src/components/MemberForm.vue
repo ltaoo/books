@@ -2,24 +2,28 @@
   <div class="container">
     {{editedMember}}
     <el-form ref="form" :model="editedMember" :rules="rules" label-width="80px">
-      <el-form-item label="会员名" prop="memberName">
-        <el-input placeholder="请输入会员名" v-model="editedMember.memberName">
+      <el-form-item label="会员名" prop="username">
+        <el-input placeholder="请输入会员名" v-model="editedMember.username">
         </el-input>
       </el-form-item>
-      <el-form-item label="学号" prop="memberNum">
-        <el-input placeholder="请输入学号" v-model="editedMember.memberNum">
+      <el-form-item label="邮箱" prop="email">
+        <el-input placeholder="请输入学号" v-model="editedMember.email">
         </el-input>
       </el-form-item>
-      <el-form-item label="联系方式" prop="memberTel">
-        <el-input placeholder="请输入联系方式" v-model="editedMember.memberTel">
+      <el-form-item label="密码" prop="password">
+        <el-input placeholder="请输入密码" v-model="editedMember.password">
         </el-input>
       </el-form-item>
-      <el-form-item label="地址" prop="memberAddress">
-        <el-input placeholder="请输入地址" v-model="editedMember.memberAddress">
+      <el-form-item label="联系方式" prop="tel">
+        <el-input placeholder="请输入联系方式" v-model="editedMember.tel">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="地址" prop="address">
+        <el-input placeholder="请输入地址" v-model="editedMember.address">
         </el-input>
       </el-form-item>
       <el-form-item label="会员类型">
-        <el-radio-group v-model="editedMember.memberRank">
+        <el-radio-group v-model="editedMember.rank">
           <el-radio :label="0">周卡</el-radio>
           <el-radio :label="1">月卡</el-radio>
           <el-radio :label="2">期卡</el-radio>
@@ -52,24 +56,22 @@ export default {
   ],
   data () {
     // 自定义学号校验规则，学号必须是唯一值
-    const checkNum = (rule, value, callback) => {
+    const checkEmail = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('学号不能为空'));
+        return callback(new Error('邮箱不能为空'));
       }
-      if (value.length !== 10) {
-        return callback(new Error('学号必须为 10 位'));
-      }
-      // 如果是更新会员信息，当学号一致时不做处理
-      if (this.update && this.member.memberNum === value) {
+      // 如果是更新会员信息，当邮箱一致时不做处理
+      if (this.update && this.member.email === value) {
         callback();
         return;
       }
       this.$store.dispatch(SEARCH_MEMBER, {
         params: {
-          num: value,
+          email: value,
         },
         cb: res => {
-          if (res.length !== 0) {
+          console.log(res);
+          if (res) {
             callback(new Error('该会员已存在'));
           } else {
             callback();
@@ -79,10 +81,10 @@ export default {
     };
     return {
       rules: {
-        memberName: [
+        username: [
           {
             required: true,
-            message: '请输入活动名称',
+            message: '请输入用户名',
             trigger: 'blur',
           },
           {
@@ -91,13 +93,13 @@ export default {
             trigger: 'blur',
           },
         ],
-        memberNum: [
+        email: [
           {
-            validator: checkNum,
+            validator: checkEmail,
             trigger: 'blur',
           },
         ],
-        memberTel: [
+        tel: [
           {
             required: true,
             message: '请输入联系方式',
@@ -109,14 +111,14 @@ export default {
             trigger: 'blur',
           },
         ],
-        memberAddress: [
+        address: [
           {
             required: true,
             message: '请输入地址',
             trigger: 'blur',
           },
         ],
-        memberRank: [
+        rank: [
           {
             required: true,
             message: '请选择会员类型',

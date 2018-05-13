@@ -16,6 +16,11 @@ export function fetchMembers (params, page = 1, size = 20) {
     },
   });
 }
+export function searchMember (params) {
+  return fetch('/api/search/user/', {
+    params,
+  });
+}
 /**
  * 根据用户Id获取信息
  * @param {number} id - 会员 id
