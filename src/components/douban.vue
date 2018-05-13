@@ -1,6 +1,6 @@
 <template>
-  <el-card :body-style="{ padding: '0px', display: 'flex', justifyContent: 'start' }">
-    <img :src="book.image" class="douban__img">
+  <el-card class="douban__item" :body-style="{ padding: '0px', display: 'flex', justifyContent: 'start' }">
+    <img referrerpolicy="never" :src="book.image" class="douban__img">
     <div style="padding: 14px;" class="douban__detail">
       <p class="douban__title">书籍名：{{book.title}}</p>
       <p>
@@ -24,8 +24,12 @@ export default {
 </script>
 
 <style>
+.douban__item {
+  margin-top: 10px;
+}
 .douban__img {
   width: 100px;
+  height: 100%;
 }
 .douban__title {
   margin: 0;

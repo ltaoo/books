@@ -37,7 +37,7 @@
               <span>￥{{ props.row.price }}</span>
             </el-form-item>
             <el-form-item label="封面">
-              <img :src="props.row.img" :alt="props.row.title">
+              <img referrerpolicy="never" :src="props.row.img" :alt="props.row.title">
             </el-form-item>
             <!-- <el-form-item label="上架时间">
               <span>{{ props.row.createTime }}</span>
