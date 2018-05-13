@@ -226,7 +226,7 @@ router.beforeEach((to, from, next) => {
       role,
     } = user;
     console.log('role', user, role);
-    if (role !== 1) {
+    if (role !== 0) {
       next({
         path: '/no_permission',
       });

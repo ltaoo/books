@@ -15,6 +15,7 @@ import {
 } from '@/common/path';
 import {
   login,
+  logout,
 } from '@/api/auth';
 import router from '@/router';
 
@@ -62,6 +63,10 @@ const actions = {
   [LOGOUT] ({
     commit,
   }) {
+    console.log('LOGOUT');
+    logout()
+      .then(console.log)
+      .catch(console.error);
     localStorage.removeItem('user');
     router.push({
       path: USER_LOGIN,

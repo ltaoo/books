@@ -6,6 +6,9 @@ import fetch from '@/utils/fetch';
 export function login (params) {
   return fetch.post(`/api/login`, params);
 }
+export function logout (params) {
+  return fetch('/api/logout');
+}
 
 /**
  * 管理员登录

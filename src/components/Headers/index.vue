@@ -5,7 +5,7 @@
         <el-breadcrumb-item :key="i" :to="{ path: item.path }">{{item.name}}</el-breadcrumb-item>
       </template>
     </el-breadcrumb>
-    <div style="line-height: 46px;" v-if="isAdmin">
+    <div style="line-height: 46px;" v-if="isLogin">
       <el-dropdown>
         <span class="el-dropdown-link">
           {{user.username}}
@@ -52,8 +52,7 @@ export default {
   computed: {
     ...mapGetters([
       'user',
-      'login',
-      'isAdmin',
+      'isLogin',
     ]),
     routes () {
       return this.$route.matched;

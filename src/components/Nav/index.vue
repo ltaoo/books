@@ -15,6 +15,9 @@
         <el-menu-item index="2-3">
           <router-link :to="{ path: PERSON_ORDERS }">订单管理</router-link>
         </el-menu-item>
+        <el-menu-item index="2-4">
+          <a @click="logout()">注销</a>
+        </el-menu-item>
       </el-submenu>
     </template>
     <template v-else>
@@ -22,9 +25,6 @@
         <router-link :to="{ path: USER_LOGIN }">登录</router-link>
       </el-menu-item>
     </template>
-    <el-menu-item index="3" v-if="isLogin">
-      <a @click="logout()">注销</a>
-    </el-menu-item>
   </el-menu>
 </template>
 
@@ -59,12 +59,12 @@ export default {
       'user',
     ]),
     isLogin () {
-      return this.$store.state.memberLogin;
+      return this.$store.state.isLogin;
     },
   },
   methods: {
     logout () {
-      this.$store.commit('LOGOUT');
+      this.$store.dispatch('LOGOUT');
     },
   },
 };

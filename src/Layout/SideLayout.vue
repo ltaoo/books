@@ -69,18 +69,17 @@ export default {
     return {
       isLogin: false,
       dialogVisible: false,
-      user: null,
     };
   },
   computed: mapGetters([
-    'admin',
+    'user',
   ]),
   created () {
     this.$store.dispatch(INIT_ADMIN);
   },
   methods: {
     logout () {
-      localStorage.removeItem('adminLogin');
+      localStorage.removeItem('user');
       router.push({
         path: '/',
       });
