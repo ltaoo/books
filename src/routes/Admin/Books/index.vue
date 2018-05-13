@@ -131,9 +131,9 @@ export default {
       const data = {
         title: book.title,
         price: parseFloat(book.price.match(/[1-9]\d*\.*\d*/g)[0]),
-        isbn13: book.isbn13,
+        isbn: book.isbn13,
         summary: book.summary,
-        image: book.images.medium,
+        img: book.images.medium,
       };
       this.$store.dispatch(ADD_BOOK, {
         params: data,

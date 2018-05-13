@@ -16,7 +16,7 @@ import fetch from '@/utils/fetch';
  * @param {number} size - 每页数量
  */
 export function fetchBooks (params, page = 1, size = 20) {
-  return fetch('/api/v1.0/books/', {
+  return fetch('/api/books/', {
     params: {
       ...params,
       page,
@@ -47,7 +47,7 @@ export function searchByDouban (param) {
  * 添加书籍到数据库
  */
 export function createBook (params) {
-  return fetch.post('/api/books', params);
+  return fetch.post('/api/books/', params);
 }
 /**
  * 根据 id 查询书籍
