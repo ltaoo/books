@@ -1,11 +1,10 @@
 import fetch from '@/utils/fetch';
 
-const apiPrefix = '/api/v1.0';
 /**
  * 用户登录
  */
 export function login (params) {
-  return fetch.post(`${apiPrefix}/login`, params);
+  return fetch.post(`/api/login`, params);
 }
 
 /**

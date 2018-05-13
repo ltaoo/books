@@ -8,7 +8,7 @@ import fetch from '@/utils/fetch';
  * 搜索会员
  */
 export function fetchMembers (params, page = 1, size = 20) {
-  return fetch('/api/members', {
+  return fetch('/api/users/', {
     params: {
       ...params,
       page,

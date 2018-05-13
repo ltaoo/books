@@ -19,42 +19,39 @@
         <template scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="会员名">
-              <span>{{ props.row.memberName }}</span>
-            </el-form-item>
-            <el-form-item label="学号">
-              <span>{{ props.row.memberNum }}</span>
+              <span>{{ props.row.username }}</span>
             </el-form-item>
             <el-form-item label="联系方式">
-              <span>{{ props.row.memberTel }}</span>
+              <span>{{ props.row.tel }}</span>
             </el-form-item>
             <el-form-item label="地址">
-              <span>{{ props.row.memberAddress }}</span>
+              <span>{{ props.row.address }}</span>
             </el-form-item>
             <el-form-item label="已借阅量">
-              <span>{{ props.row.borrowNum }}</span>
+              <span>{{ props.row.num }}</span>
             </el-form-item>
             <el-form-item label="累计借阅量">
-              <span>{{ props.row.borrowTimes }}</span>
+              <span>{{ props.row.times }}</span>
             </el-form-item>
             <el-form-item label="会员类型">
-              <span>{{ props.row.memberRank }}</span>
+              <span>{{ props.row.rank }}</span>
             </el-form-item>
             <el-form-item label="创建时间">
-              <span>{{ props.row.memberCreateTime }}</span>
+              <span>{{ props.row.created }}</span>
             </el-form-item>
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column prop="memberName" label="姓名">
+      <el-table-column prop="username" label="姓名">
       </el-table-column>
-      <el-table-column prop="memberNum" label="学号">
+      <el-table-column prop="email" label="学号">
       </el-table-column>
-      <el-table-column prop="memberTel" label="联系方式">
+      <el-table-column prop="tel" label="联系方式">
       </el-table-column>
-      <el-table-column prop="memberRank" label="会员类型">
+      <el-table-column prop="rank" label="会员类型">
       </el-table-column>
-      <el-table-column prop="memberCreateTime" label="创建时间">
-      </el-table-column>
+      <!-- <el-table-column prop="memberCreateTime" label="创建时间">
+      </el-table-column> -->
       <el-table-column label="操作">
         <template scope="scope">
           <el-button
