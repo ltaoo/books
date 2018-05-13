@@ -128,11 +128,15 @@ export default {
      * @param {Object} book - 图书信息
      */
     addBook (book) {
+      let summary = book.summary;
+      if (summary && summary.length > 120) {
+        summary = summary.slice(0, 119);
+      }
       const data = {
         title: book.title,
-        price: parseFloat(book.price.match(/[1-9]\d*\.*\d*/g)[0]),
+        price: parseFloat((book.price.match(/[1-9]\d*\.*\d*/g) || [])[0]),
         isbn: book.isbn13,
-        summary: book.summary,
+        summary,
         img: book.images.medium,
       };
       this.$store.dispatch(ADD_BOOK, {
