@@ -33,7 +33,7 @@ export function searchMemberById (id) {
  * @param {Object} member - 会员信息
  */
 export function createMember (params) {
-  return fetch.post('/api/members', params);
+  return fetch.post('/api/users/', params);
 }
 /**
  * 更新会员信息
@@ -41,12 +41,12 @@ export function createMember (params) {
  * @param {Object} params - 更新后的完整会员信息
  */
 export function updateMember (id, params) {
-  return fetch.put(`/api/members/${id}`, params);
+  return fetch.put(`/api/users/${id}`, params);
 }
 /**
  * 删除会员
  * @param {number} id - 会员 id
  */
 export function deleteMember (id) {
-  return fetch.delete(`/api/members/${id}`);
+  return fetch.delete(`/api/users/${id}`);
 }

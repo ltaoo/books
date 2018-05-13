@@ -79,7 +79,7 @@ const actions = {
   }) {
     createMember(params)
       .then((res) => {
-        commit('add_member', res.data);
+        commit('add_member', res);
         if (cb) {
           cb();
         }
