@@ -16,7 +16,7 @@ import fetch from '@/utils/fetch';
  * @param {number} size - 每页数量
  */
 export function fetchBooks (params, page = 1, size = 20) {
-  return fetch('/api/books', {
+  return fetch('/api/v1.0/books/', {
     params: {
       ...params,
       page,

@@ -19,37 +19,37 @@
         <template scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="id">
-              <span>{{ props.row.bookId }}</span>
+              <span>{{ props.row.id }}</span>
             </el-form-item>
             <el-form-item label="书籍名">
-              <span>{{ props.row.bookTitle }}</span>
+              <span>{{ props.row.title }}</span>
             </el-form-item>
             <el-form-item label="ISBN 码">
-              <span>{{ props.row.bookIsbn }}</span>
+              <span>{{ props.row.isbn }}</span>
             </el-form-item>
             <el-form-item label="借阅次数">
               <span>{{ props.row.borrowTimes }}</span>
             </el-form-item>
             <el-form-item label="当前状态">
-              <span>{{ props.row.bookState }}</span>
+              <span>{{ props.row.state }}</span>
             </el-form-item>
             <el-form-item label="书籍价格">
-              <span>￥{{ props.row.bookPrice }}</span>
+              <span>￥{{ props.row.price }}</span>
             </el-form-item>
             <el-form-item label="封面">
-              <img :src="props.row.bookImg" :alt="props.row.bookTitle">
+              <img :src="props.row.img" :alt="props.row.title">
             </el-form-item>
-            <el-form-item label="上架时间">
+            <!-- <el-form-item label="上架时间">
               <span>{{ props.row.createTime }}</span>
-            </el-form-item>
+            </el-form-item> -->
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column prop="bookTitle" label="书籍名">
+      <el-table-column prop="title" label="书籍名">
       </el-table-column>
-      <el-table-column prop="bookIsbn" label="ISBN码">
+      <el-table-column prop="isbn" label="ISBN码">
       </el-table-column>
-      <el-table-column prop="bookState" label="书籍状态">
+      <el-table-column prop="state" label="书籍状态">
       </el-table-column>
       <el-table-column label="操作">
         <template scope="scope">

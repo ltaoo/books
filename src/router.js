@@ -46,7 +46,7 @@ import Borrow from '@/routes/Admin/Borrow/index.vue';
 // 还书页
 import Return from '@/routes/Admin/Return/index.vue';
 // 书籍列表页
-import Books from '@/routes/Admin/Goods/index.vue';
+import Books from '@/routes/Admin/Books/index.vue';
 // 会员列表页
 import Members from '@/routes/Admin/Member/index.vue';
 // 借阅记录页

@@ -32,7 +32,7 @@ const getters = {
 // actions
 const actions = {
   /**
-   * 获取图书列表
+   * 搜索图书列表
    */
   [FETCH_BOOKS] ({
     commit,
@@ -138,6 +138,7 @@ const mutations = {
     state.data.push(book);
   },
   save_res (state, payload) {
+    console.log('save books', payload);
     state.bookRes = payload;
   },
 };
